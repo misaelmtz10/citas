@@ -39,7 +39,7 @@ public class Cita {
 	private Ventanilla ventanilla;
 
 	@ManyToOne
-	@JoinColumn(name = "idSolicitante", nullable = false)
+	@JoinColumn(name = "idServicio", nullable = false)
 	private Servicio servicio;
 
 	private Float monto;
