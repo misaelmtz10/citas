@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Roles")
-public class Role {
+public class Rol {
     
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +18,12 @@ public class Role {
 	@Column(nullable = false, length = 45)
 	private String nombre;
 
-    public Role(Long id, String nombre) {
+    public Rol(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    public Role() {
+    public Rol() {
     }
 
     public Long getId() {

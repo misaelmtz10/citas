@@ -39,10 +39,10 @@ public class Solicitante {
 
     @ManyToOne
 	@JoinColumn(name = "idRole", nullable = false)
-	private Role role;
+	private Rol role;
 
     public Solicitante(Long id, String nombre, String apellidos, String matricula, Carrera carrera, String telefono,
-            String correo, Role role) {
+            String correo, Rol role) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -112,11 +112,11 @@ public class Solicitante {
         this.correo = correo;
     }
 
-    public Role getRole() {
+    public Rol getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Rol role) {
         this.role = role;
     }
 
@@ -127,3 +127,4 @@ public class Solicitante {
     }
     
 }
+
