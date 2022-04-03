@@ -11,46 +11,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import utez.edu.mx.citas.model.Cita;
-import utez.edu.mx.citas.service.CitaServiceImpl;
+import utez.edu.mx.citas.model.Documento;
+import utez.edu.mx.citas.model.Servicio;
+import utez.edu.mx.citas.service.DocumentoServiceImpl;
+import utez.edu.mx.citas.service.ServicioServiceImpl;
 
 @Controller
-@RequestMapping(value="/citas")
-public class CitaController {
-
+@RequestMapping(value="/servicios")
+public class ServicioController {
+    
     @Autowired
-    private CitaServiceImpl citaServiceImpl;
+    private ServicioServiceImpl servicioServiceImpl;
+    @Autowired
+    private DocumentoServiceImpl documentoServiceImpl;
     
-    @GetMapping(value="ver-agenda")
-    public String mostrarAgenda(){
-        return "citas/agenda";
-    }
-    
-    //Lista de citas 
-    @GetMapping(value="/lista/{userId}")
-    public String listaCitas(@PathVariable(required = false) String tipoMascota, Model model, RedirectAttributes redirectAttributes) {
-        List<Cita> listaCitas = citaServiceImpl.listar();
-        model.addAttribute("listaCitas", listaCitas); 
+    //Lista de servicios disponibles
+    @GetMapping(value="/lista")
+    public String listaServicios(Model model, RedirectAttributes redirectAttributes) {
+        List<Servicio> listaServicios = servicioServiceImpl.listar();
+        model.addAttribute("listaServicios", listaServicios); 
 
         return "citas/list";
     }
 
     @GetMapping(value="/crear")
-    public String crearCita(Cita cita, Model model) {
+    public String crearSevicio(Servicio servicio, Model model) {
+        model.addAttribute("listaDocumentos", documentoServiceImpl.listar());
+
         return "citas/formulario";
     }
     
     @PostMapping(value="/guardar")
-    public String guardarCita(Cita cita, Model model, RedirectAttributes redirectAttributes) {
+    public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
 
-        if (cita.getId() == null) { // Create
+        if (servicio.getId() == null) { // Create
 
 		} else { // Update
 
-			Cita citaExistente = citaServiceImpl.mostrarCita(cita.getId());
-			cita.setFecha(citaExistente.getFecha());
-			cita.setFechaRegistro(citaExistente.getFechaRegistro());
-		}
+			Servicio servicioExistente = servicioServiceImpl.mostrarServicio(servicio.getId());
+        }
 
         /*
 		if(!multipartFile.isEmpty()) {
@@ -59,13 +58,14 @@ public class CitaController {
             
 			String nombreImagen = ImagenUtilieria.guardarImagen(multipartFile, ruta);
 			if(nombreImagen != null) {
-				cita.setImagen(nombreImagen);
+				servicio.setImagen(nombreImagen);
 			}
             
 		}
         */
 
-		boolean respuesta = citaServiceImpl.guardar(cita);
+		boolean respuesta = servicioServiceImpl.guardar(servicio);
+
 		if (respuesta) {
 			redirectAttributes.addFlashAttribute("msg_success","Registro exitoso");
 		}else{
@@ -77,10 +77,10 @@ public class CitaController {
     }
 
     @GetMapping(value="/mostrar/{id}")
-    public String mostrarCita(@PathVariable long id, Model modelo, RedirectAttributes redirectAttributes) {
-        Cita cita = citaServiceImpl.mostrarCita(id);
-		if (cita != null) {
-			modelo.addAttribute("cita", cita);
+    public String mostrarServicio(@PathVariable long id, Model modelo, RedirectAttributes redirectAttributes) {
+        Servicio servicio = servicioServiceImpl.mostrarServicio(id);
+		if (servicio != null) {
+			modelo.addAttribute("servicio", servicio);
 			return "citas/mostrarCita";
 		}
 
@@ -89,11 +89,11 @@ public class CitaController {
     }
 
     @GetMapping(value="/editar/{id}")
-    public String editarCita(@PathVariable long id, Model model, RedirectAttributes redirectAttributes) {
-        Cita cita = citaServiceImpl.mostrarCita(id);
+    public String editarServicio(@PathVariable long id, Model model, RedirectAttributes redirectAttributes) {
+        Servicio servicio = servicioServiceImpl.mostrarServicio(id);
 
-        if (cita != null) {
-			model.addAttribute("cita", cita);
+        if (servicio != null) {
+			model.addAttribute("servicio", servicio);
 			return "citas/mostrarCita";
 		}
 
@@ -102,8 +102,8 @@ public class CitaController {
     }
 
     @GetMapping(value="/borrar/{id}")
-    public String borrarCita(@PathVariable long id, RedirectAttributes redirectAttributes){
-		boolean respuesta = citaServiceImpl.eliminar(id);
+    public String borrarServicio(@PathVariable long id, RedirectAttributes redirectAttributes){
+		boolean respuesta = servicioServiceImpl.eliminar(id);
 		if (respuesta) {
 			redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
 		}else{

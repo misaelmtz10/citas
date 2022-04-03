@@ -18,4 +18,42 @@ public class AdminController {
         
 		return "redirect:/";
 	}
+
+    //Lista de empleados
+    @GetMapping("/usuarios/listar")
+    public String listarUsuarios() {
+        
+        return "admin/list";
+    }
+
+    @GetMapping("/usuarios/formulario")
+    public String formularioUsarios() {
+
+        return "admin/list";
+    }
+    
+    @GetMapping("/usuarios/guardar")
+    public String guardarUsuario() {
+
+        return "admin/list";
+    }
+
+    @GetMapping("/usuarios/mostrar/{id}")
+    public String mostrarUsuario() {
+
+        return "admin/list";
+    }
+
+    @GetMapping("/usuarios/editar/{id}")
+    public String editarUsuario() {
+
+        return "admin/list";
+    }
+
+    @GetMapping("/usuarios/eliminar/{id}")
+    public String borrarUsuario() {
+
+        return "admin/list";
+    }
+
 }
