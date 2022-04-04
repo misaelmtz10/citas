@@ -27,14 +27,6 @@
 </head>
 
 <body>
-    <!-- <div class="wrapper d-flex align-items-stretch">
-        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
-        <div id="content" class="p-1 p-md-2">
-            <div th:insert="~{fragments/header :: header}"></div>
-            <div id="calendar"></div>
-        </div>
-    </div> -->
-
     <div class="wrapper d-flex align-items-stretch">
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
         
@@ -44,7 +36,25 @@
             <div id="calendar"></div>  
         </div>
     </div>
-
+    <div id="modal-register" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
     <script th:src='@{/js/main.js}'></script>
     <script th:src='@{/js/bootstrap/jquery.min.js}'></script>
     <script th:src='@{/js/bootstrap/popper.js}'></script>
@@ -60,12 +70,18 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                initialDate: '2020-09-12',
+                initialDate: new Date(),
                 navLinks: true, // can click day/week names to navigate views
                 selectable: true,
                 selectMirror: true,
+                timeZone: 'America/Mexico_City',
+                locale: "es",
+                hiddenDays: [0, 6],
+                maxTime: "20:00",
+                minTime: "08:00",
                 select: function (arg) {
-                    var title = prompt('Event Title:');
+                    $('#modal-register').modal('show');
+                    // var title = prompt('Event Title:');
                     if (title) {
                         calendar.addEvent({
                             title: title,
@@ -85,61 +101,19 @@
                 dayMaxEvents: true, // allow "more" link when too many events
                 events: [{
                         title: 'All Day Event',
-                        start: '2020-09-01'
+                        start: '2022-04-04T13:00:00',
+                        end: '2022-04-04T14:00:00'
                     },
                     {
                         title: 'Long Event',
-                        start: '2020-09-07',
-                        end: '2020-09-10'
+                        start: '2022-04-04T15:00:00',
+                        end: '2022-04-04T15:30:00'
                     },
-                    {
-                        groupId: 999,
-                        title: 'Repeating Event',
-                        start: '2020-09-09T16:00:00'
-                    },
-                    {
-                        groupId: 999,
-                        title: 'Repeating Event',
-                        start: '2020-09-16T16:00:00'
-                    },
-                    {
-                        title: 'Conference',
-                        start: '2020-09-11',
-                        end: '2020-09-13'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2020-09-12T10:30:00',
-                        end: '2020-09-12T12:30:00'
-                    },
-                    {
-                        title: 'Lunch',
-                        start: '2020-09-12T12:00:00'
-                    },
-                    {
-                        title: 'Meeting',
-                        start: '2020-09-12T14:30:00'
-                    },
-                    {
-                        title: 'Happy Hour',
-                        start: '2020-09-12T17:30:00'
-                    },
-                    {
-                        title: 'Dinner',
-                        start: '2020-09-12T20:00:00'
-                    },
-                    {
-                        title: 'Birthday Party',
-                        start: '2020-09-13T07:00:00'
-                    },
-                    {
-                        title: 'Click for Google',
-                        url: 'http://google.com/',
-                        start: '2020-09-28'
-                    }
-                ]
+                    //start: '2020-09-16T16:00:00'
+                ],
+               
             });
-
+            
             calendar.render();
         });
     </script>

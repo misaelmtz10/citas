@@ -47,9 +47,8 @@ public class CitaController {
 
 		} else { // Update
 
-			Cita citaExistente = citaServiceImpl.mostrarCita(cita.getId());
-			cita.setFecha(citaExistente.getFecha());
-			cita.setFechaRegistro(citaExistente.getFechaRegistro());
+			// Cita citaExistente = citaServiceImpl.mostrarCita(cita.getId());
+			
 		}
 
         /*
