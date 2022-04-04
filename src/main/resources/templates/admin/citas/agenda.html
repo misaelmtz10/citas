@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+    <meta charset='utf-8' />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link th:href='@{/css/style.css}' rel='stylesheet' />
+    <link th:href='@{/css/style.css}' rel='stylesheet' />
+    <link th:href='@{/css/main.css}' rel='stylesheet' />
+
+    <style>
+        /* body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        } */
+
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <!-- <div class="wrapper d-flex align-items-stretch">
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+        <div id="content" class="p-1 p-md-2">
+            <div th:insert="~{fragments/header :: header}"></div>
+            <div id="calendar"></div>
+        </div>
+    </div> -->
+
+    <div class="wrapper d-flex align-items-stretch">
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+        
+        <!-- Page Content  -->
+        <div id="content" class="p-1 p-md-2">
+            <div th:insert="~{fragments/header :: header}"></div>  
+            <div id="calendar"></div>  
+        </div>
+    </div>
+
+    <script th:src='@{/js/main.js}'></script>
+    <script th:src='@{/js/bootstrap/jquery.min.js}'></script>
+    <script th:src='@{/js/bootstrap/popper.js}'></script>
+    <script th:src='@{/js/bootstrap/bootstrap.min.js}'></script>
+    <script th:src='@{/js/bootstrap/main.js}'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                initialDate: '2020-09-12',
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectMirror: true,
+                select: function (arg) {
+                    var title = prompt('Event Title:');
+                    if (title) {
+                        calendar.addEvent({
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay
+                        })
+                    }
+                    calendar.unselect()
+                },
+                eventClick: function (arg) {
+                    if (confirm('Are you sure you want to delete this event?')) {
+                        arg.event.remove()
+                    }
+                },
+                editable: true,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: [{
+                        title: 'All Day Event',
+                        start: '2020-09-01'
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2020-09-07',
+                        end: '2020-09-10'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2020-09-09T16:00:00'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2020-09-16T16:00:00'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2020-09-11',
+                        end: '2020-09-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2020-09-12T10:30:00',
+                        end: '2020-09-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2020-09-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2020-09-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2020-09-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2020-09-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2020-09-13T07:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        url: 'http://google.com/',
+                        start: '2020-09-28'
+                    }
+                ]
+            });
+
+            calendar.render();
+        });
+    </script>
+</body>
+
+</html>

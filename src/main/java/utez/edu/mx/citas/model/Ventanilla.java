@@ -31,9 +31,9 @@ public class Ventanilla {
 
     @ManyToOne
 	@JoinColumn(name = "idRole", nullable = false)
-	private Role role;
+	private Rol role;
 
-    public Ventanilla(Long id, String nombre, String apellidos, String empleadoVentanilla, String correo, Role role) {
+    public Ventanilla(Long id, String nombre, String apellidos, String empleadoVentanilla, String correo, Rol role) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -85,11 +85,11 @@ public class Ventanilla {
         this.correo = correo;
     }
 
-    public Role getRole() {
+    public Rol getRoles() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRoles(Rol role) {
         this.role = role;
     }
     
