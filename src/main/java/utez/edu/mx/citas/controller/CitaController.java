@@ -2,7 +2,10 @@ package utez.edu.mx.citas.controller;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,99 +18,108 @@ import utez.edu.mx.citas.model.Cita;
 import utez.edu.mx.citas.service.CitaServiceImpl;
 
 @Controller
-@RequestMapping(value="/citas")
+@RequestMapping(value = "/citas")
 public class CitaController {
 
     @Autowired
     private CitaServiceImpl citaServiceImpl;
-    
-    @GetMapping(value="ver-agenda")
-    public String mostrarAgenda(){
+
+    @GetMapping(value = "ver-agenda")
+    public String mostrarAgenda() {
         return "admin/citas/agenda";
     }
-    
-    //Lista de citas 
-    @GetMapping(value="/lista/{userId}")
-    public String listaCitas(@PathVariable(required = false) String tipoMascota, Model model, RedirectAttributes redirectAttributes) {
+
+    // Lista de citas
+    @GetMapping(value = "/lista/{userId}")
+    public String listaCitas(@PathVariable(required = false) String tipoMascota, Model model,
+            RedirectAttributes redirectAttributes) {
         List<Cita> listaCitas = citaServiceImpl.listar();
-        model.addAttribute("listaCitas", listaCitas); 
+        model.addAttribute("listaCitas", listaCitas);
 
         return "citas/list";
     }
 
-    @GetMapping(value="/crear")
+    // Lista de citas
+    @GetMapping(value = "/")
+    public ResponseEntity<Object> citas() {
+        List<Cita> listaCitas = citaServiceImpl.listar();
+        return new ResponseEntity<>(listaCitas, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/crear")
     public String crearCita(Cita cita, Model model) {
         return "citas/formulario";
     }
-    
-    @PostMapping(value="/guardar")
+
+    @PostMapping(value = "/guardar")
     public String guardarCita(Cita cita, Model model, RedirectAttributes redirectAttributes) {
 
         if (cita.getId() == null) { // Create
 
-		} else { // Update
+        } else { // Update
 
-			// Cita citaExistente = citaServiceImpl.mostrarCita(cita.getId());
-			
-		}
+            // Cita citaExistente = citaServiceImpl.mostrarCita(cita.getId());
+
+        }
 
         /*
-		if(!multipartFile.isEmpty()) {
-			// Establecer directorio local para subida de archivos; en prod: /var/www/html
-			String ruta = "C:/tmp/citas/pdf-citas";
-            
-			String nombreImagen = ImagenUtilieria.guardarImagen(multipartFile, ruta);
-			if(nombreImagen != null) {
-				cita.setImagen(nombreImagen);
-			}
-            
-		}
-        */
+         * if(!multipartFile.isEmpty()) {
+         * // Establecer directorio local para subida de archivos; en prod:
+         * /var/www/html
+         * String ruta = "C:/tmp/citas/pdf-citas";
+         * 
+         * String nombreImagen = ImagenUtilieria.guardarImagen(multipartFile, ruta);
+         * if(nombreImagen != null) {
+         * cita.setImagen(nombreImagen);
+         * }
+         * 
+         * }
+         */
 
-		boolean respuesta = citaServiceImpl.guardar(cita);
-		if (respuesta) {
-			redirectAttributes.addFlashAttribute("msg_success","Registro exitoso");
-		}else{
-			redirectAttributes.addFlashAttribute("msg_error","Registro fallido");
-			return "redirect:/citas/formulario";
-		}
+        boolean respuesta = citaServiceImpl.guardar(cita);
+        if (respuesta) {
+            redirectAttributes.addFlashAttribute("msg_success", "Registro exitoso");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_error", "Registro fallido");
+            return "redirect:/citas/formulario";
+        }
 
         return "citas/list";
     }
 
-    @GetMapping(value="/mostrar/{id}")
+    @GetMapping(value = "/mostrar/{id}")
     public String mostrarCita(@PathVariable long id, Model modelo, RedirectAttributes redirectAttributes) {
         Cita cita = citaServiceImpl.mostrarCita(id);
-		if (cita != null) {
-			modelo.addAttribute("cita", cita);
-			return "citas/mostrarCita";
-		}
+        if (cita != null) {
+            modelo.addAttribute("cita", cita);
+            return "citas/mostrarCita";
+        }
 
-		redirectAttributes.addFlashAttribute("msg_error", "Registro no existente");
+        redirectAttributes.addFlashAttribute("msg_error", "Registro no existente");
         return "redirect:/citas/list";
     }
 
-    @GetMapping(value="/editar/{id}")
+    @GetMapping(value = "/editar/{id}")
     public String editarCita(@PathVariable long id, Model model, RedirectAttributes redirectAttributes) {
         Cita cita = citaServiceImpl.mostrarCita(id);
 
         if (cita != null) {
-			model.addAttribute("cita", cita);
-			return "citas/mostrarCita";
-		}
+            model.addAttribute("cita", cita);
+            return "citas/mostrarCita";
+        }
 
-		redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
+        redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
         return "redirect:/citas/list";
     }
 
-    @GetMapping(value="/borrar/{id}")
-    public String borrarCita(@PathVariable long id, RedirectAttributes redirectAttributes){
-		boolean respuesta = citaServiceImpl.eliminar(id);
-		if (respuesta) {
-			redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
-		}else{
-			redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
-		}
-		return "redirect:/citas/list";
+    @GetMapping(value = "/borrar/{id}")
+    public String borrarCita(@PathVariable long id, RedirectAttributes redirectAttributes) {
+        boolean respuesta = citaServiceImpl.eliminar(id);
+        if (respuesta) {
+            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
+        }
+        return "redirect:/citas/list";
     }
 }
