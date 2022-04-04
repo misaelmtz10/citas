@@ -15,6 +15,8 @@ public class Role {
     @Column(name = "idRoles", nullable = false)
 	private Long id;
 
+    
+
 	@Column(nullable = false, length = 45)
 	private String nombre;
 
