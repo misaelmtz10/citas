@@ -23,7 +23,7 @@ public class CitaController {
     
     @GetMapping(value="ver-agenda")
     public String mostrarAgenda(){
-        return "citas/agenda";
+        return "admin/citas/agenda";
     }
     
     //Lista de citas 
