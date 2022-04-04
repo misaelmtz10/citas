@@ -10,10 +10,11 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
+
     <link th:href="@{/css/style.css}" rel="stylesheet" />
     <link th:href="@{/css/main.css}" rel="stylesheet" />
-
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
     <style>
       /* body {
             margin: 40px 10px;
@@ -43,7 +44,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
+            <h5 class="modal-title">Registrar cita</h5>
             <button
               type="button"
               class="close"
@@ -54,47 +55,179 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">
-                  Fecha inicio:
-                </label>
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="fechaInicio"
-                />
+            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}">
+              <div class="form-row">
+                <div class="form-group col-lg-12">
+                  <label for="message-text" class="col-form-label">
+                    Título:
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    placeholder="Título"
+                    th:field="*{title}"
+                  />
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="recipient-name" class="col-form-label">
+                    Fecha inicio:
+                  </label>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="fechaInicio"
+                    th:field="*{start}"
+                  />
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="message-text" class="col-form-label">
+                    Fecha fin:
+                  </label>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="fechaFin"
+                    th:field="*{end}"
+                  />
+                </div>
               </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">
-                  Fecha fin:
-                </label>
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="fechaFin"
-                />
+              <div class="form-row">
+                <div class="form-group col">
+									<label>Servicio:</label>
+									<select class="form-control form-control" th:field="*{servicio.id}">
+										<option hidden selected value="">Selecciona un servicio...</option>
+										<option th:each="tmpServicio: ${listaServicios}" th:value="${tmpServicio.id}" th:text="${tmpServicio.nombre}">
+
+										</option>
+									</select>
+								</div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cancelar
+                </button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
               </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
     </div>
+    <div id="modal-details" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Detalles de la cita</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-row">
+                <div class="form-group col-lg-12">
+                  <label for="message-text" class="col-form-label">
+                    Título:
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title-details"
+                    placeholder="Título"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="recipient-name" class="col-form-label">
+                    Fecha inicio:
+                  </label>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="start-details"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="message-text" class="col-form-label">
+                    Fecha fin:
+                  </label>
+                  <input
+                    type="datetime-local"
+                    class="form-control"
+                    id="end-details"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+									<label>Servicio:</label>
+									<input
+                    type="text"
+                    class="form-control"
+                    id="servicio-details"
+                    placeholder="Servicio"
+                    disabled
+                  />
+								</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+									<label>Ventanilla:</label>
+									<input
+                    type="text"
+                    class="form-control"
+                    id="ventanilla-details"
+                    placeholder="Ventanilla"
+                    disabled
+                  />
+								</div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <input th:value="${isRegistrer}==null ? 'sinRegistro' : ${isRegistrer} " id="mensajeRegistro" hidden="hidden"/>
+
+
     <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
+    <!--Toast-->
+	  <script th:src="@{/js/toast.min.js}"></script>
+    <script th:if="${msg_success != null}">
+      new Toast({
+        message: '[[${msg_success}]]',
+        type: 'success'
+      });
+    </script>
+    <script th:if="${msg_error != null}">
+      new Toast({
+        message: '[[${msg_error}]]',
+        type: 'danger'
+      });
+    </script>
     <script>
       const citas = [];
       document.body.onload = async () => {
@@ -140,12 +273,18 @@
           hiddenDays: [0, 6],
           slotMaxTime: "18:00",
           slotMinTime: "08:00",
+          validRange: {
+            start: new Date()
+          },
           select: function (args) {
-            if (args.start < new Date()) {
+            let date = new Date();
+            let dateif = new Date(args.startStr);
+            console.log(dateif)
+            if (dateif < date) {
               alert("No se puede seleccionar una fecha pasada");
               return;
             }
-            console.log(args);
+            console.log("args: ",args);
             let start = args.startStr;
             let end = args.endStr;
             $("#fechaInicio").val(start);
@@ -155,7 +294,18 @@
           },
           eventClick: function (args) {
               console.log(args);
-            $("#modal-register").modal("show");
+              let start = args.event._def.extendedProps.item.start;
+              let end = args.event._def.extendedProps.item.end;
+              let title = args.event._def.extendedProps.item.title;
+              let servicio = args.event._def.extendedProps.item.servicio.nombre;
+              let ventanilla = args.event._def.extendedProps.item.ventanilla.nombre;
+              // console.log("start: ", start.replace(' ' ,'T'))
+              $("#modal-details").modal("show");
+              $("#title-details").val(title);
+              $("#start-details").val(start.replace(' ' ,'T'));
+              $("#end-details").val(end.replace(' ' ,'T'));
+              $("#servicio-details").val(servicio);
+              $("#ventanilla-details").val(ventanilla);
           },
           editable: false,
           dayMaxEvents: true, // allow "more" link when too many events

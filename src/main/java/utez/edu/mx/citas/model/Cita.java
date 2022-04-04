@@ -1,5 +1,4 @@
 package utez.edu.mx.citas.model;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -26,16 +25,14 @@ public class Cita {
 	private String title;
 
 	@Column(name = "start", nullable = false)
-	@CreationTimestamp
-	private Date start;
+	private String start;
 
 	@Column(name = "end", nullable = false)
-	@CreationTimestamp
-	private Date end;
+	private String end;
 
     @Column(name = "regitered", nullable = false)
 	@CreationTimestamp
-	private LocalDateTime registered;
+	private Date registered;
 
     @ManyToOne
 	@JoinColumn(name = "idSolicitante", nullable = false)
@@ -73,33 +70,33 @@ public class Cita {
 		this.title = title;
 	}
 
-
-	public Date getStart() {
+	
+	public String getStart() {
 		return start;
 	}
 
 
-	public void setStart(Date start) {
+	public void setStart(String start) {
 		this.start = start;
 	}
 
 
-	public Date getEnd() {
+	public String getEnd() {
 		return end;
 	}
 
 
-	public void setEnd(Date end) {
+	public void setEnd(String end) {
 		this.end = end;
 	}
 
 
-	public LocalDateTime getRegistered() {
+	public Date getRegistered() {
 		return registered;
 	}
 
 
-	public void setRegistered(LocalDateTime registered) {
+	public void setRegistered(Date registered) {
 		this.registered = registered;
 	}
 

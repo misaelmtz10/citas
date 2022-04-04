@@ -1,8 +1,8 @@
 package utez.edu.mx.citas.controller;
 
+import java.util.Date;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import utez.edu.mx.citas.model.Cita;
+import utez.edu.mx.citas.model.Servicio;
+import utez.edu.mx.citas.model.Solicitante;
+import utez.edu.mx.citas.model.Ventanilla;
 import utez.edu.mx.citas.service.CitaServiceImpl;
+import utez.edu.mx.citas.service.ServicioServiceImpl;
+import utez.edu.mx.citas.service.SolicitanteServiceImpl;
+import utez.edu.mx.citas.service.VentanillaServiceImpl;
 
 @Controller
 @RequestMapping(value = "/citas")
@@ -24,8 +30,20 @@ public class CitaController {
     @Autowired
     private CitaServiceImpl citaServiceImpl;
 
+    @Autowired
+    private ServicioServiceImpl servicioServiceImpl;
+
+    @Autowired
+    private SolicitanteServiceImpl solicitanteServiceImpl;
+
+    @Autowired
+    private VentanillaServiceImpl ventanillaServiceImpl;
+
     @GetMapping(value = "ver-agenda")
-    public String mostrarAgenda() {
+    public String mostrarAgenda(Cita cita, Model model) {
+        List<Servicio> listaServicios = servicioServiceImpl.listar();
+        System.out.println("Tamaño servicios: "+listaServicios.size());
+        model.addAttribute("listaServicios", listaServicios);
         return "admin/citas/agenda";
     }
 
@@ -39,7 +57,7 @@ public class CitaController {
         return "citas/list";
     }
 
-    // Lista de citas
+    // Lista de citas asincrona
     @GetMapping(value = "/")
     public ResponseEntity<Object> citas() {
         List<Cita> listaCitas = citaServiceImpl.listar();
@@ -53,7 +71,12 @@ public class CitaController {
 
     @PostMapping(value = "/guardar")
     public String guardarCita(Cita cita, Model model, RedirectAttributes redirectAttributes) {
+        Solicitante solicitante = solicitanteServiceImpl.obtenerSolicitante(1L);
+        Ventanilla ventanilla = ventanillaServiceImpl.obtenerVentanilla(1L);
 
+        cita.setRegistered(new Date());
+        cita.setSolicitante(solicitante);
+        cita.setVentanilla(ventanilla);
         if (cita.getId() == null) { // Create
 
         } else { // Update
@@ -78,13 +101,13 @@ public class CitaController {
 
         boolean respuesta = citaServiceImpl.guardar(cita);
         if (respuesta) {
-            redirectAttributes.addFlashAttribute("msg_success", "Registro exitoso");
+            redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso!");
         } else {
-            redirectAttributes.addFlashAttribute("msg_error", "Registro fallido");
-            return "redirect:/citas/formulario";
+            redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido!");
+            return "redirect:/citas/ver-agenda";
         }
 
-        return "citas/list";
+        return "redirect:/citas/ver-agenda";
     }
 
     @GetMapping(value = "/mostrar/{id}")
