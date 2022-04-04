@@ -19,7 +19,7 @@ public class AdminController {
 		return "redirect:/";
 	}
 
-    //Lista de empleados
+    //Lista de usuarios en general
     @GetMapping("/usuarios/listar")
     public String listarUsuarios() {
         
@@ -27,7 +27,7 @@ public class AdminController {
     }
 
     @GetMapping("/usuarios/formulario")
-    public String formularioUsarios() {
+    public String formularioUsuarios() {
 
         return "admin/list";
     }
@@ -55,5 +55,7 @@ public class AdminController {
 
         return "admin/list";
     }
+
+   
 
 }

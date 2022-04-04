@@ -28,7 +28,7 @@ public class CitaController {
     
     //Lista de citas 
     @GetMapping(value="/lista/{userId}")
-    public String listaCitas(@PathVariable(required = false) String tipoMascota, Model model, RedirectAttributes redirectAttributes) {
+    public String listaCitas(@PathVariable(required = false) Integer userId, Model model, RedirectAttributes redirectAttributes) {
         List<Cita> listaCitas = citaServiceImpl.listar();
         model.addAttribute("listaCitas", listaCitas); 
 
@@ -76,15 +76,15 @@ public class CitaController {
     }
 
     @GetMapping(value="/mostrar/{id}")
-    public String mostrarCita(@PathVariable long id, Model modelo, RedirectAttributes redirectAttributes) {
+    public String mostrarCita(@PathVariable long id, Model model, RedirectAttributes redirectAttributes) {
         Cita cita = citaServiceImpl.mostrarCita(id);
 		if (cita != null) {
-			modelo.addAttribute("cita", cita);
+			model.addAttribute("cita", cita);
 			return "citas/mostrarCita";
 		}
 
 		redirectAttributes.addFlashAttribute("msg_error", "Registro no existente");
-        return "redirect:/citas/list";
+        return "redirect:/citas/lista";
     }
 
     @GetMapping(value="/editar/{id}")
@@ -97,7 +97,7 @@ public class CitaController {
 		}
 
 		redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
-        return "redirect:/citas/list";
+        return "redirect:/citas/lista";
     }
 
     @GetMapping(value="/borrar/{id}")
@@ -108,6 +108,6 @@ public class CitaController {
 		}else{
 			redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
 		}
-		return "redirect:/citas/list";
+		return "redirect:/citas/lista";
     }
 }
