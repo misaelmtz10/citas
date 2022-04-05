@@ -7,9 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
-@Table(name = "Solicitantes")
+@Table(name = "Empleados")
 public class Empleado {
 
     @Id
@@ -20,7 +22,7 @@ public class Empleado {
 	@Column(columnDefinition = "tinyint not null")
 	private Integer estatus;
 
-    
+    @OneToOne
 	@JoinColumn(name = "idUsuario", nullable = false)
 	private Usuario usuario;
 

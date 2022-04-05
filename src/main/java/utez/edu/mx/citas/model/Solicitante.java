@@ -25,6 +25,7 @@ public class Solicitante {
 	@JoinColumn(name = "idCarrera", nullable = false)
 	private Carrera carrera;
 
+    @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
 	private Usuario usuario;
 
