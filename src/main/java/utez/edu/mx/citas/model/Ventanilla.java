@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,35 +12,22 @@ public class Ventanilla {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idVentanilla", nullable = false)
+    @Column(name = "id_ventanilla", nullable = false)
 	private Long id;
 
-	@Column(nullable = false, length = 45)
-	private String nombre;
+	@Column(name = "nombre_ventanilla", nullable = false, length = 45)
+	private String nombreVentanilla;
 
-    @Column(nullable = false, length = 45)
-	private String apellidos;
-
-    @Column(name = "empleado_ventanilla", nullable = false)
-	private String empleadoVentanilla;
-
-    @Column(nullable = false, length = 45)
-	private String correo;
-
-    @ManyToOne
-	@JoinColumn(name = "idRole", nullable = false)
-	private Rol role;
-
-    public Ventanilla(Long id, String nombre, String apellidos, String empleadoVentanilla, String correo, Rol role) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.empleadoVentanilla = empleadoVentanilla;
-        this.correo = correo;
-        this.role = role;
-    }
+    @Column(name = "estatus", columnDefinition = "tinyint not null")
+	private Integer estatus;
 
     public Ventanilla() {
+    }
+
+    public Ventanilla(Long id, String nombreVentanilla, Integer estatus) {
+        this.id = id;
+        this.nombreVentanilla = nombreVentanilla;
+        this.estatus = estatus;
     }
 
     public Long getId() {
@@ -53,45 +38,20 @@ public class Ventanilla {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreVentanilla() {
+        return nombreVentanilla;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreVentanilla(String nombreVentanilla) {
+        this.nombreVentanilla = nombreVentanilla;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public Integer getEstatus() {
+        return estatus;
     }
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setEstatus(Integer estatus) {
+        this.estatus = estatus;
     }
-
-    public String getEmpleadoVentanilla() {
-        return empleadoVentanilla;
-    }
-
-    public void setEmpleadoVentanilla(String empleadoVentanilla) {
-        this.empleadoVentanilla = empleadoVentanilla;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public Rol getRoles() {
-        return role;
-    }
-
-    public void setRoles(Rol role) {
-        this.role = role;
-    }
-    
 
 }

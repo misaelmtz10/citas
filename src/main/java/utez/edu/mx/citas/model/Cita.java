@@ -24,15 +24,18 @@ public class Cita {
 	@Column(name = "title", nullable = false, length = 255)
 	private String title;
 
-	@Column(name = "start", nullable = false)
+	@Column(name = "start", columnDefinition = "DATETIME NOT NULL", nullable = false)
 	private String start;
 
-	@Column(name = "end", nullable = false)
+	@Column(name = "end", columnDefinition = "DATETIME NOT NULL", nullable = false)
 	private String end;
 
     @Column(name = "regitered", nullable = false)
 	@CreationTimestamp
 	private Date registered;
+
+	@Column(columnDefinition = "tinyint not null")
+	private Integer estatus;
 
     @ManyToOne
 	@JoinColumn(name = "idSolicitante", nullable = false)
@@ -48,6 +51,20 @@ public class Cita {
 
 
 	public Cita() {
+	}
+
+
+	public Cita(Long id, String title, String start, String end, Date registered, Integer estatus,
+			Solicitante solicitante, Ventanilla ventanilla, Servicio servicio) {
+		this.id = id;
+		this.title = title;
+		this.start = start;
+		this.end = end;
+		this.registered = registered;
+		this.estatus = estatus;
+		this.solicitante = solicitante;
+		this.ventanilla = ventanilla;
+		this.servicio = servicio;
 	}
 
 
@@ -70,7 +87,7 @@ public class Cita {
 		this.title = title;
 	}
 
-	
+
 	public String getStart() {
 		return start;
 	}
@@ -101,6 +118,16 @@ public class Cita {
 	}
 
 
+	public Integer getEstatus() {
+		return estatus;
+	}
+
+
+	public void setEstatus(Integer estatus) {
+		this.estatus = estatus;
+	}
+
+
 	public Solicitante getSolicitante() {
 		return solicitante;
 	}
@@ -128,6 +155,14 @@ public class Cita {
 
 	public void setServicio(Servicio servicio) {
 		this.servicio = servicio;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Cita [end=" + end + ", estatus=" + estatus + ", id=" + id + ", registered=" + registered + ", servicio="
+				+ servicio + ", solicitante=" + solicitante + ", start=" + start + ", title=" + title + ", ventanilla="
+				+ ventanilla + "]";
 	}
 
 	

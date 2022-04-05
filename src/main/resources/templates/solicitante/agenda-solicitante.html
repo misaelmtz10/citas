@@ -15,8 +15,6 @@
     <link th:href="@{/css/all.min.css}" rel="stylesheet"/>
     <!--Toast-->
     <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
-
-    <link rel="stylesheet" th:href="@{/css/SweetAlert.css}" />
     <style>
       #calendar {
         max-width: 1100px;
@@ -215,9 +213,6 @@
 	  <script th:src="@{/js/toast.min.js}"></script>
     <!--font-awesome-->
     <script th:src="@{/js/all.min.js}"></script>
-
-    <script th:src="@{/js/sweetalert.min_1.js}"></script>
-
     <script th:if="${msg_success != null}">
       new Toast({
         message: '[[${msg_success}]]',

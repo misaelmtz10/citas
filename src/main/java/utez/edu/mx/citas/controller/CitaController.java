@@ -42,7 +42,6 @@ public class CitaController {
     @GetMapping(value = "ver-agenda")
     public String mostrarAgenda(Cita cita, Model model) {
         List<Servicio> listaServicios = servicioServiceImpl.listar();
-        System.out.println("Tamaño servicios: "+listaServicios.size());
         model.addAttribute("listaServicios", listaServicios);
         return "admin/citas/agenda";
     }
@@ -71,40 +70,33 @@ public class CitaController {
 
     @PostMapping(value = "/guardar")
     public String guardarCita(Cita cita, Model model, RedirectAttributes redirectAttributes) {
-        Solicitante solicitante = solicitanteServiceImpl.obtenerSolicitante(1L);
-        Ventanilla ventanilla = ventanillaServiceImpl.obtenerVentanilla(1L);
+        try{
+            Solicitante solicitante = solicitanteServiceImpl.obtenerSolicitante(2L);
+            Ventanilla ventanilla = ventanillaServiceImpl.obtenerVentanilla(1L);
 
-        cita.setRegistered(new Date());
-        cita.setSolicitante(solicitante);
-        cita.setVentanilla(ventanilla);
-        if (cita.getId() == null) { // Create
+            cita.setEstatus(1);
+            cita.setRegistered(new Date());
+            cita.setSolicitante(solicitante);
+            cita.setVentanilla(ventanilla);
 
-        } else { // Update
+            // if (cita.getId() == null) { // Create
 
-            // Cita citaExistente = citaServiceImpl.mostrarCita(cita.getId());
+            // } else { // Update
 
-        }
+                
 
-        /*
-         * if(!multipartFile.isEmpty()) {
-         * // Establecer directorio local para subida de archivos; en prod:
-         * /var/www/html
-         * String ruta = "C:/tmp/citas/pdf-citas";
-         * 
-         * String nombreImagen = ImagenUtilieria.guardarImagen(multipartFile, ruta);
-         * if(nombreImagen != null) {
-         * cita.setImagen(nombreImagen);
-         * }
-         * 
-         * }
-         */
+            // }
 
-        boolean respuesta = citaServiceImpl.guardar(cita);
-        if (respuesta) {
-            redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso!");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido!");
-            return "redirect:/citas/ver-agenda";
+            System.out.println(cita.toString());
+            boolean respuesta = citaServiceImpl.guardar(cita);
+            if (respuesta) {
+                redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso!");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido!");
+                return "redirect:/citas/ver-agenda";
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         return "redirect:/citas/ver-agenda";
