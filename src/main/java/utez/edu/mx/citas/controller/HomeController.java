@@ -9,10 +9,10 @@ import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 @Controller
 public class HomeController {
     
-    /*@Autowired
+    @Autowired
     private SolicitanteServiceImpl solicitanteServiceImp;
-    */
     
+  
     @GetMapping("/")
     public String index() {
 		return "index";
