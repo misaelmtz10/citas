@@ -14,12 +14,12 @@
     <link th:href='@{/css/main.css}' rel='stylesheet' />
 
 
-    <title>Listado Horarios</title>
+    <title>Listado Usuarios</title>
 </head>
 
 <body>
     <div class="wrapper d-flex align-items-stretch">
-        <div th:insert="~{fragments/sidebar :: sidebarB}"></div>
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- Page Content  -->
         <div id="content" class="p-1 p-md-2">
@@ -29,12 +29,12 @@
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 </div>
                 <div class="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7">
-                    <h3>Listado de Horarios</h3>
+                    <h3>Listado de Usuarios</h3>
                 </div>
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                     <!-- Button para abrir modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                        Crear Horario
+                        Crear Usuario
                     </button>
 
                     <!-- Modal creacion de horario-->
@@ -43,51 +43,49 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="createModalLabel">Crear Horario</h5>
+                                    <h5 class="modal-title" id="createModalLabel">Crear Usuario</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form th:action="@{/}" method="post">
+
                                         <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect01">Empleado</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control"  aria-describedby="basic-addon2">
+                                                <span class="input-group-text" id="basic-addon2">Apellidos</span>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon3">Telefono</span>
+                                                <input type="tel" class="form-control" placeholder="777-516-78-23" aria-label="777-516-78-23" aria-describedby="basic-addon3">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com" aria-describedby="basic-addon4">
+                                                <span class="input-group-text" id="basic-addon4">Correo</span>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon5">Contraseña</span>
+                                                <input type="password" class="form-control" aria-describedby="basic-addon5">
+                                              </div>
+
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01">Rol</label>
                                             <select class="form-select" id="inputGroupSelect01">
-                                                <option selected>Elije un empleado...</option>
+                                                <option selected>Elije un rol...</option>
                                                 <option value="Marta">Marta</option>
                                                 <option value="Jose">Jose</option>
                                                 <option value="Pedro">Pedro</option>
                                             </select>
                                         </div>
 
-                                        <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect02">Ventanilla</label>
-                                            <select class="form-select" id="inputGroupSelect02">
-                                                <option selected>Elije una ventanilla...</option>
-                                                <option value="Ventanilla 1">Ventanilla 1</option>
-                                                <option value="Ventanilla 2">Ventanilla 2</option>
-                                                <option value="Ventanilla 3">Ventanilla 3</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text" id="basic-addon1">Fecha</span>
-                                            <input type="date" class="form-control" aria-describedby="basic-addon1">
-                                        </div>
-
-                                        <label for="basic-url" class="form-label">Hora Inicio / Hora Fin</label>
-                                        <div class="input-group mb-3">
-                                            <input type="time" class="form-control" placeholder="Hora inicio"
-                                                aria-label="Hora inicio">
-                                            <span class="input-group-text">/</span>
-                                            <input type="time" class="form-control" placeholder="Hora fin"
-                                                aria-label="Hora fin">
-                                        </div>
-
-                                        <div class="input-group">
-                                            <span class="input-group-text">Cantidad de repeticiones</span>
-                                            <input type="number" class="form-control" aria-describedby="basic-addon1"
-                                                placeholder="1... 2... 3...">
-                                        </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -109,23 +107,23 @@
                     <table id="dataTable" class="display table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">Empleado</th>
-                                <th scope="col">Ventanilla</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Hora Entrada</th>
-                                <th scope="col">Hora Salida</th>
-                                <th scope="col">Repeticiones</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Telefono</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Estatus</th>
+                                <th scope="col">Rol</th>
                                 <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Jose Flores</td>
-                                <td>Numero 1</td>
-                                <td>20 - Agosto</td>
-                                <td>7:00</td>
-                                <td>15:00</td>
-                                <td>8</td>
+                                <td>Pedro</td>
+                                <td>Lopez Mondragon</td>
+                                <td>777-519-76-82</td>
+                                <td>Pedro@gmail.com</td>
+                                <td>Activo</td>
+                                <td>Admin</td>
                                 <td>
                                     <!-- Button para abrir modal de actualizacion -->
                                     <button type="button" class="btn btn-warning" data-bs-toggle="modal"
@@ -136,26 +134,34 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Martin Velazquez</td>
-                                <td>Numero 2</td>
-                                <td>20 - Agosto</td>
-                                <td>15:00</td>
-                                <td>22:00</td>
-                                <td>4</td>
+                                <td>Carlos</td>
+                                <td>Castillo Perales</td>
+                                <td>777-598-35-48</td>
+                                <td>Carlos@gmail.com</td>
+                                <td>Activo</td>
+                                <td>Empleado</td>
                                 <td>
-                                    <a type="button" class="btn btn-warning" th:href="@{/}">Actualizar</a>
+                                    <!-- Button para abrir modal de actualizacion -->
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#updateModal">
+                                        Actualizar
+                                    </button>
                                     <a type="button" class="btn btn-danger" th:href="@{/}">Eliminar</a>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Fernanda Torres</td>
-                                <td>Numero 3</td>
-                                <td>21 - Agosto</td>
-                                <td>9:00</td>
-                                <td>12:00</td>
-                                <td>7</td>
+                                <td>Karla</td>
+                                <td>Garcia Martinez</td>
+                                <td>777-684-30-68</td>
+                                <td>Karla@gmail.com</td>
+                                <td>Inactivo</td>
+                                <td>Empleado</td>
                                 <td>
-                                    <a type="button" class="btn btn-warning" th:href="@{/}">Actualizar</a>
+                                    <!-- Button para abrir modal de actualizacion -->
+                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#updateModal">
+                                        Actualizar
+                                    </button>
                                     <a type="button" class="btn btn-danger" th:href="@{/}">Eliminar</a>
                                 </td>
                             </tr>
@@ -171,57 +177,55 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="updateModalLabel">Modificar Horario</h5>
+                                    <h5 class="modal-title" id="createModalLabel">Modificar Usuario</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form th:action="@{/}" method="post">
+
                                         <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect01">Empleado</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                                <input type="text" class="form-control" aria-describedby="basic-addon1">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control"  aria-describedby="basic-addon2">
+                                                <span class="input-group-text" id="basic-addon2">Apellidos</span>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon3">Telefono</span>
+                                                <input type="tel" class="form-control" placeholder="777-516-78-23" aria-label="777-516-78-23" aria-describedby="basic-addon3">
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com" aria-describedby="basic-addon4">
+                                                <span class="input-group-text" id="basic-addon4">Correo</span>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon5">Contraseña</span>
+                                                <input type="password" class="form-control" aria-describedby="basic-addon5">
+                                              </div>
+
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="inputGroupSelect01">Rol</label>
                                             <select class="form-select" id="inputGroupSelect01">
-                                                <option selected>Elije un empleado...</option>
+                                                <option selected>Elije un rol...</option>
                                                 <option value="Marta">Marta</option>
                                                 <option value="Jose">Jose</option>
                                                 <option value="Pedro">Pedro</option>
                                             </select>
                                         </div>
 
-                                        <div class="input-group mb-3">
-                                            <label class="input-group-text" for="inputGroupSelect02">Ventanilla</label>
-                                            <select class="form-select" id="inputGroupSelect02">
-                                                <option selected>Elije una ventanilla...</option>
-                                                <option value="Ventanilla 1">Ventanilla 1</option>
-                                                <option value="Ventanilla 2">Ventanilla 2</option>
-                                                <option value="Ventanilla 3">Ventanilla 3</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text" id="basic-addon1">Fecha</span>
-                                            <input type="date" class="form-control" aria-describedby="basic-addon1">
-                                        </div>
-
-                                        <label for="basic-url" class="form-label">Hora Inicio / Hora Fin</label>
-                                        <div class="input-group mb-3">
-                                            <input type="time" class="form-control" placeholder="Hora inicio"
-                                                aria-label="Hora inicio">
-                                            <span class="input-group-text">/</span>
-                                            <input type="time" class="form-control" placeholder="Hora fin"
-                                                aria-label="Hora fin">
-                                        </div>
-
-                                        <div class="input-group">
-                                            <span class="input-group-text">Cantidad de repeticiones</span>
-                                            <input type="number" class="form-control" aria-describedby="basic-addon1"
-                                                placeholder="1... 2... 3...">
-                                        </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-warning">Modificar</button>
+                                    <button type="button" class="btn btn-warning">Actualizar</button>
                                 </div>
                             </div>
                         </div>
