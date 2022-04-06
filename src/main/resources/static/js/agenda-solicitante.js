@@ -83,6 +83,8 @@ const citas = [];
 
             $("#fechaInicio").val(start);
             $("#fechaFin").val(end);
+            $("#fechaInicioHidden").val(start);
+            $("#fechaFinHidden").val(end);
             // $("#fechaInicio").attr("min", todayfull);
             // $("#fechaFin").attr("min", todayfull).attr("max", todayfull);
             

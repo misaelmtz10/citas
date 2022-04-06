@@ -98,7 +98,7 @@ public class CitaController {
             e.printStackTrace();
         }
 
-        return "redirect:/citas/ver-agenda";
+        return "redirect:/citas/agenda-solicitante";
     }
 
     @GetMapping(value = "/mostrar/{id}")
@@ -138,19 +138,20 @@ public class CitaController {
     }
 
     @GetMapping(value = "/cambiar-estatus/{id}")
-    public String cambiarEstatus(@PathVariable(value="id") String id, RedirectAttributes redirectAttributes) {
-        long idCita;
-        idCita = Long.parseLong(id);
-        System.out.print(id);
-        Cita cita = citaServiceImpl.obtenerCita(idCita);
-        cita.setEstatus(2);
-        boolean respuesta = citaServiceImpl.guardar(cita);
-        System.out.print(respuesta);
-        if (respuesta) {
-            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
+    public String cambiarEstatus(@PathVariable(value="id") long id, RedirectAttributes redirectAttributes) {
+        try{
+            Cita cita = citaServiceImpl.obtenerCita(id);
+            cita.setEstatus(2);
+            boolean respuesta = citaServiceImpl.guardar(cita);
+            if (respuesta) {
+                redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
+        
         return "redirect:/citas/ver-agenda";
     }
 }

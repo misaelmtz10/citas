@@ -6,12 +6,33 @@ const citas = [];
         const data = await response.json();
         data.map((cita) => {
         //validar status
+        let color;
+        let dateif = new Date(cita.end);
+
+        switch (cita.estatus) {
+            case 1:
+                color =  "#00a65a";
+                break;
+            case 2:
+                color =  "#FFA500";
+                break;
+            case 3:
+                color =  "#FF0000";
+                break;
+            default:
+                break;
+        }
+        
+        if (dateif < new Date()) {
+            color = "#FFA500";
+        }
+
         citas.push({
             id: cita.id,
             title: cita.title,
             start: cita.start,
             end: cita.end,
-            color: "#00a65a",
+            color: color,
             item: cita,
         });
         });
@@ -53,25 +74,6 @@ const citas = [];
                 icon: 'info',
                 confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
             })
-            // let date = new Date();
-            // let dateif = new Date(args.startStr);
-            // console.log(dateif)
-            // if (dateif < date) {
-            //     Swal.fire({
-            //         title: 'Agendar Cita',
-            //         text: 'No se puede agendar la cita en este horario',
-            //         icon: 'warning',
-            //         confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
-            //     })
-                
-            //     return;
-            // }
-            // let start = args.startStr;
-            // let end = args.endStr;
-            // $("#fechaInicio").val(start);
-            // $("#fechaFin").val(end);
-            // $("#modal-register").modal("show");
-            // var title = prompt('Event Title:');
         },
         eventClick: function (args) {
             console.log(args);
@@ -106,13 +108,27 @@ const changeStatus = () => {
         confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
         cancelButtonColor: "#DD6B55", cancelButtonText: "Cancelar",
         showLoaderOnConfirm: true,
-        preConfirm: async (idEvent) => {
+        preConfirm: async () => {
+            let id = parseInt(idEvent);
             try {
-                const response = await fetch(`/citas/cambiar-estatus/${6}`);
+                const response = await fetch(`/citas/cambiar-estatus/${id}`);
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    new Toast({
+                        message: 'No se ha podido finalizar la cita',
+                        type: 'error'
+                    });
+                      
+                    // throw new Error(response.statusText);
+                }else{
+                    new Toast({
+                        message: 'Cita finalizada correctamente',
+                        type: 'success'
+                        
+                    });
                 }
-                return await response.json();
+                setTimeout(function(){
+                    window.location.reload(); 
+                },2000)
             } catch (error) {
                 Swal.showValidationMessage(
                     `Request failed: ${error}`
