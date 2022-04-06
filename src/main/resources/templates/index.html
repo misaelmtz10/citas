@@ -15,9 +15,10 @@
         
         <!-- Page Content  -->
         <div id="content" class="p-1 p-md-2">
-            <div th:insert="~{fragments/header :: header}"></div>  
-
-            <div th:insert="~{fragments/footer :: footer}"></div>
+            
+            <button id="sda">
+                log
+            </button>
         </div>
     </div>
     <script th:src='@{/js/main.js}'></script>
@@ -25,5 +26,18 @@
     <script th:src='@{/js/bootstrap/popper.js}'></script>
     <script th:src='@{/js/bootstrap/bootstrap.min.js}'></script>
     <script th:src='@{/js/bootstrap/main.js}'></script>
+    <script th:src='@{/SweetAlert/dist/sweetalert2.all.min.js}'></script>
+    <script>
+$("#sda").click(function(){
+Swal.fire({
+        title: 'Error!',
+        text: 'Do you want to continue',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+    })
+})
+    
+
+    </script>
 </body>
 </html>

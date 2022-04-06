@@ -7,6 +7,25 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <button onclick="test()">
+        Prueba sweetAlert
+    </button>
+
+    <script th:src='@{/SweetAlert/dist/sweetalert2.all.min.js}'></script>
+    <script>
+
+  function test(){
+    Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'Cool'
+    })
+  }
+            
+
+    </script>
+
+
 </body>
 </html>

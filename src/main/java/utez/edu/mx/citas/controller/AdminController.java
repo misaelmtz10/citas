@@ -23,7 +23,7 @@ public class AdminController {
     @GetMapping("/usuarios/listar")
     public String listarUsuarios() {
         
-        return "admin/list";
+        return "admin/listas";
     }
 
     @GetMapping("/usuarios/formulario")
