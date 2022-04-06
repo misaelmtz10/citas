@@ -43,7 +43,14 @@ public class CitaController {
     public String mostrarAgenda(Cita cita, Model model) {
         List<Servicio> listaServicios = servicioServiceImpl.listar();
         model.addAttribute("listaServicios", listaServicios);
-        return "admin/citas/agenda";
+        return "ventanilla/citas/agenda";
+    }
+
+    @GetMapping(value = "agenda-solicitante")
+    public String mostrarAgendaSolicitante(Cita cita, Model model) {
+        List<Servicio> listaServicios = servicioServiceImpl.listar();
+        model.addAttribute("listaServicios", listaServicios);
+        return "solicitante/agenda-solicitante";
     }
 
     // Lista de citas
@@ -79,21 +86,13 @@ public class CitaController {
             cita.setSolicitante(solicitante);
             cita.setVentanilla(ventanilla);
 
-            // if (cita.getId() == null) { // Create
-
-            // } else { // Update
-
-                
-
-            // }
-
             System.out.println(cita.toString());
             boolean respuesta = citaServiceImpl.guardar(cita);
             if (respuesta) {
                 redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso!");
             } else {
                 redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido!");
-                return "redirect:/citas/ver-agenda";
+                return "redirect:/citas/agenda-solicitante";
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -136,5 +135,22 @@ public class CitaController {
             redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
         }
         return "redirect:/citas/list";
+    }
+
+    @GetMapping(value = "/cambiar-estatus/{id}")
+    public String cambiarEstatus(@PathVariable(value="id") String id, RedirectAttributes redirectAttributes) {
+        long idCita;
+        idCita = Long.parseLong(id);
+        System.out.print(id);
+        Cita cita = citaServiceImpl.obtenerCita(idCita);
+        cita.setEstatus(2);
+        boolean respuesta = citaServiceImpl.guardar(cita);
+        System.out.print(respuesta);
+        if (respuesta) {
+            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
+        } else {
+            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
+        }
+        return "redirect:/citas/ver-agenda";
     }
 }

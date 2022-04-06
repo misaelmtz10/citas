@@ -1,3 +1,4 @@
+let idEvent;
 const citas = [];
     document.body.onload = async () => {
     try {
@@ -45,24 +46,36 @@ const citas = [];
         validRange: {
         start: new Date()
         },
-        select: function (args) {
-        let date = new Date();
-        let dateif = new Date(args.startStr);
-        console.log(dateif)
-        if (dateif < date) {
-            alert("No se puede seleccionar una fecha pasada");
-            return;
-        }
-        console.log("args: ",args);
-        let start = args.startStr;
-        let end = args.endStr;
-        $("#fechaInicio").val(start);
-        $("#fechaFin").val(end);
-        $("#modal-register").modal("show");
-        // var title = prompt('Event Title:');
+        select: function () {
+            Swal.fire({
+                title: 'Cita',
+                text: 'No hay cita registrada',
+                icon: 'info',
+                confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
+            })
+            // let date = new Date();
+            // let dateif = new Date(args.startStr);
+            // console.log(dateif)
+            // if (dateif < date) {
+            //     Swal.fire({
+            //         title: 'Agendar Cita',
+            //         text: 'No se puede agendar la cita en este horario',
+            //         icon: 'warning',
+            //         confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
+            //     })
+                
+            //     return;
+            // }
+            // let start = args.startStr;
+            // let end = args.endStr;
+            // $("#fechaInicio").val(start);
+            // $("#fechaFin").val(end);
+            // $("#modal-register").modal("show");
+            // var title = prompt('Event Title:');
         },
         eventClick: function (args) {
             console.log(args);
+            idEvent = args.event._def.extendedProps.item.id;
             let start = args.event._def.extendedProps.item.start;
             let end = args.event._def.extendedProps.item.end;
             let title = args.event._def.extendedProps.item.title;
@@ -82,3 +95,31 @@ const citas = [];
     });
     calendar.render();
 };
+
+
+const changeStatus = () => {
+    Swal.fire({
+        title: 'Finalizar Cita',
+        text: '¿Estás seguro de finalizar la cita?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
+        cancelButtonColor: "#DD6B55", cancelButtonText: "Cancelar",
+        showLoaderOnConfirm: true,
+        preConfirm: async (idEvent) => {
+            try {
+                const response = await fetch(`/citas/cambiar-estatus/${6}`);
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                return await response.json();
+            } catch (error) {
+                Swal.showValidationMessage(
+                    `Request failed: ${error}`
+                );
+            }
+        },
+    });
+
+    
+}

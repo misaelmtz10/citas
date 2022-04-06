@@ -33,7 +33,7 @@
         <div id="calendar"></div>
       </div>
     </div>
-    <div id="modal-register" class="modal" tabindex="-1" role="dialog">
+    <div id="modal-register" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -60,6 +60,7 @@
                     id="title"
                     placeholder="Título"
                     th:field="*{title}"
+                    required
                   />
                 </div>
                 <div class="form-group col-lg-6">
@@ -71,6 +72,8 @@
                     class="form-control"
                     id="fechaInicio"
                     th:field="*{start}"
+                    disabled
+                    required
                   />
                 </div>
                 <div class="form-group col-lg-6">
@@ -82,13 +85,15 @@
                     class="form-control"
                     id="fechaFin"
                     th:field="*{end}"
+                    disabled
+                    required
                   />
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group col">
 									<label>Servicio:</label>
-									<select class="form-control form-control" th:field="*{servicio.id}">
+									<select class="form-control form-control" th:field="*{servicio.id}" required>
 										<option hidden selected value="">Selecciona un servicio...</option>
 										<option th:each="tmpServicio: ${listaServicios}" th:value="${tmpServicio.id}" th:text="${tmpServicio.nombre}">
 
@@ -111,7 +116,7 @@
         </div>
       </div>
     </div>
-    <div id="modal-details" class="modal" tabindex="-1" role="dialog">
+    <div id="modal-details" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -207,12 +212,15 @@
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-    <!--agenda-->
-    <script th:src="@{/js/agenda.js}"></script>
+    <!--agenda-solicitante-->
+    <script th:src="@{/js/agenda-solicitante.js}"></script>
     <!--Toast-->
 	  <script th:src="@{/js/toast.min.js}"></script>
     <!--font-awesome-->
     <script th:src="@{/js/all.min.js}"></script>
+    <!--sweetalert2-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
+
     <script th:if="${msg_success != null}">
       new Toast({
         message: '[[${msg_success}]]',
@@ -225,6 +233,5 @@
         type: 'danger'
       });
     </script>
-
   </body>
 </html>

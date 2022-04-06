@@ -16,7 +16,6 @@
     <!--Toast-->
     <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 
-    <link rel="stylesheet" th:href="@{/css/SweetAlert.css}" />
     <style>
       #calendar {
         max-width: 1100px;
@@ -35,7 +34,7 @@
         <div id="calendar"></div>
       </div>
     </div>
-    <div id="modal-register" class="modal" tabindex="-1" role="dialog">
+    <!-- <div id="modal-register" class="modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -112,8 +111,8 @@
           </div>
         </div>
       </div>
-    </div>
-    <div id="modal-details" class="modal" tabindex="-1" role="dialog">
+    </div> -->
+    <div id="modal-details" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -189,13 +188,23 @@
 								</div>
               </div>
               <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Cerrar
-                </button>
+                <div class="row">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-dismiss="modal"
+                    onclick="changeStatus()"
+                  >
+                    Finalizar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary ml-3"
+                    data-dismiss="modal"
+                  >
+                    Cerrar
+                  </button>
+                </div>
               </div>
             </div>
         </div>
@@ -215,8 +224,8 @@
 	  <script th:src="@{/js/toast.min.js}"></script>
     <!--font-awesome-->
     <script th:src="@{/js/all.min.js}"></script>
-
-    <script th:src="@{/js/sweetalert.min_1.js}"></script>
+    <!--sweetalert2-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
 
     <script th:if="${msg_success != null}">
       new Toast({
