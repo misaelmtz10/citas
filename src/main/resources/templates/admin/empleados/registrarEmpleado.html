@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}" />
+    <link th:href='@{/css/main.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <link th:href='@{/css/style.css}' rel='stylesheet' />
+    <link th:href='@{/css/main.css}' rel='stylesheet' />
+</head>
+<body>
+    <button onclick="test()">
+        Prueba sweetAlert
+    </button>
+	
+	<h1>Registrar empleado</h1>
+	
+	<form th:action="@{/fxAdmin/empleados/guardar}" method="POST" th:object="${usuario}">
+		<label>Nombre</label>
+		<input class="form-control form-control-lg" type="text" th:field="*{nombre}">
+		<br>
+		<label>Apellidos</label>
+		<input class="form-control form-control-lg" type="text" th:field="*{apellidos}">
+		<br>
+		<label>Telefono</label>
+		<input class="form-control form-control-lg" type="text" th:field="*{telefono}">
+		<br>
+		<label>Correo</label>
+		<input class="form-control form-control-lg" type="text" th:field="*{correo}">
+		<br>
+		<label>Intentos</label>
+		<input class="form-control form-control-lg" type="number" th:field="*{intentos}">
+		<br>
+		<label>Password</label>
+		<input class="form-control form-control-lg" type="text" th:field="*{password}">
+		<br>
+		<label>Username</label>
+		<input class="form-control form-control-lg" type="text" th:field="*{username}">
+		<br>
+		<label>estatus</label>
+		<input class="form-control form-control-lg" type="number" th:field="*{enabled}">
+		<button type="submit" class="btn btn-success"> Guardar </button>
+	</form>
+	
+	
+    <script th:src='@{/SweetAlert/dist/sweetalert2.all.min.js}'></script>
+    <script>
+
+  function test(){
+    Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'Cool'
+    })
+  }
+            
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}" />
+    <link th:href='@{/css/main.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <link th:href='@{/css/style.css}' rel='stylesheet' />
+    <link th:href='@{/css/main.css}' rel='stylesheet' />
+</head>
+<body>
+    <button onclick="test()">
+        Prueba sweetAlert
+    </button>
+	
+	<h1>[[${titulo}]]</h1>
+	
+	<table class="table">
+		<thead style="background-color: #6c757d;">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Correo</th>
+				<th scope="col">Status</th>
+				<th scope="col">Username</th>
+				<th colspan="3">Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="tmpLista: ${list}">
+				<td> 1 </td>
+				<td>[[${tmpLista.nombre}]] [[${tmpLista.apellidos}]]</td>
+				<td>[[${tmpLista.correo}]]</td>
+				<td th:text="${tmpLista.enabled == 1} ? 'Activo' : 'Inactivo'"></td>
+				<td>[[${tmpLista.correo}]]</td>
+				<td> </td>
+			</tr>
+		</tbody>
+	</table>
+	
+    <script th:src='@{/SweetAlert/dist/sweetalert2.all.min.js}'></script>
+    <script>
+
+  function test(){
+    Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'Cool'
+    })
+  }
+            
+
+    </script>
+
+
+</body>
+</html>

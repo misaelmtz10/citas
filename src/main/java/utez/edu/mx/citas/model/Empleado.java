@@ -31,7 +31,11 @@ public class Empleado {
         this.estatus = estatus;
         this.usuario = usuario;
     }
-
+    
+    public Empleado(Integer estatus, Usuario usuario) {
+        this.estatus = estatus;
+        this.usuario = usuario;
+    }
 
     public Empleado() {
     }

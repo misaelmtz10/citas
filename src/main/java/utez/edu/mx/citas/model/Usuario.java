@@ -123,23 +123,31 @@ public class Usuario {
         this.intentos = intentos;
     }
 
-    public String getpassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setpassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public boolean getenabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
-    public void setenabled(boolean enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+    
+    public String getUsername() {
+		return username;
+	}
 
-    @Override
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	@Override
     public String toString() {
         return "Usuario [apellidos=" + apellidos + ", correo=" + correo + ", enabled=" + enabled + ", id=" + id
                 + ", intentos=" + intentos + ", nombre=" + nombre + ", password=" + password + ", roles=" + roles

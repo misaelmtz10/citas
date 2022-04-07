@@ -64,7 +64,15 @@ public class Solicitante {
         this.carrera = carrera;
     }
 
-    @Override
+    public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	@Override
     public String toString() {
         return "Solicitante [carrera=" + carrera + ", id=" + id + ", matricula=" + matricula + "]";
     }
