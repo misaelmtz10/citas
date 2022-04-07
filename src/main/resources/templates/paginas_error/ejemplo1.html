@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link th:href='@{/css/style.css}' rel='stylesheet' />
+  <link th:href='@{/css/main.css}' rel='stylesheet' />
+  <style>
+    @import url("https://fonts.googleapis.com/css?family=Lato");
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: #ffe9ef;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .status {
+      font-size: 100px;
+      left: 50%;
+      top: 50%;
+      color: #fed9e4;
+      text-shadow: 0 0 5px #fec8d8;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .status {
+        font-size: 200px;
+        transform: translate(-50%, -50%) rotate(-90deg) translate(0, -140px) translate(0, -50%);
+        position: absolute;
+      }
+    }
+
+    .chat {
+      border-radius: 15px;
+      box-shadow: 0 0 20px #e0bbe4;
+      background: #fff;
+      width: 280px;
+      height: 250px;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      padding: 0 15px;
+    }
+
+    @media (min-width: 768px) {
+      .chat {
+        width: 280px;
+        height: 400px;
+      }
+    }
+
+    .chat__header {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .header {
+      align-items: center;
+      border-radius: 15px 15px 0 0;
+      background: #be71c7;
+      color: #fff;
+      display: flex;
+      height: 60px;
+      padding: 20px;
+      width: 100%;
+      text-transform: uppercase;
+      z-index: 2;
+      transform: translate(0, 0);
+    }
+
+    .header__members {
+      display: flex;
+      align-items: center;
+      padding-left: 15px;
+    }
+
+    .header__member {
+      height: 30px;
+      width: 30px;
+      border-radius: 100%;
+      background: linear-gradient(25deg, #808080, #fff);
+      background-image: url("https://source.unsplash.com/JelL3CneNDY/50x50");
+      background-size: cover;
+      margin-right: 4px;
+    }
+
+    .header__member--server {
+      background-image: url("https://source.unsplash.com/uWaRsN-CqY0/50x50");
+    }
+
+    .message {
+      display: none;
+      flex: 0 0 auto;
+      margin-bottom: 5px;
+    }
+
+    .message--browser {
+      justify-content: flex-start;
+    }
+
+    .message--browser .message__content {
+      background: #eee;
+    }
+
+    .message--server {
+      justify-content: flex-end;
+    }
+
+    .message--server .message__content {
+      background: #e0bbe4;
+      color: #fff;
+      justify-content: flex-end;
+      text-align: right;
+    }
+
+    .message__content {
+      border-radius: 15px;
+      min-height: 50px;
+      align-items: center;
+      display: inline-flex;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .message--left {
+      justify-content: center;
+    }
+
+    .message--left .message__content {
+      background: #fff;
+      color: #ccc;
+    }
+
+    .message--typing .message__content div {
+      -webkit-animation: wave 0.5s ease infinite;
+      animation: wave 0.5s ease infinite;
+      border-radius: 100%;
+      height: 8px;
+      width: 8px;
+      background: #b3b3b3;
+      margin: 2px;
+    }
+
+    .message--typing .message__content div:nth-of-type(1) {
+      -webkit-animation-delay: 0.1s;
+      animation-delay: 0.1s;
+    }
+
+    .message--typing .message__content div:nth-of-type(2) {
+      -webkit-animation-delay: 0.2s;
+      animation-delay: 0.2s;
+    }
+
+    .message--typing .message__content div:nth-of-type(3) {
+      -webkit-animation-delay: 0.3s;
+      animation-delay: 0.3s;
+    }
+
+    @-webkit-keyframes wave {
+      50% {
+        transform: translate(0, -150%);
+      }
+    }
+
+    @keyframes wave {
+      50% {
+        transform: translate(0, -150%);
+      }
+    }
+  </style>
+
+
+  <title>Document</title>
+</head>
+
+<body>
+
+  <h1 class="status">408</h1>
+<div class="chat">
+  <div class="header chat__header">
+    <div class="header__title">New Request</div>
+    <div class="header__members">
+      <div class="header__member"></div>
+      <div class="header__member header__member--server"></div>
+    </div>
+  </div>
+  <div class="message message--browser">
+    <div class="message__content">Hey Server 👋</div>
+  </div>
+  <div class="message message--server">
+    <div class="message__content">Hey Browser 👋</div>
+  </div>
+  <div class="message message--browser">
+    <div class="message__content">Got a quick one for ya 😅</div>
+  </div>
+  <div class="message message--server">
+    <div class="message__content">Sure 👍</div>
+  </div>
+  <div class="message message--server">
+    <div class="message__content">Fire away 🔫</div>
+  </div>
+  <div class="message message--browser">
+    <div class="message__content">Jus' a sec 🕥</div>
+  </div>
+  <div class="message message--server">
+    <div class="message__content">OK 👌</div>
+  </div>
+  <div class="message message--server">
+    <div class="message__content">???</div>
+  </div>
+  <div class="message message--server">
+    <div class="message__content">You still there??</div>
+  </div>
+  <div class="message message--server">
+    <div class="message__content">Ughh 😞</div>
+  </div>
+  <div class="message message--left">
+    <div class="message__content">Server left the chat 💅</div>
+  </div>
+  <div class="message message--typing message--browser">
+    <div class="message__content">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js'></script>
+  <script>
+const FourOhEight = new TimelineMax({ repeatDelay: 3 });
+const typing = document.querySelector(".message--typing");
+const left = document.querySelector(".message--left");
+const avatar = document.querySelector(".header__member--server");
+const messages = document.querySelectorAll(
+  ".message:not(.message--typing):not(.message--left)"
+);
+const msgDuration = 0.25;
+const random = (max, min) => Math.floor(Math.random() * (max - min + 1)) + min;
+const generateChatTL = (messages) => {
+  const chatTL = new TimelineMax();
+  let stagger = 0;
+  for (let m = 0; m < messages.length; m++) {
+    const message = messages[m];
+    const differentRecipient =
+      message.classList.contains("message--server") &&
+      messages[m - 1] &&
+      !messages[m - 1].classList.contains("message--server");
+    if (
+      m !== 0 &&
+      m !== messages.length - 2 &&
+      (m === 5 || m === 6 || m === 7 || Math.random() > 0.5)
+    ) {
+      const deliberation =
+        m === 5 || m === 6 || m === 7 ? Math.random() * 3 : Math.random();
+      chatTL.set(typing, { display: "flex" });
+      chatTL.add(
+        TweenMax.to(typing, deliberation, { display: "none" }),
+        stagger
+      );
+      stagger += deliberation;
+    }
+    chatTL.set(message, { scale: 0 });
+    chatTL.add(
+      TweenMax.to(message, msgDuration, {
+        scale: 1,
+        onStart: () => (message.style.display = "flex")
+      }),
+      stagger
+    );
+    let step = differentRecipient ? random(3, 1) : Math.random();
+    if (m === messages.length - 4 || m === messages.length - 2)
+      step = random(4, 2);
+    stagger += m === 0 ? 2 : step;
+  }
+  return chatTL;
+};
+
+FourOhEight.set([...messages, left], { display: "none", scale: 0 })
+  .add(generateChatTL(messages))
+  .set(left, { scale: 0 })
+  .add(
+    TweenMax.to(left, msgDuration, {
+      delay: 2,
+      scale: 1,
+      onStart: () => (left.style.display = "flex")
+    })
+  )
+  .add(
+    TweenMax.to(avatar, msgDuration, {
+      scale: 0
+    })
+  )
+  .repeat(-1);
+  </script>
+</body>
+
+</html>
