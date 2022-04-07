@@ -2,14 +2,14 @@ package utez.edu.mx.citas.service;
 
 import java.util.List;
 
-import utez.edu.mx.citas.model.Rol;
+import utez.edu.mx.citas.model.Role;
 
 public interface RolService {
 	
-	boolean guardar(Rol rol);
-    List<Rol> listar();
-    Rol obtenerRol(long id);
+	boolean guardar(Role rol);
+    List<Role> listar();
+    Role obtenerRol(long id);
     boolean eliminar(Long id);
-    Rol mostrarRol(long id);
+    Role mostrarRol(long id);
 
 }

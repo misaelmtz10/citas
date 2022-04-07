@@ -3,7 +3,7 @@ package utez.edu.mx.citas.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import utez.edu.mx.citas.model.Rol;
+import utez.edu.mx.citas.model.Role;
 import utez.edu.mx.citas.repository.RolRepository;
 
 public class RolServiceImpl implements RolService {
@@ -12,7 +12,7 @@ public class RolServiceImpl implements RolService {
     private RolRepository rolRepository;
 
 	@Override
-	public boolean guardar(Rol rol) {
+	public boolean guardar(Role rol) {
 		try {
 			rolRepository.save(rol);
             return true;
@@ -22,13 +22,13 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public List<Rol> listar() {
+	public List<Role> listar() {
 		return rolRepository.findAll();
 	}
 
 	@Override
-	public Rol obtenerRol(long id) {
-		Optional<Rol> optional = rolRepository.findById(id);
+	public Role obtenerRol(long id) {
+		Optional<Role> optional = rolRepository.findById(id);
         if (optional.isPresent()){
             return optional.get();
         }
@@ -46,8 +46,8 @@ public class RolServiceImpl implements RolService {
 	}
 
 	@Override
-	public Rol mostrarRol(long id) {
-		Optional<Rol> optional = rolRepository.findById(id);
+	public Role mostrarRol(long id) {
+		Optional<Role> optional = rolRepository.findById(id);
         if (optional.isPresent()){
             return optional.get();
         }
