@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -21,12 +23,15 @@ public class Cita {
     @Column(name = "idCitas", nullable = false)
 	private Long id;
 
+	@NotBlank(message = "El título no puede estar en blanco")
 	@Column(name = "title", nullable = false, length = 255)
 	private String title;
 
+	@NotNull(message = "La fecha de inicio no puede estar vacía")
 	@Column(name = "start", columnDefinition = "DATETIME NOT NULL", nullable = false)
 	private String start;
 
+	@NotNull(message = "La fecha de término no puede estar vacía")
 	@Column(name = "end", columnDefinition = "DATETIME NOT NULL", nullable = false)
 	private String end;
 
@@ -53,8 +58,9 @@ public class Cita {
 	public Cita() {
 	}
 
-
-	public Cita(Long id, String title, String start, String end, Date registered, Integer estatus,
+	public Cita(Long id, @NotBlank(message = "El título no puede estar en blanco") String title,
+			@NotNull(message = "La fecha de inicio no puede estar vacía") String start,
+			@NotNull(message = "La fecha de término no puede estar vacía") String end, Date registered, Integer estatus,
 			Solicitante solicitante, Ventanilla ventanilla, Servicio servicio) {
 		this.id = id;
 		this.title = title;
@@ -66,7 +72,6 @@ public class Cita {
 		this.ventanilla = ventanilla;
 		this.servicio = servicio;
 	}
-
 
 	public Long getId() {
 		return id;

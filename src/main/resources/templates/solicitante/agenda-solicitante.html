@@ -30,9 +30,10 @@
       <!-- Page Content  -->
       <div id="content" class="p-1 p-md-2">
         <div th:insert="~{fragments/header :: header}"></div>
-        <div id="calendar"></div>
+        <div style="height: 20% !important" id="calendar"></div>
       </div>
     </div>
+   
     <div id="modal-register" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -48,7 +49,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}">
+            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}" class="needs-validation" novalidate id="formRegister" onsubmit="return validate(event)">
               <div class="form-row">
                 <div class="form-group col-lg-12">
                   <label for="message-text" class="col-form-label">
@@ -62,6 +63,9 @@
                     th:field="*{title}"
                     required
                   />
+                  <div class="invalid-feedback">
+                    Ingrese un título válido
+                  </div>
                 </div>
                 <div class="form-group col-lg-6">
                   <label for="recipient-name" class="col-form-label">
@@ -107,6 +111,9 @@
 
 										</option>
 									</select>
+                  <div class="invalid-feedback">
+                    Seleccione un servicio
+                  </div>
 								</div>
               </div>
               <div class="modal-footer">
@@ -117,7 +124,7 @@
                 >
                   Cancelar
                 </button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="submit" class="btn btn-primary" id="guardar">Guardar</button>
               </div>
             </form>
           </div>

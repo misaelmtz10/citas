@@ -78,7 +78,7 @@ public class CitaController {
     @PostMapping(value = "/guardar")
     public String guardarCita(Cita cita, Model model, RedirectAttributes redirectAttributes) {
         try{
-            Solicitante solicitante = solicitanteServiceImpl.obtenerSolicitante(2L);
+            Solicitante solicitante = solicitanteServiceImpl.obtenerSolicitante(1L);
             Ventanilla ventanilla = ventanillaServiceImpl.obtenerVentanilla(1L);
 
             cita.setEstatus(1);
@@ -97,7 +97,6 @@ public class CitaController {
         }catch(Exception e){
             e.printStackTrace();
         }
-
         return "redirect:/citas/agenda-solicitante";
     }
 

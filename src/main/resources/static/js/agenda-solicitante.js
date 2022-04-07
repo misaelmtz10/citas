@@ -6,6 +6,8 @@ const citas = [];
         data.map((cita) => {
             //validar status
             let color;
+            let dateif = new Date(cita.end);
+
             switch (cita.estatus) {
                 case 1:
                     color =  "#00a65a";
@@ -19,6 +21,11 @@ const citas = [];
                 default:
                     break;
             }
+
+            if (dateif < new Date()) {
+                color = "#FFA500";
+            }
+
             citas.push({
                 id: cita.id,
                 title: cita.title,
@@ -29,14 +36,12 @@ const citas = [];
             });
         });
         calendarRender(citas);
-        // console.log(citas);
     } catch (error) {
         console.log(error);
     }
     };
 
     const calendarRender = (citas) => {
-    // console.log(citas);
     var calendarEl = document.getElementById("calendar");
     var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
@@ -50,17 +55,17 @@ const citas = [];
         selectable: true,
         nowIndicator: true,
         allDaySlot: false,
-        selectMirror: true,
+        selectMirror: false,
         timeZone: "America/Mexico_City",
         locale: "es",
         hiddenDays: [0, 6],
-        slotMaxTime: "18:00",
+        slotMaxTime: "17:30",
         slotMinTime: "08:00",
         validRange: {
-        start: new Date()
+        start: new Date(),
         },
+        height:"80%",
         select: function (args) {
-            // console.log(args)
             let date = new Date();
             let dateif = new Date(args.startStr);
             if (dateif < date) {
@@ -73,29 +78,15 @@ const citas = [];
                 
                 return;
             }
+
             let start = args.startStr;
             let end = args.endStr;
-            // let today = new Date();
-            // let todayfull = today.getFullYear() + '-' + '0' + (today.getMonth() + 1) + '-' +  '0' + today.getDate() +  'T' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-            // let startChange;
-            // console.log(todayfull)
-            // console.log(today.getFullYear() + '-' + today.getMonth() + '-' + today.getDay() +  'T' + today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds())
-
+            
             $("#fechaInicio").val(start);
             $("#fechaFin").val(end);
             $("#fechaInicioHidden").val(start);
-            $("#fechaFinHidden").val(end);
-            // $("#fechaInicio").attr("min", todayfull);
-            // $("#fechaFin").attr("min", todayfull).attr("max", todayfull);
-            
+            $("#fechaFinHidden").val(end);   
             $("#modal-register").modal("show");
-
-            // $("#fechaInicio").change(function(){
-            //     startChange = $("#fechaInicio").val();
-            //     $("#fechaFin").attr("min", startChange).attr("max", startChange);
-            //     console.log(startChange);
-            // });
-            
         },
         eventClick: function (args) {
             // console.log(args);
@@ -120,11 +111,47 @@ const citas = [];
                     confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
                 })
             }
-            
         },
+
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events
         events: citas,
     });
     calendar.render();
 };
+
+const alert = (event) =>{
+    event.preventDefault();
+    Swal.fire({
+        title: 'Agendar Cita',
+        text: '¿Estás seguro de agendar la cita?',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
+        cancelButtonColor: "#DD6B55", cancelButtonText: "Cancelar",     
+    })
+}
+
+var forms = document.querySelectorAll('.needs-validation');
+Array.prototype.slice.call(forms)
+.forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation(); 
+        }else{
+            alert(event);
+        }
+        form.classList.add('was-validated');
+    }, false);
+});
+    
+function validate(){
+    setTimeout(function(){ }, 500);
+    $(function(){
+        $('.swal2-confirm').on("click",function(){
+            document.getElementById('formRegister').submit();
+        });
+    });
+}
+

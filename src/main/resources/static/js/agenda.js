@@ -67,6 +67,7 @@ const citas = [];
         validRange: {
         start: new Date()
         },
+        height:"80%",
         select: function () {
             Swal.fire({
                 title: 'Cita',
@@ -83,7 +84,7 @@ const citas = [];
             let title = args.event._def.extendedProps.item.title;
             let servicio = args.event._def.extendedProps.item.servicio.nombre;
             let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
-            // console.log("start: ", start.replace(' ' ,'T'))
+
             $("#modal-details").modal("show");
             $("#title-details").val(title);
             $("#start-details").val(start.replace(' ' ,'T'));
