@@ -1,23 +1,32 @@
 package utez.edu.mx.citas.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Usuarios")
+@Table(name = "users")
 public class Usuario {
     
     
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUsuario", nullable = false)
 	private Long id;
+
+    @Column(nullable = false, length = 100, unique = true)
+	private String username;
+
+	@Column(nullable = false, length = 255)
+	private String password;
 
 	@Column(nullable = false, length = 30)
 	private String nombre;
@@ -34,27 +43,25 @@ public class Usuario {
 	@Column(columnDefinition = "tinyint not null")
 	private Integer intentos;
 
-    @Column(nullable = false, length = 45)
-	private String contrasena;
-
     @Column(columnDefinition = "tinyint not null")
-	private Integer estatus;
+	private boolean enabled;
 
-    @ManyToOne
-	@JoinColumn(name = "idRole", nullable = false)
-	private Rol role;
+   	@ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
-    public Usuario(Long id, String nombre, String apellidos, String telefono, String correo, Integer intentos,
-            String contrasena, Integer estatus, Rol role) {
+    public Usuario(Long id, String username, String password, String nombre, String apellidos, String telefono,
+            String correo, Integer intentos, boolean enabled, Set<Role> roles) {
         this.id = id;
+        this.username = username;
+        this.password = password;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.correo = correo;
         this.intentos = intentos;
-        this.contrasena = contrasena;
-        this.estatus = estatus;
-        this.role = role;
+        this.enabled = enabled;
+        this.roles = roles;
     }
 
     public Usuario() {
@@ -100,12 +107,12 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public Rol getRole() {
-        return role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Rol role) {
-        this.role = role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Integer getIntentos() {
@@ -116,26 +123,26 @@ public class Usuario {
         this.intentos = intentos;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getpassword() {
+        return password;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setpassword(String password) {
+        this.password = password;
     }
 
-    public Integer getEstatus() {
-        return estatus;
+    public boolean getenabled() {
+        return enabled;
     }
 
-    public void setEstatus(Integer estatus) {
-        this.estatus = estatus;
+    public void setenabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override
     public String toString() {
-        return "Usuario [apellidos=" + apellidos + ", contrasena=" + contrasena + ", correo=" + correo + ", estatus="
-                + estatus + ", id=" + id + ", intentos=" + intentos + ", nombre=" + nombre + ", role=" + role
-                + ", telefono=" + telefono + "]";
-    }
+        return "Usuario [apellidos=" + apellidos + ", correo=" + correo + ", enabled=" + enabled + ", id=" + id
+                + ", intentos=" + intentos + ", nombre=" + nombre + ", password=" + password + ", roles=" + roles
+                + ", telefono=" + telefono + ", username=" + username + "]";
+    } 
 }
