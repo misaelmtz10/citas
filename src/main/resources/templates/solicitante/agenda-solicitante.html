@@ -49,7 +49,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}" class="needs-validation" novalidate id="formRegister" onsubmit="return validate(event)">
+            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}" class="needs-validation" novalidate id="formRegister" onsubmit="validate(event)">
               <div class="form-row">
                 <div class="form-group col-lg-12">
                   <label for="message-text" class="col-form-label">
@@ -249,3 +249,4 @@
     </script>
   </body>
 </html>
+ 

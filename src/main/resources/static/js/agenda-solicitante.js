@@ -75,18 +75,29 @@ const citas = [];
                     icon: 'warning',
                     confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
                 })
-                
+ 
                 return;
             }
 
             let start = args.startStr;
             let end = args.endStr;
-            
-            $("#fechaInicio").val(start);
-            $("#fechaFin").val(end);
-            $("#fechaInicioHidden").val(start);
-            $("#fechaFinHidden").val(end);   
-            $("#modal-register").modal("show");
+            let timeDiff = new Date(end).getTime() - new Date(start).getTime();
+            let hours = timeDiff / (1000*60*60);
+
+            if (hours > 0.5) {
+                Swal.fire({
+                    title: 'Agendar Cita',
+                    text: 'La cita tiene una duración de 30 minutos por defecto',
+                    icon: 'warning',
+                    confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
+                })
+            }else{
+                $("#fechaInicio").val(start);
+                $("#fechaFin").val(end);
+                $("#fechaInicioHidden").val(start);
+                $("#fechaFinHidden").val(end);   
+                $("#modal-register").modal("show");
+            }
         },
         eventClick: function (args) {
             // console.log(args);
@@ -128,7 +139,7 @@ const alert = (event) =>{
         icon: 'info',
         showCancelButton: true,
         confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
-        cancelButtonColor: "#DD6B55", cancelButtonText: "Cancelar",     
+        cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",     
     })
 }
 
