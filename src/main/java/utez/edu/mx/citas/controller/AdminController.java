@@ -65,8 +65,10 @@ public class AdminController {
         
 		return "redirect:/";
 	}
-    
+
+    //No redirige
     @GetMapping("/usuarios/listar")
+<<<<<<< Updated upstream
 
     public String listarUsuarios(Usuario user,Model model) {
         List<Usuario> usuarios = usuarioService.listar();
@@ -76,7 +78,15 @@ public class AdminController {
         model.addAttribute("listaRoles", roles);
         model.addAttribute("titulo", "Usuarios");
         return "admin/usuarios/listarUsuarios";
+=======
+    public String listarUsuarios(@PathVariable(required = false) String usuarios, Model model) {
+      
+        model.addAttribute("list", usuarioService.listar());
+        return "admin/usuarios/listUsuarios";
+>>>>>>> Stashed changes
     }
+
+
 
     @GetMapping("/empleados/listar")
     public String listarEmpleados(Model model) {

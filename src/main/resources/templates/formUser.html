@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Crear cuenta</title>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link th:href='@{/css/style.css}' rel='stylesheet' />
+    <link th:href='@{/css/main.css}' rel='stylesheet' />
+</head>
+
+<body style="background-color: #e9ecef;">
+    <div class="wrapper d-flex align-items-stretch">
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+        
+        <!-- Page Content  -->
+        <div id="content" class="p-1 p-md-2">
+            
+            <button id="sda">
+                log
+            </button>
+        </div>
+    </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12" style="padding-left: 0px; padding-right: 0px;"
+				th:insert="~{fragments/header :: header}"></div>
+
+			<div class="col-12">
+				<div class="card mt-3 mx-auto" style="width: 800px;">
+					<div class="card-body">
+						<h2 class="my-auto text-center">Crear cuenta</h2>
+						<hr>
+						<form action="" method="post">
+					
+
+							<div class="form-row">
+								<div class="form-group col">
+									<label>Username<span class="text-danger">*</span></label>
+									<input class="form-control form-control-lg" type="text" max="45" required>
+								</div>
+							</div>
+
+							<div class="form-row">
+								<div class="form-group col">
+									<label>Contraseña<span class="text-danger">*</span></label>
+									<input class="form-control form-control-lg" onchange="validarContrasena()"
+										type="password" max="22" id="password" name="password" required>
+								</div>
+								<div class="form-group col">
+									<label>Confirmar contraseña<span class="text-danger">*</span></label>
+									<input class="form-control form-control-lg" onchange="validarContrasena()"
+										type="password" max="22" id="confirmarContrasena" name="confirmarContrasena"
+										required>
+								</div>
+
+							<div class="form-row">
+								<div class="form-group col">
+									<label>Nombre<span class="text-danger">*</span></label>
+									<input class="form-control form-control-lg" type="text" max="45" required>
+								</div>
+								<div class="form-group col">
+									<label>Apellidos<span class="text-danger">*</span></label>
+									<input class="form-control form-control-lg" type="text" max="45" required>
+								</div>
+							</div>
+
+							<div class="form-row">
+								<div class="form-group col">
+									<label>Telefóno<span class="text-danger">*</span></label>
+									<input type="text" class="form-control form-control-lg phone-mask" maxlength="10"
+										minlength="14" placeholder="( ___ ) - ___ - __ - __" required>
+								</div>
+								<div class="form-group col">
+									<label>Correo electrónico<span class="text-danger">*</span></label>
+									<input class="form-control form-control-lg" type="email" max="100" required>
+								</div>
+								
+							</div>
+							<div class="form-group col">
+                                <label>Enabled</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" th:field="*{enabled}" type="radio" name="enabled" id="enabled" value="activo" checked/>
+                                    <label class="form-check-label" for="enabled">Activo</label>
+                                </div>
+						
+							</div>
+
+							<div class="text-center">
+								<p>Selecciona una opción<span class="text-danger">*</span></p>
+								<div class="radio">
+									<label>
+										<ion-icon name="hand-right-outline" size="large" style="color: #007bff;">
+										</ion-icon>
+										<input type="radio" name="tipoUsuario" value="opcionRole" checked>
+										ADMIN
+									</label>&nbsp;&nbsp;&nbsp;
+									<label>
+										<ion-icon name="paw-outline" size="large" style="color: #007bff;"></ion-icon>
+										<input type="radio" name="tipoUsuario" value="opcionRole">
+										USUARIO
+									</label>
+								</div>
+							</div>
+							<p>Los campos marcados con <span class="text-danger">*</span> son obligatorios.</p>
+							<button id="registrar" type="submit" class="btn btn-primary btn-lg btn-block mt-3"
+								onclick="validarContrasena()">
+								Registrar
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Ionicons-->
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+	<!--Toast-->
+	<script th:src="@{/js/toast.min.js}"></script>
+
+	<script th:if="${msg_success != null}">
+		new Toast({
+			message: '[[${msg_success}]]',
+			type: 'success'
+		});
+	</script>
+
+	<script th:if="${msg_error != null}">
+		new Toast({
+			message: '[[${msg_error}]]',
+			type: 'danger'
+		});
+	</script>
+
+<script th:src='@{/js/main.js}'></script>
+<script th:src='@{/js/bootstrap/jquery.min.js}'></script>
+<script th:src='@{/js/bootstrap/popper.js}'></script>
+<script th:src='@{/js/bootstrap/bootstrap.min.js}'></script>
+<script th:src='@{/js/bootstrap/main.js}'></script>
+
+	<!--Mask inputs-->
+	<script th:src="@{/js/jquery.mask.min.js}"></script>
+	<script>
+		$(document).ready(function () {
+			$('.phone-mask').mask('(000)000-00-00');
+		});
+	</script>
+
+	<!--Validaciones-->
+	<script>
+		function validarContrasena() {
+			var pass1 = $("#password").val();
+			var pass2 = $("#confirmarContrasena").val();
+			var submitButton = $("#registrar");
+			if (pass1 !== pass2) {
+				submitButton.attr('disabled', true);
+				$("#password").addClass('is-invalid');
+				$("#confirmarContrasena").addClass('is-invalid');
+				$(".alertPass").attr('hidden', false);
+				event.preventDefault();
+				return;
+			} else {
+				$("#password").removeClass("is-invalid");
+				$("#confirmarContrasena").removeClass("is-invalid");
+				$(".alertPass").attr('hidden', true);
+				submitButton.attr('disabled', false);
+			}
+		}
+	</script>
+</body>
+
+</html>

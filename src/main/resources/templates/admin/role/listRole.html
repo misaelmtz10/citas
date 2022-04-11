@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org">
+    <head>
+    <meta charset="UTF-8">
+    <title>Obtener roles</title>
+   </head>
+<body>
+<div class="container py-4">
+    <div>
+        <div class="container-fluid">
+      
+            <h1 class="display-5 fw-bold">Obtener roles</h1>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Authority</th>
+                 </tr>
+                </thead>
+                <tbody>
+                <tr th:each="i,c: ${list}">
+                    <td th:text="${c.id}"/>
+                    <td th:text="${i.authority}"/>
+                    <td>
+                       
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
