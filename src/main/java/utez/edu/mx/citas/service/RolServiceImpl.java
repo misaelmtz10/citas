@@ -3,9 +3,13 @@ package utez.edu.mx.citas.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.stereotype.Service;
+
 import utez.edu.mx.citas.model.Role;
 import utez.edu.mx.citas.repository.RolRepository;
 
+@Service
 public class RolServiceImpl implements RolService {
 	
 	@Autowired
@@ -52,6 +56,11 @@ public class RolServiceImpl implements RolService {
             return optional.get();
         }
 		return null;
+	}
+
+	@Override
+	public Role buscarPorAuthority(String authority) {
+		return rolRepository.findByAuthority(authority);
 	}
 
 }
