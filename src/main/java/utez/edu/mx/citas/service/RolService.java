@@ -11,5 +11,6 @@ public interface RolService {
     Role obtenerRol(long id);
     boolean eliminar(Long id);
     Role mostrarRol(long id);
+	Role buscarPorAuthority(String authority);
 
 }

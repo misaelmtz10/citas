@@ -1,5 +1,6 @@
 package utez.edu.mx.citas.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -50,6 +51,13 @@ public class Usuario {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    public void agregarRol(Role role) {
+		if (roles == null) {
+			roles = new HashSet<Role>();
+		}
+		roles.add(role);
+ 	}
+     
     public Usuario(Long id, String username, String password, String nombre, String apellidos, String telefono,
             String correo, Integer intentos, boolean enabled, Set<Role> roles) {
         this.id = id;
