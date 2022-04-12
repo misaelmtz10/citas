@@ -1,7 +1,10 @@
 package utez.edu.mx.citas.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +45,18 @@ public class HomeController {
     @GetMapping("/login")
     public String mostrarLogin() {
       return "formLogin";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+      try {
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, null, null);
+        redirectAttributes.addFlashAttribute("msg_success", "¡Sesión cerrada! Hasta luego");
+      } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error al cerrar la sesión, intenta de nuevo.");
+      }
+      return "redirect:/login";
     }
 
     @PostMapping("/crearCuenta")

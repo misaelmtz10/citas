@@ -9,7 +9,15 @@
 				<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Usuarios</a>
 				<ul class="collapse list-unstyled" id="homeSubmenu">
 					<li>
-						<a th:href="@{/usuarios/listar}">Administrar Usuarios</a>
+						<a th:href="@{/admin/usuarios/listar}">Administrar Usuarios</a>
+					</li>
+
+					<li>
+						<a th:href="@{/empleados/listar}">Administrar trabajadores</a>
+					</li>
+
+					<li>
+						<a th:href="@{/solicitantes/listar}">Administrar estudiantes</a>
 					</li>
 				</ul>
 			</li>
