@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 
@@ -34,7 +35,7 @@ import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
 
 @Controller
-@RequestMapping(value="/fxAdmin")
+@RequestMapping(value="/admin")
 public class AdminController {
 	
 	@Autowired
@@ -122,19 +123,13 @@ public class AdminController {
 
         boolean guardado = usuarioService.guardar(usuario);
 
-    	if (guardado) {
-    		//mandar alert
-    	} else {
-    		//mandar alert
-    	}
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
+		}
     	
-        List<Usuario> usuarios = usuarioService.listar();
-
-        List<Role> roles = rolService.listar();
-        model.addAttribute("lista", usuarios);
-        model.addAttribute("listaRoles", roles);
-        model.addAttribute("titulo", "Usuarios");
-        return "admin/usuarios/listarUsuarios";
+    	return "redirect:/admin/usuarios/listar";
     }
 
     @GetMapping("/usuarios/mostrar/{id}")
@@ -145,7 +140,6 @@ public class AdminController {
 
     @PostMapping("/usuarios/editar/{id}")
     public String editarUsuario(@PathVariable long id, Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
-        System.out.println("EDITAR");
 		Usuario new_usuario = usuarioService.mostrar(id);
         System.out.println(usuario.toString());
         System.out.println(new_usuario.toString());
@@ -161,19 +155,30 @@ public class AdminController {
             usuario.setPassword(new_usuario.getPassword());
         }
         boolean guardado = usuarioService.guardar(usuario);
-       // System.out.println(usuario.toString());
-    	if (guardado) {
-    		//mandar alert
-    	} else {
-    		//mandar alert
-    	}
-    	return "redirect:/fxAdmin/usuarios/listar";
+    	
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
+		}
+    	return "redirect:/admin/usuarios/listar";
     }
 
     @GetMapping("/usuarios/eliminar/{id}")
-    public String borrarUsuario() {
+    @Secured("ROLE_ADMIN")
+    public String borrarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
 
-        return "admin/list";
+        boolean respuesta = usuarioService.eliminar(id);
+
+		if (respuesta) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
+			
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Eliminacion Fallida");
+			
+		}
+
+    	return "redirect:/admin/usuarios/listar";
     }
 
    

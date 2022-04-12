@@ -14,7 +14,8 @@
     <link th:href='@{/css/main.css}' rel='stylesheet' />
 
     <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css"/>
-
+	<!--Toast-->
+	<link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 
     <title>Listado Usuarios</title>
     <style>
@@ -54,7 +55,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form th:action="@{/fxAdmin/usuarios/guardar}" method="POST" th:object="${usuario}">
+                                <form th:action="@{/admin/usuarios/guardar}" method="POST" th:object="${usuario}">
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
@@ -131,7 +132,7 @@
                                 <td class="apellidos">[[${usuarioLista.apellidos}]]</td>
                                 <td class="telefono">[[${usuarioLista.telefono}]]</td>
                                 <td class="correo">[[${usuarioLista.correo}]]</td>
-                                <td class="estatus" th:text="${usuarioLista.enabled == 1} ? 'Activo' : 'Inactivo'"></td>
+                                <td class="estatus" th:text="${usuarioLista.enabled} ? 'Activo' : 'Inactivo'"></td>
                                 <td class="rol">
                                     <span th:data-val="${rol.id}" th:each="rol : ${usuarioLista.roles}">
                                         [[${rol.authority}]]
@@ -143,7 +144,7 @@
                                         data-bs-target="#updateModal" th:attr="onclick=|upload('${usuarioLista.id}')|" >
                                         Actualizar
                                     </button>
-                                    <a type="button" class="btn btn-danger" th:href="@{/}">Eliminar</a>
+                                    <a th:href="@{/admin/usuarios/eliminar/{id} (id=${usuarioLista.id})}" type="button" class="btn btn-danger">Eliminar</a>
                                 </td>
                             </tr>
 
@@ -162,7 +163,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form id="editar" th:action="@{/fxAdmin/usuarios/editar/{id}}" method="POST" th:object="${usuario}">
+                                <form id="editar" th:action="@{/admin/usuarios/editar/{id}}" method="POST" th:object="${usuario}">
                                     <div class="modal-body">
                                         <input id="id" type="hidden" />
                                         <div class="input-group mb-3">
@@ -227,6 +228,23 @@
 	<!--Mask inputs-->
 	<script th:src="@{/js/jquery.mask.min.js}"></script>
 
+    <!--Toast-->
+	<script th:src="@{/js/toast.min.js}"></script>
+
+	<script th:if="${msg_success != null}">
+		new Toast({
+			message: '[[${msg_success}]]',
+			type: 'success'
+		});
+	</script>
+
+	<script th:if="${msg_error != null}">
+		new Toast({
+			message: '[[${msg_error}]]',
+			type: 'danger'
+		});
+	</script>
+
     <script>
         $(document).ready(function () {
             $('.phone-mask').mask('(000)000-00-00');
@@ -253,7 +271,7 @@
             });
             $('.select-rol').multiselect('refresh');
             
-            $("#editar").attr("action","/fxAdmin/usuarios/editar/"+id);
+            $("#editar").attr("action","/admin/usuarios/editar/"+id);
         }
     </script>
 </body>
