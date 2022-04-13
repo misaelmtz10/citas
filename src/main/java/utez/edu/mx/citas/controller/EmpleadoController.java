@@ -27,7 +27,7 @@ public class EmpleadoController {
         List<Empleado> listaEmpleados = empleadoServiceImpl.listar();
         model.addAttribute("listaEmpleados", listaEmpleados); 
 
-        return "empleados/listEmpleados";
+        return "empleados/lista";
     }
 
     @GetMapping("/formulario")
@@ -35,7 +35,7 @@ public class EmpleadoController {
         List<Empleado> listaEmpleados= empleadoServiceImpl.listar();
         model.addAttribute("listaEmpleados", listaEmpleados);
 
-        return "empleados/list";
+        return "empleados/lista";
     }
     
     @PostMapping("/guardar")

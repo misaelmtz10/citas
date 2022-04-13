@@ -65,8 +65,7 @@ public class AdminController {
         
 		return "redirect:/";
 	}
-
-    //No redirige
+    
     @GetMapping("/usuarios/listar")
 
     public String listarUsuarios(Usuario user,Model model) {
@@ -78,8 +77,6 @@ public class AdminController {
         model.addAttribute("titulo", "Usuarios");
         return "admin/usuarios/listarUsuarios";
     }
-
-
 
     @GetMapping("/empleados/listar")
     public String listarEmpleados(Model model) {
