@@ -190,7 +190,7 @@
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
                                                 <input type="password" class="form-control" aria-describedby="basic-addon5" th:field="*{password}">
-                                              </div>
+                                              </div>     
 
                                         <div class="input-group mb-3">
                                             <label class="input-group-text" for="Roles">Rol</label>
@@ -221,9 +221,9 @@
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-    <script th:src="@{/js/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
-    <script th:src="@{/js/dataTables.select.min.js}"></script>
+    <script th:src="@{/js/datatable/jquery.dataTables.min.js}"></script>
+    <script th:src="@{/js/datatable/dataTables.bootstrap5.min.js}"></script>
+    <script th:src="@{/js/datatable/dataTables.select.min.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>
 	<!--Mask inputs-->
 	<script th:src="@{/js/jquery.mask.min.js}"></script>
@@ -273,7 +273,12 @@
             
             $("#editar").attr("action","/admin/usuarios/editar/"+id);
         }
+
+        $(document).ready(function () {
+                $('#dataTable').DataTable();
+            });
     </script>
+
 </body>
 
 </html>

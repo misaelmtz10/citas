@@ -80,19 +80,21 @@ public class AdminController {
     }
 
     @GetMapping("/empleados/listar")
-    public String listarEmpleados(Model model) {
+    public String listarEmpleados(Model model, Empleado empleado) {
         List<Empleado> empleados = empleadoService.listar();
         
-        model.addAttribute("list", empleados);
+        List<Usuario> usuarios = usuarioService.listar();
+        model.addAttribute("listaUsuarios", usuarios);
+        model.addAttribute("lista", empleados);
         model.addAttribute("titulo", "Empleados");
-        return "admin/empleados/listEmpleados";
+        return "admin/empleados/listaEmpleados";
     }
 
     @GetMapping("/solicitantes/listar")
-    public String listarSolicitantes(Model model) {
+    public String listarSolicitantes(Model model, Usuario usuario) {
         List<Solicitante> solicitantes = solicitanteService.listar();
         
-        model.addAttribute("list", solicitantes);
+        model.addAttribute("lista", solicitantes);
         model.addAttribute("titulo", "Solicitantes");
         return "admin/solicitantes/listSolicitantes";
     }
@@ -181,6 +183,64 @@ public class AdminController {
     	return "redirect:/admin/usuarios/listar";
     }
 
+    @GetMapping("/empleados/deshabilitar/{id}")
+    @Secured("ROLE_ADMIN")
+    public String deshabilitarEmpleado(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        Empleado empleado = empleadoService.mostrarEmpleado(id);
+
+        Usuario usuarioN = usuarioService.mostrar(empleado.getUsuario().getId());
+
+        empleadoService.eliminar(id);
+        usuarioN.setEnabled(false);
+        boolean respuesta = usuarioService.guardar(usuarioN);
+
+		if (respuesta) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Deshabilitado");
+			
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
+			
+		}
+
+    	return "redirect:/admin/empleados/listar";
+    }
+
+    @GetMapping("/solicitantes/deshabilitar/{id}")
+    @Secured("ROLE_ADMIN")
+    public String deshabilitarSolicitante(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        Solicitante solicitante = solicitanteService.mostrarSolicitante(id);
+
+        Usuario usuarioN = usuarioService.mostrar(solicitante.getUsuario().getId());
+
+        solicitanteService.eliminar(id);
+        usuarioN.setEnabled(false);
+        boolean respuesta = usuarioService.guardar(usuarioN);
+
+		if (respuesta) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Deshabilitado");
+			
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
+			
+		}
+
+    	return "redirect:/admin/solicitantes/listar";
+    }
+
+    @PostMapping("/empleados/guardar")
+    public String guardarEmpleado(Empleado empleado, Model model, RedirectAttributes redirectAttributes) {
+
+        empleado.setEstatus(1);
+        boolean guardado = empleadoService.guardar(empleado);
+
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+		}
+    	
+    	return "redirect:/admin/empleados/listar";
+    }
    
 
 }

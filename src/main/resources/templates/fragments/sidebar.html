@@ -2,8 +2,10 @@
 <nav id="sidebar" th:fragment="sidebar">
 	<div class="p-4 pt-5">
 		<!-- <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a> -->
+		<a th:href="@{/admin/}">
 		<img th:src="@{images/logo.png}" width="250" heigth="130">
 		<p>Misael Martínez</p>
+	</a>
 		<ul class="list-unstyled components mb-5">
 			<li class="active">
 				<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Usuarios</a>
@@ -13,11 +15,11 @@
 					</li>
 
 					<li>
-						<a th:href="@{/empleados/listar}">Administrar trabajadores</a>
+						<a th:href="@{/admin/empleados/listar}">Administrar Trabajadores</a>
 					</li>
 
 					<li>
-						<a th:href="@{/solicitantes/listar}">Administrar estudiantes</a>
+						<a th:href="@{/admin/solicitantes/listar}">Administrar Estudiantes</a>
 					</li>
 				</ul>
 			</li>
