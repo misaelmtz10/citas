@@ -3,8 +3,10 @@
 
 <head>
 	<title>Iniciar sesión</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<!--Style plantilla-->
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+	<!--Bootstrap-->
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
 	<!--Toast-->
 	<link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 </head>
@@ -33,7 +35,7 @@
 									<div class="input-group-append">
 										<button class="btn btn-secondary" type="button" id="seePasswordButton"
 											onclick="mostrarContrasena()">
-											<ion-icon name="eye"></ion-icon>
+											<i class="fas fa-eye"></i>
 										</button>
 									</div>
 								</div>
@@ -61,13 +63,16 @@
 		</div>
 	</div>
 
-	<!--Ionicons-->
-	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+	<!--Bootstrap-->
+    <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap/popper.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap/main.js}"></script>
 	<!--Toast-->
 	<script th:src="@{/js/toast.min.js}"></script>
-
+	<!--font-awesome-->
+    <script th:src="@{/js/all.min.js}"></script>
+	
 	<script th:if="${msg_success != null}">
 		new Toast({
 			message: '[[${msg_success}]]',
@@ -82,16 +87,6 @@
 		});
 	</script>
 
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-		crossorigin="anonymous"></script>
-
 	<!-- Mostrar y ocultar contraseña input-->
 	<script>
 		function mostrarContrasena() {
@@ -99,10 +94,10 @@
 			var tipo = document.getElementById("password");
 			if (tipo.type == "password") {
 				tipo.type = "text";
-				document.getElementById('seePasswordButton').innerHTML = "<ion-icon name='eye-off'></ion-icon>";
+				document.getElementById('seePasswordButton').innerHTML = "<i class='fas fa-eye-slash'></i>";
 			} else {
 				tipo.type = "password";
-				document.getElementById('seePasswordButton').innerHTML = "<ion-icon name='eye'></ion-icon>";
+				document.getElementById('seePasswordButton').innerHTML = "<i class='fas fa-eye'></i>";
 			}
 		}
 	</script>
