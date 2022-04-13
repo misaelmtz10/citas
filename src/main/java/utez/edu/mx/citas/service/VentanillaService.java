@@ -8,6 +8,8 @@ public interface VentanillaService {
 	
 	boolean guardar(Ventanilla ventanilla);
     List<Ventanilla> listar();
+    List<Ventanilla> listarActivas();
+
     Ventanilla obtenerVentanilla(long id);
     boolean eliminar(Long id);
     Ventanilla mostrar(long id);
