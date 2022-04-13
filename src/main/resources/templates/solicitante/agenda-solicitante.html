@@ -25,13 +25,12 @@
 
   <body>
     <div class="wrapper d-flex align-items-stretch">
-      <div th:insert="~{fragments/sidebar :: sidebarC}"></div>
+      <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
       <!-- Page Content  -->
       <div id="content" class="p-1 p-md-2">
         <div th:insert="~{fragments/header :: header}"></div>
         <div style="height: 20% !important" id="calendar"></div>
-        <input type="hidden" th:value="${session.user.getMatricula()}" name="" id="matricula">
       </div>
     </div>
    
@@ -223,18 +222,17 @@
 
     <!--Full calendar-->
     <script th:src="@{/js/main.js}"></script>
-    <!--Bootstrap-->
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-    <!--Agenda-solicitante-->
+    <!--agenda-solicitante-->
     <script th:src="@{/js/agenda-solicitante.js}"></script>
     <!--Toast-->
 	  <script th:src="@{/js/toast.min.js}"></script>
-    <!--Font-awesome-->
+    <!--font-awesome-->
     <script th:src="@{/js/all.min.js}"></script>
-    <!--Sweetalert2-->
+    <!--sweetalert2-->
     <script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
 
     <script th:if="${msg_success != null}">
@@ -248,10 +246,6 @@
         message: '[[${msg_error}]]',
         type: 'danger'
       });
-    </script>
-    <script>
-      let param = document.getElementById('matricula').value;
-      getMatricula(param);
     </script>
   </body>
 </html>

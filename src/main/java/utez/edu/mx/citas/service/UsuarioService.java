@@ -10,5 +10,4 @@ public interface UsuarioService {
     Usuario obtenerUsuario(long id);
     boolean eliminar(Long id);
     Usuario mostrar(long id);
-    Usuario buscarPorUsername(String username);
 }

@@ -57,11 +57,4 @@ public class SolicitanteServiceImpl implements SolicitanteService {
 		return null;
 	}
 
-	@Override
-	public Solicitante buscarPorIdUsuario(long idUsuario) {
-		return soliciRepository.findByIdUsuario(idUsuario);
-	}
-
-
-
 }

@@ -1,25 +1,15 @@
 <!-- Sidebar exclusivo del rol Administrador -->
 <nav id="sidebar" th:fragment="sidebar">
 	<div class="p-4 pt-5">
-		<img th:src="@{../../images/logo.png}" width="250" heigth="130">
-		<hr color="#717978">
-		<div class="text-center">
-			<h5 style="color: white;" th:if="${session.user != null}" th:text="${session.user.getNombre()} + ' ' + ${session.user.getApellidos()}"></h5>
-		</div>
-		<ul class="list-unstyled components mb-5" sec:authorize="isAuthenticated()">
+		<!-- <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a> -->
+		<img th:src="@{images/logo.png}" width="250" heigth="130">
+		<p>Misael Martínez</p>
+		<ul class="list-unstyled components mb-5">
 			<li class="active">
 				<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Usuarios</a>
 				<ul class="collapse list-unstyled" id="homeSubmenu">
 					<li>
-						<a th:href="@{/admin/usuarios/listar}">Administrar Usuarios</a>
-					</li>
-
-					<li>
-						<a th:href="@{/admin/empleados/listar}">Administrar Trabajadores</a>
-					</li>
-
-					<li>
-						<a th:href="@{/admin/solicitantes/listar}">Administrar Estudiantes</a>
+						<a th:href="@{/usuarios/listar}">Administrar Usuarios</a>
 					</li>
 				</ul>
 			</li>
@@ -34,18 +24,28 @@
 				</ul>
 			</li>
 		</ul>
+
+		<div class="footer">
+			<p>
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				<!-- Copyright &copy;<script>
+                    document.write(new Date().getFullYear());
+                </script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i>
+                by <a href="https://colorlib.com" target="_blank">Colorlib.com</a> -->
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+			</p>
+		</div>
+
 	</div>
 </nav>
+
+
 
 <!-- Sidebar exclusivo del rol Ventanilla -->
 <nav id="sidebar" th:fragment="sidebarB">
 	<div class="p-4 pt-5">
-		<img th:src="@{../images/logo.png}" width="250" heigth="130">
-		<hr color="#717978">
-		<div class="text-center">
-			<h5 style="color: white;" th:if="${session.user != null}" th:text="${session.user.getNombre()} + ' ' + ${session.user.getApellidos()}"></h5>
-		</div>
-		<ul class="list-unstyled components mb-5" sec:authorize="isAuthenticated()">
+		<!-- <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a> -->
+		<ul class="list-unstyled components mb-5">
 			<li class="active">
 				<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Citas</a>
 				<ul class="collapse list-unstyled" id="homeSubmenu">
@@ -62,22 +62,47 @@
 				<a th:href="@{/page}">Horarios Disponibles</a>
 			</li>
 		</ul>
+
+		<div class="footer">
+			<p>
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				<!-- Copyright &copy;<script>
+                    document.write(new Date().getFullYear());
+                </script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i>
+                by <a href="https://colorlib.com" target="_blank">Colorlib.com</a> -->
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+			</p>
+		</div>
+
 	</div>
 </nav>
+
+
 
 <!-- Sidebar exclusivo del rol Solicitante -->
 <nav id="sidebar" th:fragment="sidebarC">
 	<div class="p-4 pt-5">
-		<img th:src="@{../images/logo.png}" width="250" heigth="130">
-		<hr color="#717978">
-		<div class="text-center">
-			<h5 style="color: white;" th:if="${session.user != null}" th:text="${session.user.usuario.getNombre()} + ' ' + ${session.user.usuario.getApellidos()}"></h5>
-		</div>
-		<hr color="#717978">
+		<!-- <a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a> -->
 		<ul class="list-unstyled components mb-5">
-			<li class="" sec:authorize="isAuthenticated()">
-				<a th:href="@{/citas/agenda-solicitante}"><i class="fas fa-calendar"></i>&nbsp;Solicitar Cita</a>
+			<li class="active">
+				<a th:href="@{/page}">Agenda</a>
+			</li>
+
+			<li>
+				<a th:href="@{/page}">Solicitar Cita</a>
 			</li>
 		</ul>
+
+		<div class="footer">
+			<p>
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				<!-- Copyright &copy;<script>
+                    document.write(new Date().getFullYear());
+                </script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i>
+                by <a href="https://colorlib.com" target="_blank">Colorlib.com</a> -->
+				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+			</p>
+		</div>
+
 	</div>
 </nav>

@@ -57,7 +57,20 @@ public class Usuario {
 		}
 		roles.add(role);
  	}
-    
+     
+    public Usuario(Long id, String username, String password, String nombre, String apellidos, String telefono,
+            String correo, Integer intentos, boolean enabled, Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.intentos = intentos;
+        this.enabled = enabled;
+        this.roles = roles;
+    }
 
     public Usuario() {
     }

@@ -17,35 +17,32 @@
         Prueba sweetAlert
     </button>
 	
-	<h1>Registrar empleado</h1>
-	
-	<form th:action="@{/fxAdmin/empleados/guardar}" method="POST" th:object="${usuario}">
-		<label>Nombre</label>
-		<input class="form-control form-control-lg" type="text" th:field="*{nombre}">
-		<br>
-		<label>Apellidos</label>
-		<input class="form-control form-control-lg" type="text" th:field="*{apellidos}">
-		<br>
-		<label>Telefono</label>
-		<input class="form-control form-control-lg" type="text" th:field="*{telefono}">
-		<br>
-		<label>Correo</label>
-		<input class="form-control form-control-lg" type="text" th:field="*{correo}">
-		<br>
-		<label>Intentos</label>
-		<input class="form-control form-control-lg" type="number" th:field="*{intentos}">
-		<br>
-		<label>Password</label>
-		<input class="form-control form-control-lg" type="text" th:field="*{password}">
-		<br>
-		<label>Username</label>
-		<input class="form-control form-control-lg" type="text" th:field="*{username}">
-		<br>
-		<label>estatus</label>
-		<input class="form-control form-control-lg" type="number" th:field="*{enabled}">
-		<button type="submit" class="btn btn-success"> Guardar </button>
-	</form>
-	
+	<h1>[[${titulo}]]</h1>
+	<a th:href="@{/fxAdmin/empleados/registrar}" class="btn btn-primary">
+		Nuevo empleado
+	</a>
+	<table class="table">
+		<thead style="background-color: #6c757d;">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Correo</th>
+				<th scope="col">Status</th>
+				<th scope="col">Username</th>
+				<th colspan="3">Acciones</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="tmpLista: ${list}">
+				<td> 1 </td>
+				<td>[[${tmpLista.usuario.nombre}]] [[${tmpLista.usuario.apellidos}]]</td>
+				<td>[[${tmpLista.usuario.correo}]]</td>
+				<td th:text="${tmpLista.usuario.enabled == 1} ? 'Activo' : 'Inactivo'"></td>
+				<td>[[${tmpLista.usuario.correo}]]</td>
+				<td> </td>
+			</tr>
+		</tbody>
+	</table>
 	
     <script th:src='@{/SweetAlert/dist/sweetalert2.all.min.js}'></script>
     <script>
