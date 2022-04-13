@@ -23,29 +23,29 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException {
 
 		boolean hasAdministradorRole = false;
-		boolean hasAdoptadorRole = false;
-		boolean hasVoluntarioRole = false;
+		boolean hasVentanillaRole = false;
+		boolean hasSolicitanteRole = false;
 
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities) {
 			if (grantedAuthority.getAuthority().equals("ROL_ADMINISTRADOR")) {
 				hasAdministradorRole = true;
 				break;
-			} else if (grantedAuthority.getAuthority().equals("ROL_ADOPTADOR")) {
-				hasAdoptadorRole = true;
+			} else if (grantedAuthority.getAuthority().equals("ROL_VENTANILLA")) {
+				hasVentanillaRole = true;
 				break;
-			} else if (grantedAuthority.getAuthority().equals("ROL_VOLUNTARIO")) {
-				hasVoluntarioRole = true;
+			} else if (grantedAuthority.getAuthority().equals("ROL_SOLICITANTE")) {
+				hasSolicitanteRole = true;
 				break;
 			}
 		}
 		
 		if (hasAdministradorRole) {
-			redirectStrategy.sendRedirect(request, response, "/");
-		} else if (hasAdoptadorRole) {
-			redirectStrategy.sendRedirect(request, response, "/adoptador/dashboard");
-		} else if (hasVoluntarioRole) {
-			redirectStrategy.sendRedirect(request, response, "/voluntario/dashboard");
+			redirectStrategy.sendRedirect(request, response, "/admin/dashboard");
+		} else if (hasVentanillaRole) {
+			redirectStrategy.sendRedirect(request, response, "/ventanilla/dashboard");
+		} else if (hasSolicitanteRole) {
+			redirectStrategy.sendRedirect(request, response, "/solicitante/dashboard");
 		} else {
 			redirectStrategy.sendRedirect(request, response, "/login");
 		}

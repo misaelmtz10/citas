@@ -25,12 +25,13 @@
 
   <body>
     <div class="wrapper d-flex align-items-stretch">
-      <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+      <div th:insert="~{fragments/sidebar :: sidebarC}"></div>
 
       <!-- Page Content  -->
       <div id="content" class="p-1 p-md-2">
         <div th:insert="~{fragments/header :: header}"></div>
         <div style="height: 20% !important" id="calendar"></div>
+        <input type="hidden" th:value="${session.user.getMatricula()}" name="" id="matricula">
       </div>
     </div>
    
@@ -246,6 +247,10 @@
         message: '[[${msg_error}]]',
         type: 'danger'
       });
+    </script>
+    <script>
+      let param = document.getElementById('matricula').value;
+      getMatricula(param);
     </script>
   </body>
 </html>

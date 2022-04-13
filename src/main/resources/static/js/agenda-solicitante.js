@@ -1,9 +1,16 @@
+let matricula;
+
+const getMatricula = (param) => {
+    matricula = param;
+}
+
 const citas = [];
     document.body.onload = async () => {
     try {
         const response = await fetch("/citas/");
         const data = await response.json();
         data.map((cita) => {
+            console.log(cita);
             //validar status
             let color;
             let dateif = new Date(cita.end);
@@ -24,6 +31,11 @@ const citas = [];
 
             if (dateif < new Date()) {
                 color = "#FFA500";
+            }
+
+            if (cita.solicitante.matricula != matricula) {
+                cita.title = "Espacio ocupado";
+                color = "#ffd062";
             }
 
             citas.push({
@@ -101,7 +113,7 @@ const citas = [];
         },
         eventClick: function (args) {
             // console.log(args);
-            if (args.event._def.extendedProps.item.solicitante.matricula === '20173ti231') {
+            if (args.event._def.extendedProps.item.solicitante.matricula === matricula) {
                 let start = args.event._def.extendedProps.item.start;
                 let end = args.event._def.extendedProps.item.end;
                 let title = args.event._def.extendedProps.item.title;

@@ -6,4 +6,5 @@ import utez.edu.mx.citas.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository <Usuario, Long> {
     
+    Usuario findByUsername(String username);
 }

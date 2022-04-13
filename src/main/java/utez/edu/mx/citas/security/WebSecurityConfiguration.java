@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
     
     @Autowired
@@ -35,12 +36,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
      public void configure(HttpSecurity httpSecurity) throws Exception {
          httpSecurity.authorizeRequests().antMatchers(
                  // Los recursos estaticos no requieren autenticacion
-                 "/css/**", "/js/**", "/image/**", "/imagenes/**").permitAll()
+                 "/css/**", "/js/**", "/images/**").permitAll()
                  // Las URL publicas no requieren autenticacion
                  .antMatchers("/", "/crearCuenta").permitAll()
 
                 //  Asignar permisos a las URL de acuerdo a los roles
                  .antMatchers("/admin/**").hasAnyAuthority("ROL_ADMINISTRADOR")
+                 .antMatchers("/citas/**").hasAnyAuthority("ROL_SOLICITANTE")
 
                  // Las demas URL requieren autenticacion
                  .anyRequest().authenticated()

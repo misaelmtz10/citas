@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!--style plantilla-->
+    <link th:href="@{/css/style.css}" rel="stylesheet" />
+    <!--Full calendar-->
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+    <!--font-awesome-->
+    <link th:href="@{/css/all.min.css}" rel="stylesheet" />
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+    <style>
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper d-flex align-items-stretch">
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
+        <!-- Page Content  -->
+        <div id="content" class="p-1 p-md-2">
+            <div th:insert="~{fragments/header :: header}"></div>
+        </div>
+    </div>
+
+
+    <!--Full calendar-->
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap/popper.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap/main.js}"></script>
+
+    <!--Toast-->
+    <script th:src="@{/js/toast.min.js}"></script>
+    <!--font-awesome-->
+    <script th:src="@{/js/all.min.js}"></script>
+    <!--sweetalert2-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
+
+    <script th:if="${msg_success != null}">
+        new Toast({
+            message: '[[${msg_success}]]',
+            type: 'success'
+        });
+    </script>
+    <script th:if="${msg_error != null}">
+        new Toast({
+            message: '[[${msg_error}]]',
+            type: 'danger'
+        });
+    </script>
+</body>
+
+</html>
