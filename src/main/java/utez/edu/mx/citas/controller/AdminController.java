@@ -101,7 +101,7 @@ public class AdminController {
     
     //PENDIENTE: Aún no se termina de definir la relación servicio-documento 
     @GetMapping("/servicios/listar")
-    public String listarServicios(Model model) {
+    public String listarServicios(Model model, Servicio servicio) {
         List<Servicio> servicios = servicioService.listar();
         
         model.addAttribute("list", servicios);
@@ -126,9 +126,9 @@ public class AdminController {
         boolean guardado = usuarioService.guardar(usuario);
 
         if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+			redirectAttributes.addFlashAttribute("msg_success", "Creacion Exitosa");	
 		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
+			redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
 		}
     	
     	return "redirect:/admin/usuarios/listar";
