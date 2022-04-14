@@ -1,10 +1,18 @@
 package utez.edu.mx.citas.model;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.WhereJoinTable;
 
 @Entity
 @Table(name = "Ventanillas")
@@ -20,6 +28,11 @@ public class Ventanilla {
 
     @Column(name = "estatus", columnDefinition = "tinyint not null")
 	private Integer estatus;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "ventanilla_has_empleado", joinColumns = @JoinColumn(name = "idVentanilla"), inverseJoinColumns = @JoinColumn(name = "idEmpleado"))
+    @WhereJoinTable(clause = "estatus = 1")
+    private List<Empleado> empleados;
 
     public Ventanilla() {
     }
@@ -54,4 +67,11 @@ public class Ventanilla {
         this.estatus = estatus;
     }
 
+    public List<Empleado> getEmpleados() {
+        return empleados;
+    }
+
+    public void setEmpleados(List<Empleado> empleados) {
+        this.empleados = empleados;
+    }
 }

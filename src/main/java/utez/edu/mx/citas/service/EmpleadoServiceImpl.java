@@ -33,6 +33,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     }
 
     @Override
+	public List<Empleado> listarActivos() {
+		return empleadoRepository.findByEstatus(1);
+	}
+
+    @Override
     public Empleado obtenerEmpleado(long id) {
         Optional<Empleado> optional = empleadoRepository.findById(id);
         if (optional.isPresent()){

@@ -30,6 +30,11 @@ public class VentanillaServiceImpl implements VentanillaService {
 	}
 
 	@Override
+	public List<Ventanilla> listarActivas() {
+		return ventanillaRepository.findByEstatus(1);
+	}
+
+	@Override
 	public Ventanilla obtenerVentanilla(long id) {
 		Optional<Ventanilla> optional = ventanillaRepository.findById(id);
         if (optional.isPresent()){
