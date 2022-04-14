@@ -83,7 +83,7 @@ public class AdminController {
     public String listarEmpleados(Model model, Empleado empleado) {
         List<Empleado> empleados = empleadoService.listar();
         
-        List<Usuario> usuarios = usuarioService.listar();
+        List<Usuario> usuarios = usuarioService.findByEnabledFalseAndRole();
         model.addAttribute("listaUsuarios", usuarios);
         model.addAttribute("lista", empleados);
         model.addAttribute("titulo", "Empleados");
@@ -119,7 +119,7 @@ public class AdminController {
     @PostMapping("/usuarios/guardar")
     public String guardarUsuario(Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
     	usuario.setIntentos(3);
-        usuario.setEnabled(true);
+        usuario.setEnabled(false); //cambio
         usuario.setUsername(usuario.getCorreo());
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
@@ -231,6 +231,10 @@ public class AdminController {
     public String guardarEmpleado(Empleado empleado, Model model, RedirectAttributes redirectAttributes) {
 
         empleado.setEstatus(1);
+        
+        Usuario usuario = usuarioService.mostrar(empleado.getUsuario().getId()); //Actualizar estado en usuario
+        usuario.setEnabled(true);
+        usuarioService.guardar(usuario);
         boolean guardado = empleadoService.guardar(empleado);
 
         if (guardado) {

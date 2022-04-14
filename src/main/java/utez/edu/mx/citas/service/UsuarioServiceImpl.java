@@ -62,5 +62,10 @@ public class UsuarioServiceImpl implements UsuarioService{
     public Usuario buscarPorUsername(String username) {
         return usuarioRepository.findByUsername(username);
     }
+
+	@Override
+	public List<Usuario> findByEnabledFalseAndRole() {
+		return usuarioRepository.findByEnabledFalseAndRole();
+	}
     
 }

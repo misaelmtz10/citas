@@ -11,4 +11,6 @@ public interface UsuarioService {
     boolean eliminar(Long id);
     Usuario mostrar(long id);
     Usuario buscarPorUsername(String username);
+    
+    List <Usuario> findByEnabledFalseAndRole(); 
 }
