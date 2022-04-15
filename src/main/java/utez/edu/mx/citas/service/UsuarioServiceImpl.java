@@ -67,5 +67,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public List<Usuario> findByEnabledFalseAndRole() {
 		return usuarioRepository.findByEnabledFalseAndRole();
 	}
+
+    @Override
+    public boolean cambiarContrasena(String password, String username) {
+        try {
+            usuarioRepository.updatePassword(password, username);
+            return true;
+        } catch (Exception exception) {
+            System.out.println(exception.getMessage());
+            exception.printStackTrace();
+            return false;
+        }
+    }
     
 }
