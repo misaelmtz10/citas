@@ -1,5 +1,7 @@
 package utez.edu.mx.citas.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,14 +11,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import utez.edu.mx.citas.model.Carrera;
 import utez.edu.mx.citas.model.Role;
 import utez.edu.mx.citas.model.Solicitante;
 import utez.edu.mx.citas.model.Usuario;
+import utez.edu.mx.citas.service.CarreraServiceImpl;
 import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
@@ -35,6 +41,9 @@ public class HomeController {
 
     @Autowired
     private SolicitanteServiceImpl solicitanteServiceImpl;
+
+    @Autowired
+    private CarreraServiceImpl carreraServiceImpl;
 
     @GetMapping("/")
     public String index() {
@@ -108,45 +117,62 @@ public class HomeController {
       return "ventanilla/dashboardVentanilla";
     }
 
-    // @PostMapping("/crearCuenta")
-    // public String guardarUsuario(@RequestParam("tipoUsuario") String tipoUsuario, Usuario usuario,
-    //     RedirectAttributes redirectAttributes) {
+    @GetMapping("/crearCuenta")
+    public String formUsuario(Usuario usuario, Model model) {
+      List<Carrera> listaCarreras= carreraServiceImpl.listar();
+
+      model.addAttribute("listaCarreras", listaCarreras);
+      return "formUsuario";
+    }
+
+    @PostMapping("/crearNuevaCuenta")
+    public String guardarUsuario(@RequestParam("matricula") String matricula,
+      @RequestParam("carrera") Carrera carrera, Usuario usuario, RedirectAttributes redirectAttributes) {  
+      System.out.println("crear");
+
+      //Encriptar la contraseña
+      String contrasenaEncriptada = passwordEncoder.encode(usuario.getPassword());
+      System.out.println(usuario.getPassword());
+      //Settear datos por defecto
+      usuario.setIntentos(3);
+      usuario.setUsername(usuario.getCorreo());
+      
+      // Asignar la contraseña encriptada
+      usuario.setPassword(contrasenaEncriptada);
   
-    //   // Recuperar la contraseña en texto plano
-    //   String contrasenaPlano = usuario.getPassword();
+      // Aplicar tratemiento al telefono para solo guardar los numeros
+      String telefono = usuario.getTelefono().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "")
+          .replaceAll("-", "");
+          usuario.setTelefono(telefono);
   
-    //   // Encriptar la contraseña
-    //   String contrasenaEncriptada = passwordEncoder.encode(contrasenaPlano);
-    //   System.out.println(contrasenaPlano);
-    //   System.out.println(contrasenaEncriptada);
+      //  Habilitar la cuenta por defecto
+      usuario.setEnabled(true);
   
-    //   // Asignar la contraseña encriptada
-    //   usuario.setPassword(contrasenaEncriptada);
+      // Asignar un rol de solicitante por defecto
+      Role role = roleServiceImpl.buscarPorAuthority("ROL_SOLICITANTE");
+
+      usuario.agregarRol(role);
   
-    //   // Aplicar tratemiento al telefono para solo guardar los numeros
-    //   String telefono = usuario.getTelefono().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "")
-    //       .replaceAll("-", "");
-    //       usuario.setTelefono(telefono);
-  
-    //   // Habilitar la cuenta por defecto
-    //   usuario.setEnabled(true);
-  
-    //   // Asignar un rol de usuario de acuerdo al tipo seleccionado en el formulario
-    //   Role role = null;
-    //   if (tipoUsuario.equals("opcionVoluntario")) {
-    //     role = roleServiceImpl.buscarPorAuthority("ROL_VOLUNTARIO");
-    //   } else if (tipoUsuario.equals("opcionAdoptador")) {
-    //     role = roleServiceImpl.buscarPorAuthority("ROL_ADOPTADOR");
-    //   }
-    //   usuario.agregarRol(role);
-  
-    //   boolean respuesta = usuarioServiceImpl.guardar(usuario);
-    //   if (respuesta) {
-    //     redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso! Por favor inicia sesión.");
-    //     return "redirect:/login";
-    //   } else {
-    //     redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido! Por favor intenta de nuevo.");
-    //     return "redirect:/crearCuenta";
-    //   }
-    // }
+      boolean respuesta = usuarioServiceImpl.guardar(usuario);
+      System.out.println(respuesta);
+
+      if (respuesta) {
+        Solicitante solicitante = new Solicitante();
+        solicitante.setMatricula(matricula);
+        solicitante.setCarrera(carrera);
+        solicitante.setUsuario(usuario);
+        boolean respuesta2 = solicitanteServiceImpl.guardar(solicitante);
+
+        if (!respuesta2) {
+          redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido! Por favor intenta de nuevo.");
+          return "redirect:/crearCuenta";  
+        }
+        
+        redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso! Por favor inicia sesión.");
+        return "redirect:/login";
+      } else {
+        redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido! Por favor intenta de nuevo.");
+        return "redirect:/crearCuenta";
+      }
+    }
 }
