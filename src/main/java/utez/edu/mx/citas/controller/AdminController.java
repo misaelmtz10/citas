@@ -190,17 +190,22 @@ public class AdminController {
 
         Usuario usuarioN = usuarioService.mostrar(empleado.getUsuario().getId());
 
-        empleadoService.eliminar(id);
-        usuarioN.setEnabled(false);
-        boolean respuesta = usuarioService.guardar(usuarioN);
+        try{
 
-		if (respuesta) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Deshabilitado");
-			
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
-			
-		}
+            empleadoService.eliminar(id);
+            usuarioN.setEnabled(false);
+            boolean respuesta = usuarioService.guardar(usuarioN);
+
+            if (respuesta) {
+                redirectAttributes.addFlashAttribute("msg_success", "Usuario Deshabilitado");
+                
+            }
+
+        }catch(Exception e){
+
+            redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
+
+        }			
 
     	return "redirect:/admin/empleados/listar";
     }
@@ -212,17 +217,20 @@ public class AdminController {
 
         Usuario usuarioN = usuarioService.mostrar(solicitante.getUsuario().getId());
 
-        solicitanteService.eliminar(id);
-        usuarioN.setEnabled(false);
-        boolean respuesta = usuarioService.guardar(usuarioN);
+        try{
 
-		if (respuesta) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Deshabilitado");
-			
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
-			
-		}
+            solicitanteService.eliminar(id);
+            usuarioN.setEnabled(false);
+            boolean respuesta = usuarioService.guardar(usuarioN);
+    
+            if (respuesta) {
+                redirectAttributes.addFlashAttribute("msg_success", "Usuario Deshabilitado");
+                
+            }
+
+        }catch(Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
+        }
 
     	return "redirect:/admin/solicitantes/listar";
     }
