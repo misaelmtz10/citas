@@ -5,20 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}" />
-    <link th:href='@{/css/main.min.css}' rel='stylesheet' />
-    <link th:href='@{/css/bootstrap/bootstrap.min.css}' rel='stylesheet' />
+    <!--Bootstrap-->
     <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
     <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <link th:href='@{/css/main.css}' rel='stylesheet' />
+    <!--Datatable-->
+    <link th:href='@{/css/datatable/datatables.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 
-    <link th:href='@{/css/bootstrap/bootstrap-select.min.css}' rel='stylesheet' type="text/css"/>
-	<!--Toast-->
-	<link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 
     <title>Listado Usuarios</title>
-   
+
 </head>
 
 <body>
@@ -36,7 +35,7 @@
                     <h3>Listado de Ventanillas</h3>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 </div>
@@ -55,13 +54,15 @@
                                 <td> [[${i.index+1}]] </td>
                                 <td class="nombre">[[${lista.nombreVentanilla}]]</td>
                                 <td class="empleado">
-                                    <label class="row" th:each="empleado : ${lista.empleados}" > [[${empleado.usuario.nombre}]]  [[${empleado.usuario.apellidos}]]    ([[${empleado.usuario.correo}]]) </label>
+                                    <label class="row" th:each="empleado : ${lista.empleados}">
+                                        [[${empleado.usuario.nombre}]] [[${empleado.usuario.apellidos}]]
+                                        ([[${empleado.usuario.correo}]]) </label>
                                 </td>
                                 <td>
                                     <!-- Button para abrir modal de actualizacion -->
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#updateModal" th:attr="onclick=|upload('${lista.id}')|" >
-                                        Asignar
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#updateModal" th:attr="onclick=|upload('${lista.id}')|">
+                                        <i class="fas fa-user-edit"></i> Asignar
                                     </button>
                                     <!--
                                     <a th:href="@{/ventanillas/eliminar/{id} (id=${lista.id})}" type="button" class="btn btn-danger">Eliminar</a>
@@ -77,12 +78,12 @@
             <div class="row">
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 </div>
-                
+
                 <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
 
                     <h3> Listado de personal asignado </h3>
 
-                    <table id="dataTable" class="display table table-striped table-hover">
+                    <table id="dataTable2" class="display table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -96,14 +97,16 @@
                         <tbody>
                             <tr th:each="lista, i: ${listaVentanillaEmpleados}" th:class="'ventanilla_'+${lista.id}">
                                 <td> [[${i.index+1}]] </td>
-                                <td class="nombre">[[${lista.empleado.usuario.nombre}+' A '+${lista.empleado.usuario.apellidos}]]</td>
+                                <td class="nombre">[[${lista.empleado.usuario.nombre}+' A
+                                    '+${lista.empleado.usuario.apellidos}]]</td>
                                 <td> [[${lista.ventanilla.nombreVentanilla}]] </td>
                                 <td> [[${lista.horaInicio} +' A '+ ${lista.horaFin}]] </td>
 
                                 <td>
                                     <!-- Button para abrir modal de actualizacion -->
-                                    <a type="button" class="btn btn-warning" th:href="@{/ventanillas/liberar/{id} (id=${lista.id})}">
-                                        Liberar
+                                    <a type="button" class="btn btn-danger"
+                                        th:href="@{/ventanillas/liberar/{id} (id=${lista.id})}">
+                                        <i class="fas fa-person-booth"></i> Liberar
                                     </a>
                                     <!--
                                     <a th:href="@{/ventanillas/eliminar/{id} (id=${lista.id})}" type="button" class="btn btn-danger">Eliminar</a>
@@ -117,42 +120,58 @@
             </div>
 
             <!-- Modal modificacion de ventanilla-->
-            <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+            <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="updateModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="createModalLabel">Modificar Ventanilla</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form id="editar" th:action="@{/ventanillas/asiganarUsuario}" method="POST" th:object="${ventanillaEmpleado}">
+                        <form class="needs-validation" novalidate id="editar" th:action="@{/ventanillas/asiganarUsuario}" method="POST"
+                            th:object="${ventanillaEmpleado}">
                             <div class="modal-body">
-                                    <input type="hidden" id="ventanilla-id" th:field="*{ventanilla}">
+                                <input type="hidden" id="ventanilla-id" th:field="*{ventanilla}">
 
+                                <div class="input-group mb-3">
                                     <div class="input-group mb-3">
-                                        <div class="input-group mb-3">
-                                            <label class="input-group-text" for="Empleados">Empleados</label>
-                                            <select title="Seleccionar..." class="form-select form-contro selectpicker" data-show-subtext="true" data-live-search="true" th:field="*{empleado}">
-                                                <option th:each="lista : ${listarEmpleados}" th:value="${lista.id}" th:text="${lista.usuario.nombre}+'  '+${lista.usuario.apellidos}"></option>
-                                            </select>
+                                        <label class="input-group-text" for="Empleados">Empleados</label>
+                                        <select title="Seleccionar..." class="form-select form-contro selectpicker"
+                                            data-show-subtext="true" data-live-search="true" th:field="*{empleado}" required>
+                                            <option th:each="lista : ${listarEmpleados}" th:value="${lista.id}"
+                                                th:text="${lista.usuario.nombre}+'  '+${lista.usuario.apellidos}">
+                                            </option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Porfavor ingrese un empleado.
                                         </div>
-                                    </div>  
-
-                                    <div class="input-group mb-3">
-                                        <input id="form-hora-inicio" type="time" class="form-control" placeholder="10:00 a.m" min="08:00:00" max="17:00:00" aria-describedby="basic-addon2" required th:field="*{horaInicio}">
-                                        <span class="input-group-text" id="form-hora-inicio" placeholder="08:00 a.m">Hora inicio</span>
                                     </div>
+                                </div>
 
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon3">Hora Fin</span>
-                                        <input id="form-hora-fin" type="time" class="form-control phone-mask" placeholder="10:00 a.m" min="08:00:00" max="17:00:00" required th:field="*{horaFin}">
-                                    </div>
+                                <div class="input-group mb-3">
+                                    <input id="form-hora-inicio" type="time" class="form-control"
+                                        placeholder="10:00 a.m" min="08:00:00" max="17:00:00"
+                                        aria-describedby="basic-addon2" required th:field="*{horaInicio}" >
+                                    <span class="input-group-text" id="form-hora-inicio" placeholder="08:00 a.m">Hora
+                                        inicio</span>
+                                        <div class="invalid-feedback">
+                                            Porfavor ingrese una hora de entrada.
+                                        </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon3">Hora Fin</span>
+                                    <input id="form-hora-fin" type="time" class="form-control phone-mask"
+                                        placeholder="10:00 a.m" min="08:00:00" max="17:00:00" required
+                                        th:field="*{horaFin}">
+                                        <div class="invalid-feedback">
+                                            Porfavor ingrese una hora de salida.
+                                        </div>
+                                </div>
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-warning">Actualizar</button>
                             </div>
                         </form>
@@ -163,49 +182,107 @@
             <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
     </div>
+    <!--Bootstrap-->
     <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-    <script th:src="@{/js/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
-    <script th:src="@{/js/dataTables.select.min.js}"></script>
-    <script th:src="@{/js/bootstrap/bootstrap-select.min.js}" type="text/javascript"></script>
-	<!--Mask inputs-->
-	<script th:src="@{/js/jquery.mask.min.js}"></script>
-
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+    <!--Datatable-->
+    <script th:src="@{/js/datatable/datatables.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>
+    <!--Mask inputs-->
+    <script th:src="@{/js/jquery.mask.min.js}"></script>
+    <!--font-awesome-->
+    <script th:src="@{/js/all.min.js}"></script>
     <!--Toast-->
-	<script th:src="@{/js/toast.min.js}"></script>
+    <script th:src="@{/js/toast.min.js}"></script>
+    <!--Sweetalert-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
 
-	<script th:if="${msg_success != null}">
-		new Toast({
-			message: '[[${msg_success}]]',
-			type: 'success'
-		});
-	</script>
+    <script th:if="${msg_success != null}">
+        new Toast({
+            message: '[[${msg_success}]]',
+            type: 'success'
+        });
+    </script>
 
-	<script th:if="${msg_error != null}">
-		new Toast({
-			message: '[[${msg_error}]]',
-			type: 'danger'
-		});
-	</script>
+    <script th:if="${msg_error != null}">
+        new Toast({
+            message: '[[${msg_error}]]',
+            type: 'danger'
+        });
+    </script>
 
     <script>
-       
+
         $(document).ready(function () {
-            $('.selectpicker').selectpicker({
-                style: 'btn-default'
+            $('#dataTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "lengthChange": true,
+                "responsive": true,
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
             });
 
+            $('#dataTable2').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "lengthChange": true,
+                "responsive": true,
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+            });
         });
 
         function upload(id) {
-            var row =".ventanilla_"+id;
+            var row = ".ventanilla_" + id;
             $("#ventanilla-id").val(id);
-            $("#editar").attr("action","/ventanillas/asiganarUsuario");
+            $("#editar").attr("action", "/ventanillas/asiganarUsuario");
         }
     </script>
 </body>

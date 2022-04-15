@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href='@{/css/main.min.css}' rel='stylesheet' />
-    <link th:href='@{/css/bootstrap/bootstrap.min.css}' rel='stylesheet' />
+    <!--Bootstrap-->
     <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
     <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <link th:href='@{/css/main.css}' rel='stylesheet' />
     <!--Datatable-->
     <link th:href='@{/css/datatable/datatables.min.css}' rel='stylesheet' />
     <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
@@ -55,19 +54,26 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form th:action="@{/admin/usuarios/guardar}" method="POST" th:object="${usuario}">
+                                <form class="needs-validation" th:action="@{/admin/usuarios/guardar}" method="POST"
+                                    th:object="${usuario}" novalidate>
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
                                                 <input id="nuevo-nombre" type="text" class="form-control"
-                                                    aria-describedby="basic-addon1" th:field="*{nombre}">
+                                                    aria-describedby="basic-addon1" th:field="*{nombre}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un nombre.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input id="nuevo-apellidos" type="text" class="form-control"
-                                                    aria-describedby="basic-addon2" th:field="*{apellidos}">
+                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" required>
                                                 <span class="input-group-text" id="basic-addon2">Apellidos</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese sus apellidos.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
@@ -75,38 +81,53 @@
                                                 <input id="nuevo-telefono" type="tel" class="form-control phone-mask"
                                                     placeholder="777-516-78-23" aria-label="777-516-78-23"
                                                     aria-describedby="basic-addon3" maxlength="10" minlength="14"
-                                                    th:field="*{telefono}">
+                                                    th:field="*{telefono}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un numero telefonico.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input id="nuevo-correo" type="text" class="form-control"
                                                     placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com"
-                                                    aria-describedby="basic-addon4" th:field="*{correo}">
+                                                    aria-describedby="basic-addon4" th:field="*{correo}" required>
                                                 <span class="input-group-text" id="basic-addon4">Correo</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un correo.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
                                                 <input type="password" class="form-control"
-                                                    aria-describedby="basic-addon5" th:field="*{password}">
+                                                    aria-describedby="basic-addon5" th:field="*{password}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese una contraseña.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <label class="input-group-text" for="Roles">Rol</label>
                                                 <select class="form-select form-contro select-rol" th:field="*{roles}"
-                                                    multiple>
+                                                    multiple required>
                                                     <option th:each="lista : ${listaRoles}" th:value="${lista.id}"
                                                         th:text="${lista.authority}"></option>
                                                 </select>
+                                                <div class="invalid-feedback">
+                                                    Porfavor seleccione un rol.
+                                                </div>
+                                                <div class="valid-feedback">
+                                                    Perfecto!
+                                                </div>
                                             </div>
 
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Crear</button>
-                                        </div>
-
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary">Crear</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -176,21 +197,28 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form id="editar" th:action="@{/admin/usuarios/editar/{id}}" method="POST"
-                                    th:object="${usuario}">
+                                <form class="needs-validation" id="editar"
+                                    th:action="@{/admin/usuarios/editar/{id}}" method="POST" th:object="${usuario}"
+                                    novalidate>
                                     <div class="modal-body">
                                         <input id="id" type="hidden" />
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
                                                 <input id="form-nombre" type="text" class="form-control"
-                                                    aria-describedby="basic-addon1" th:field="*{nombre}">
+                                                    aria-describedby="basic-addon1" th:field="*{nombre}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un nombre.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input id="form-apellidos" type="text" class="form-control"
-                                                    aria-describedby="basic-addon2" th:field="*{apellidos}">
+                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" required>
                                                 <span class="input-group-text" id="basic-addon2">Apellidos</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese sus apellidos.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
@@ -198,36 +226,52 @@
                                                 <input id="form-telefono" type="tel" class="form-control phone-mask"
                                                     placeholder="777-516-78-23" aria-label="777-516-78-23"
                                                     aria-describedby="basic-addon3" minlength="14"
-                                                    th:field="*{telefono}">
+                                                    th:field="*{telefono}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un numero telefonico.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input id="form-correo" type="text" class="form-control"
                                                     placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com"
-                                                    aria-describedby="basic-addon4" th:field="*{correo}">
+                                                    aria-describedby="basic-addon4" th:field="*{correo}" required>
                                                 <span class="input-group-text" id="basic-addon4">Correo</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un correo.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
                                                 <input type="password" class="form-control"
-                                                    aria-describedby="basic-addon5" th:field="*{password}">
+                                                    aria-describedby="basic-addon5" th:field="*{password}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese una contraseña.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <label class="input-group-text" for="Roles">Rol</label>
                                                 <select class="form-select form-contro select-rol" multiple
-                                                    th:field="*{roles}">
+                                                    th:field="*{roles}" required>
                                                     <option th:each="lista : ${listaRoles}" th:value="${lista.id}"
                                                         th:text="${lista.authority}"></option>
                                                 </select>
+                                                <div class="invalid-feedback">
+                                                    Porfavor seleccione un rol.
+                                                </div>
+                                                <div class="valid-feedback">
+                                                    Perfecto!
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-warning">Actualizar</button>
-                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-warning">Actualizar</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -239,12 +283,14 @@
             <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
     </div>
-    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/main.js}"></script>
+    <!--Bootstrap-->
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
     <!--Datatable-->
     <script th:src="@{/js/datatable/datatables.min.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>

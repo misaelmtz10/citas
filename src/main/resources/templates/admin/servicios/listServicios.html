@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link th:href='@{/css/main.min.css}' rel='stylesheet' />
-    <link th:href='@{/css/bootstrap/bootstrap.min.css}' rel='stylesheet' />
+    <!--Bootstrap-->
     <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
     <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <link th:href='@{/css/main.css}' rel='stylesheet' />
     <!--Datatable-->
     <link th:href='@{/css/datatable/datatables.min.css}' rel='stylesheet' />
     <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
@@ -55,30 +54,39 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form th:action="@{/}" method="POST" th:object="${servicio}">
+                                <form class="needs-validation" novalidate th:action="@{/}" method="POST" th:object="${servicio}">
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
 
                                           <div class="input-group mb-3">
                                             <span class="input-group-text" id="basic-addon1">Nombre</span>
                                             <input id="nuevo-nombre" type="text" class="form-control"
-                                                aria-describedby="basic-addon1" th:field="*{nombre}">
+                                                aria-describedby="basic-addon1" th:field="*{nombre}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un nombre.
+                                                </div>
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <input id="nuevo-apellidos" type="text" class="form-control"
-                                                aria-describedby="basic-addon2" th:field="*{descripcion}">
+                                                aria-describedby="basic-addon2" th:field="*{descripcion}" required>
                                             <span class="input-group-text" id="basic-addon2">Descripcion</span>
+                                            <div class="invalid-feedback">
+                                                Porfavor ingrese una descripcion.
+                                            </div>
                                         </div>
 
                                         <div class="input-group mb-3">
                                             <label class="input-group-text" >Documentos</label>
                                             <select class="form-select form-contro select-rol" th:field="*{documento}"
-                                                multiple>
+                                                multiple required>
                                                 <option value="INE">INE</option>
                                                 <option value="Cedula">Cedula Profesional</option>
                                                 <option value="Certificado Estudios">Certificado de Estudios</option>
                                             </select>
+                                            <div class="invalid-feedback">
+                                                Porfavor ingrese almenos un documento.
+                                            </div>
                                         </div>
 
                                         </div>
@@ -144,30 +152,39 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                    <form id="editar" th:action="@{/}" method="POST" th:object="${servicio}">
+                                    <form class="needs-validation" novalidate id="editar" th:action="@{/}" method="POST" th:object="${servicio}">
                                       <div class="modal-body">
                                           <div class="input-group mb-3">
 
                                               <div class="input-group mb-3">
                                                   <span class="input-group-text" id="basic-addon1">Nombre</span>
                                                   <input id="nuevo-nombre" type="text" class="form-control"
-                                                      aria-describedby="basic-addon1" th:field="*{nombre}">
+                                                      aria-describedby="basic-addon1" th:field="*{nombre}" required>
+                                                      <div class="invalid-feedback">
+                                                        Porfavor ingrese un nombre.
+                                                    </div>
                                               </div>
   
                                               <div class="input-group mb-3">
                                                   <input id="nuevo-apellidos" type="text" class="form-control"
-                                                      aria-describedby="basic-addon2" th:field="*{descripcion}">
+                                                      aria-describedby="basic-addon2" th:field="*{descripcion}" required>
                                                   <span class="input-group-text" id="basic-addon2">Descripcion</span>
+                                                  <div class="invalid-feedback">
+                                                    Porfavor ingrese una descripcion.
+                                                </div>
                                               </div>
   
                                               <div class="input-group mb-3">
                                                   <label class="input-group-text" >Documentos</label>
                                                   <select class="form-select form-contro select-rol" th:field="*{documento}"
-                                                      multiple>
+                                                      multiple required>
                                                       <option value="INE">INE</option>
                                                       <option value="Cedula">Cedula Profesional</option>
                                                       <option value="Certificado Estudios">Certificado de Estudios</option>
                                                   </select>
+                                                  <div class="invalid-feedback">
+                                                    Porfavor ingrese almenos un documento.
+                                                </div>
                                               </div>
   
                                           </div>
@@ -187,12 +204,13 @@
             <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
     </div>
+    <!--Bootstrap-->
     <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
     <!--Datatable-->
     <script th:src="@{/js/datatable/datatables.min.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>

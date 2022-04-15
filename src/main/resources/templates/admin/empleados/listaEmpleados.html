@@ -40,8 +40,7 @@
                 </div>
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                     <!-- Button para abrir modal -->
-                    <button onclick="nuevo()" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#createModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
                         Crear Empleado
                     </button>
 
@@ -55,27 +54,45 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form th:action="@{/admin/empleados/guardar}" method="POST" th:object="${empleado}">
+                                <div th:if="${listaUsuarios.size == 0 }">
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
-
                                             <div class="input-group mb-3">
-                                                <label class="input-group-text" for="inputGroupSelect01">Usuario</label>
-                                                <select class="form-select" id="inputGroupSelect01"
-                                                    th:field="*{usuario}">
-                                                    <option th:each="lista : ${listaUsuarios}" th:value="${lista.id}"
-                                                        th:text="${lista.nombre} +' '+ ${lista.apellidos}"></option>
-                                                </select>
+                                                <label class="input-group-text" for="inputGroupSelect01">Upss... Parece que no hay
+                                                    empleados sin asignar :(...</label>
                                             </div>
-
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cerrar</button>
-                                            <button type="submit" class="btn btn-primary">Crear</button>
                                         </div>
+                                    </div>
+                                </div>
+                                <div th:unless="${listaUsuarios.size == 0 }">
+                                    <form th:action="@{/admin/empleados/guardar}"
+                                        method="POST" th:object="${empleado}">
+                                        <div class="modal-body">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group mb-3">
+                                                    <label class="input-group-text"
+                                                        for="inputGroupSelect01">Usuario</label>
+                                                    <select class="form-select" id="inputGroupSelect01"
+                                                        th:field="*{usuario}">
+                                                        <option th:each="lista : ${listaUsuarios}"
+                                                            th:value="${lista.id}"
+                                                            th:text="${lista.nombre} +' '+ ${lista.apellidos}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" class="btn btn-primary">Crear</button>
+                                            </div>
 
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

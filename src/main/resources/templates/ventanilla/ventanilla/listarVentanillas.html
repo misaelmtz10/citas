@@ -5,22 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" th:href="@{/css/dataTables.bootstrap5.min.css}" />
-    <link th:href='@{/css/main.min.css}' rel='stylesheet' />
-    <link th:href='@{/css/bootstrap/bootstrap.min.css}' rel='stylesheet' />
+    <!--Bootstrap-->
     <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
     <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <link th:href='@{/css/main.css}' rel='stylesheet' />
-
-    <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css"/>
-	<!--Toast-->
-	<link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+    <!--Datatable-->
+    <link th:href='@{/css/datatable/datatables.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 
     <title>Listado Usuarios</title>
     <style>
-        .multiselect-container{
-            width:300px;
+        .multiselect-container {
+            width: 300px;
         }
     </style>
 </head>
@@ -41,193 +39,250 @@
                 </div>
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                     <!-- Button para abrir modal -->
-                    <button onclick="nuevo()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                        Crear Ventanillas
+                    <button onclick="nuevo()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#createModal">
+                        <i class="fas fa-plus"></i> Crear Ventanillas
                     </button>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 </div>
                 <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
-                    <table id="dataTable" class="display table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Estatus</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="lista, i: ${listaVentanillas}" th:class="'ventanilla_'+${lista.id}">
-                                <td> [[${i.index+1}]] </td>
-                                <td class="nombre">[[${lista.nombreVentanilla}]]</td>
-                                <td class="estatus" th:data-val="${lista.estatus}" th:text="${lista.estatus} ? 'Activo' : 'Inactivo'"></td>
-                                <td>
-                                    <!-- Button para abrir modal de actualizacion -->
-                                    <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#updateModal" th:attr="onclick=|upload('${lista.id}')|" >
-                                        Actualizar
-                                    </button>
-                                    <a th:href="@{/ventanillas/eliminar/{id} (id=${lista.id})}" type="button" class="btn btn-danger">Eliminar</a>
-                                </td>
-                            </tr>
+                    <div class="table-responsive">
+                        <table id="dataTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Estatus</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="lista, i: ${listaVentanillas}" th:class="'ventanilla_'+${lista.id}">
+                                    <td> [[${i.index+1}]] </td>
+                                    <td class="nombre">[[${lista.nombreVentanilla}]]</td>
+                                    <td class="estatus" th:data-val="${lista.estatus}"
+                                        th:text="${lista.estatus} ? 'Activo' : 'Inactivo'"></td>
+                                    <td>
+                                        <!-- Button para abrir modal de actualizacion -->
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#updateModal" th:attr="onclick=|upload('${lista.id}')|">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <a th:href="@{/ventanillas/eliminar/{id} (id=${lista.id})}" type="button"
+                                            class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Modal creacion de ventanilla-->
-            <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false"
-              tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="createModalLabel">Crear Nueva Ventanilla</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                              aria-label="Close"></button>
-                      </div>
-                      <form th:action="@{/ventanillas/guardar}" method="POST" th:object="${ventanilla}">
-                          <div class="modal-body">
-                            <div class="input-group mb-3">
-
+            <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="createModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createModalLabel">Crear Nueva Ventanilla</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form class="needs-validation" novalidate th:action="@{/ventanillas/guardar}" method="POST" th:object="${ventanilla}">
+                            <div class="modal-body">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                    <input id="nombre" type="text" class="form-control" aria-describedby="basic-addon1" th:field="*{nombreVentanilla}">
-                                </div>
 
-                                <div class="input-group mb-3">
-                                    <div class="mr-5">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="estatus" id="estatus-activo" th:field="*{estatus}" th:value="*{1}" required>
-                                            <label class="form-check-label" for="estatus-activo">
-                                              Activo
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="estatus" id="estatus-desactivado" th:field="*{estatus}" th:value="*{0}" checked required>
-                                            <label class="form-check-label" for="estatus-desactivado">
-                                              Inactivo
-                                            </label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                        <input id="nombre" type="text" class="form-control"
+                                            aria-describedby="basic-addon1" th:field="*{nombreVentanilla}" required>
+                                            <div class="invalid-feedback">
+                                                Porfavor ingrese un nombre de ventanilla.
+                                            </div>
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon2">Estatus</span>
+                                        <div class="mr-5">
+                                            <div class="form-check" style="margin-left: 10%;">
+                                                <input class="form-check-input" type="radio" name="estatus"
+                                                    id="estatus-activo" th:field="*{estatus}" th:value="*{1}" required>
+                                                <label class="form-check-label" for="estatus-activo">
+                                                    Activo
+                                                </label>
+                                            </div>
+                                            <div class="form-check" style="margin-left: 10%;">
+                                                <input class="form-check-input" type="radio" name="estatus"
+                                                    id="estatus-desactivado" th:field="*{estatus}" th:value="*{0}"
+                                                    checked required>
+                                                <label class="form-check-label" for="estatus-desactivado">
+                                                    Inactivo
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Porfavor seleccione un estado.
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <span class="input-group-text" id="basic-addon2">Estatus</span>
-                                </div>
-                               
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary"
-                                  data-bs-dismiss="modal">Cerrar</button>
-                              <button type="submit" class="btn btn-primary">Crear</button>
-                          </div>
 
-                      </form>
-                  </div>
-              </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-primary">Crear</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <!-- Modal modificacion de ventanilla-->
-            <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false"
-              tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="createModalLabel">Modificar Ventanilla</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal"
-                              aria-label="Close"></button>
-                      </div>
-                      <form id="editar" th:action="@{/ventanillas/editar/{id}}" method="POST" th:object="${ventanilla}">
-                          <div class="modal-body">
-                              <div class="input-group mb-3">
-
+            <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="updateModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createModalLabel">Modificar Ventanilla</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form class="needs-validation" novalidate id="editar" th:action="@{/ventanillas/editar/{id}}" method="POST"
+                            th:object="${ventanilla}">
+                            <div class="modal-body">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                    <input id="form-nombre" type="text" class="form-control" aria-describedby="basic-addon1" th:field="*{nombreVentanilla}">
-                                </div>
 
-                                <div class="input-group mb-3">
-                                    <div class="mr-5">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="form-estatus" id="form-estatus-activo"  th:field="*{estatus}" th:value="*{1}">
-                                            <label class="form-check-label" for="form-estatus-activo">
-                                              Activo
-                                            </label>
-                                        </div>
-
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="form-estatus" id="form-estatus-desactivado" th:field="*{estatus}" th:value="*{0}" checked>
-                                            <label class="form-check-label" for="form-estatus-desactivado">
-                                              Inactivo
-                                            </label>
-                                        </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                        <input id="form-nombre" type="text" class="form-control"
+                                            aria-describedby="basic-addon1" th:field="*{nombreVentanilla}" required>
+                                            <div class="invalid-feedback">
+                                                Porfavor ingrese un nombre de ventanilla.
+                                            </div>
                                     </div>
-                                    <span class="input-group-text" id="basic-addon2">Estatus</span>
-                                </div>
 
-                              </div>  
-                          </div>
-                          <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary"
-                                  data-bs-dismiss="modal">Cerrar</button>
-                              <button type="submit" class="btn btn-warning">Actualizar</button>
-                          </div>
-                      </form>
-                  </div>
-              </div>
+                                    <div class="input-group mb-3">
+                                        <div class="mr-5">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="form-estatus"
+                                                    id="form-estatus-activo" th:field="*{estatus}" th:value="*{1}" required>
+                                                <label class="form-check-label" for="form-estatus-activo">
+                                                    Activo
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="form-estatus"
+                                                    id="form-estatus-desactivado" th:field="*{estatus}" th:value="*{0}"
+                                                    checked>
+                                                <label class="form-check-label" for="form-estatus-desactivado">
+                                                    Inactivo
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Porfavor seleccione un estado.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="input-group-text" id="basic-addon2">Estatus</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-warning">Actualizar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
     </div>
+    <!--Bootstrap-->
     <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/main.js}"></script>
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-    <script th:src="@{/js/jquery.dataTables.min.js}"></script>
-    <script th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
-    <script th:src="@{/js/dataTables.select.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+    <!--Datatable-->
+    <script th:src="@{/js/datatable/datatables.min.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>
-	<!--Mask inputs-->
-	<script th:src="@{/js/jquery.mask.min.js}"></script>
-
+    <!--Mask inputs-->
+    <script th:src="@{/js/jquery.mask.min.js}"></script>
+    <!--font-awesome-->
+    <script th:src="@{/js/all.min.js}"></script>
     <!--Toast-->
-	<script th:src="@{/js/toast.min.js}"></script>
+    <script th:src="@{/js/toast.min.js}"></script>
+    <!--Sweetalert-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
 
-	<script th:if="${msg_success != null}">
-		new Toast({
-			message: '[[${msg_success}]]',
-			type: 'success'
-		});
-	</script>
+    <script th:if="${msg_success != null}">
+        new Toast({
+            message: '[[${msg_success}]]',
+            type: 'success'
+        });
+    </script>
 
-	<script th:if="${msg_error != null}">
-		new Toast({
-			message: '[[${msg_error}]]',
-			type: 'danger'
-		});
-	</script>
+    <script th:if="${msg_error != null}">
+        new Toast({
+            message: '[[${msg_error}]]',
+            type: 'danger'
+        });
+    </script>
 
     <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "lengthChange": true,
+                "responsive": true,
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+            });
+        });
+
         function upload(id) {
-            var row =".ventanilla_"+id;
-            $("#form-nombre").val($(row + ' .nombre').text());         
+            var row = ".ventanilla_" + id;
+            $("#form-nombre").val($(row + ' .nombre').text());
             var estatus = $(row + ' .estatus').data('val')
             if (estatus == 0) {
                 console.log(estatus);
                 $("#form-estatus-desactivado").attr('checked', 'checked');
 
-            }else{
+            } else {
                 $('#form-estatus-activo').attr('checked', 'checked');
 
             }
-            
-            $("#editar").attr("action","/ventanillas/editar/"+id);
+
+            $("#editar").attr("action", "/ventanillas/editar/" + id);
         }
     </script>
 </body>
