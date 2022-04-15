@@ -13,4 +13,5 @@ public interface UsuarioService {
     Usuario buscarPorUsername(String username);
     
     List <Usuario> findByEnabledFalseAndRole(); 
+    boolean cambiarContrasena(String password, String username);
 }
