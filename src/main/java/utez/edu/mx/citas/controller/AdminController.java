@@ -13,7 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
+import utez.edu.mx.citas.model.Documento;
+import utez.edu.mx.citas.model.ServicioDocumento;
 import utez.edu.mx.citas.model.Empleado;
 import utez.edu.mx.citas.model.Role;
 import utez.edu.mx.citas.model.Servicio;
@@ -24,15 +25,7 @@ import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.ServicioServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
-
-import utez.edu.mx.citas.model.Empleado;
-import utez.edu.mx.citas.model.Servicio;
-import utez.edu.mx.citas.model.Solicitante;
-import utez.edu.mx.citas.model.Usuario;
-import utez.edu.mx.citas.service.EmpleadoServiceImpl;
-import utez.edu.mx.citas.service.ServicioServiceImpl;
-import utez.edu.mx.citas.service.SolicitanteServiceImpl;
-import utez.edu.mx.citas.service.UsuarioServiceImpl;
+import utez.edu.mx.citas.service.DocumentoServiceImpl;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -55,6 +48,9 @@ public class AdminController {
 
     @Autowired
 	private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private DocumentoServiceImpl documentoService;
      
     @GetMapping("/")
     public String index(){
@@ -99,14 +95,30 @@ public class AdminController {
         return "admin/solicitantes/listSolicitantes";
     }
     
-    //PENDIENTE: Aún no se termina de definir la relación servicio-documento 
     @GetMapping("/servicios/listar")
-    public String listarServicios(Model model, Servicio servicio) {
+    public String listarServicios(Model model, Servicio servicio, Documento documento) {
         List<Servicio> servicios = servicioService.listar();
+        List<Documento> documentos = documentoService.listar();
         
         model.addAttribute("list", servicios);
+        model.addAttribute("listDocumentos", documentos);
         model.addAttribute("titulo", "Servicios");
         return "admin/servicios/listServicios";
+    }
+    
+    @PostMapping("/servicios/guardar")
+    @Secured("ROLE_ADMIN")
+    public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
+    	
+    	boolean guardado = servicioService.guardar(servicio);
+
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+		}
+    	
+    	return "redirect:/admin/servicios/listar";
     }
 
     @GetMapping("/empleados/registrar")
@@ -115,11 +127,41 @@ public class AdminController {
         return "admin/empleados/registrarEmpleado";
     }
     
+    @GetMapping("/servicios/eliminar/{id}")
+    @Secured("ROLE_ADMIN")
+    public String eliminarServicio(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        boolean respuesta = servicioService.eliminar(id);
+
+		if (respuesta) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
+			
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Eliminacion Fallida");
+			
+		}
+
+		return "redirect:/admin/servicios/listar";
+    }
+    
+    @PostMapping("/servicios/editar/{id}")
+    public String editarServicio(@PathVariable long id, Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
+
+        boolean guardado = servicioService.guardar(servicio);
+    	
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
+		}
+        return "redirect:/admin/servicios/listar";
+    }
+    
 
     @PostMapping("/usuarios/guardar")
     public String guardarUsuario(Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
     	usuario.setIntentos(3);
-        usuario.setEnabled(false); //cambio
+        usuario.setEnabled(false); 
         usuario.setUsername(usuario.getCorreo());
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
@@ -143,13 +185,10 @@ public class AdminController {
     @PostMapping("/usuarios/editar/{id}")
     public String editarUsuario(@PathVariable long id, Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
 		Usuario new_usuario = usuarioService.mostrar(id);
-        System.out.println(usuario.toString());
-        System.out.println(new_usuario.toString());
 
     	usuario.setIntentos(3);
         usuario.setEnabled(true);
         usuario.setUsername(usuario.getCorreo());
-        System.out.println("vacio : "+ usuario.getPassword().isEmpty());
 
         if(!usuario.getPassword().isEmpty()){
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
@@ -253,6 +292,20 @@ public class AdminController {
     	
     	return "redirect:/admin/empleados/listar";
     }
-   
+    
+    @PostMapping("/documentos/guardar")
+    @Secured("ROLE_ADMIN")
+    public String guardarDocumento(Documento documento, Model model, RedirectAttributes redirectAttributes) {
+        
+    	boolean guardado = documentoService.guardar(documento);
+
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+		}
+    	
+    	return "redirect:/admin/servicios/listar";
+    }
 
 }

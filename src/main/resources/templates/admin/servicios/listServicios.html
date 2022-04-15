@@ -32,6 +32,14 @@
             <div th:insert="~{fragments/header :: header}"></div>
 
             <div class="row">
+            
+            	<!-- Para el registro de documentos, no sé si tambien se implementarán modals -->
+                <form th:action="@{/admin/documentos/guardar}" method="POST" th:object="${documento}">
+                	<input placeholder="Nombre documento" id="nombre_doc" type="text" class="form-control" aria-describedby="basic-addon1" th:field="*{nombre}">
+                	<input placeholder="Descripción documento" id="nombre_doc" type="text" class="form-control" aria-describedby="basic-addon1" th:field="*{descripcion}">
+                	<input class="btn btn-primary" type="submit" value="Guardar" />
+                </form>
+            
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 </div>
                 <div class="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7">
@@ -54,7 +62,11 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
+<<<<<<< Updated upstream
                                 <form class="needs-validation" novalidate th:action="@{/}" method="POST" th:object="${servicio}">
+=======
+                                <form th:action="@{/admin/servicios/guardar}" method="POST" th:object="${servicio}">
+>>>>>>> Stashed changes
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
 
@@ -75,8 +87,9 @@
                                                 Porfavor ingrese una descripcion.
                                             </div>
                                         </div>
-
+                                        
                                         <div class="input-group mb-3">
+<<<<<<< Updated upstream
                                             <label class="input-group-text" >Documentos</label>
                                             <select class="form-select form-contro select-rol" th:field="*{documento}"
                                                 multiple required>
@@ -87,7 +100,21 @@
                                             <div class="invalid-feedback">
                                                 Porfavor ingrese almenos un documento.
                                             </div>
+=======
+                                            <input id="nuevo-apellidos" type="text" class="form-control"
+                                                aria-describedby="basic-addon2" th:field="*{costo}">
+                                            <span class="input-group-text" id="basic-addon2">Costo</span>
+>>>>>>> Stashed changes
                                         </div>
+                                        
+                                        <div class="input-group mb-3">
+                                        	<label class="input-group-text" for="Documentos">Documentos</label>
+                                            <select class="form-select form-contro select-rol" th:field="*{documentos}"
+                                               multiple>
+                                               <option th:each="lista : ${listDocumentos}" th:value="${lista.id}"
+                                                  th:text="${lista.nombre}"></option>
+                                            </select>
+                                         </div>
 
                                         </div>
                                         <div class="modal-footer">
@@ -123,7 +150,11 @@
                                     <td> [[${i.index+1}]] </td>
                                     <td class="usuario">[[${servicioLista.nombre}]]</td>
                                     <td class="nombre">[[${servicioLista.descripcion}]]</td>
-                                    <td class="telefono">[[${servicioLista.documento.nombre}]]</td>
+                                    <td class="telefono">
+                                    	<span th:data-val="${documento.id}" th:each="documento : ${servicioLista.documentos}">
+                                            [[${documento.nombre}]]
+                                        </span>
+                                    </td>
                                     <td>
                                         <!-- Button para abrir modal de actualizacion -->
                                         <button type="button" class="btn btn-outline-primary btn-md"
@@ -175,6 +206,7 @@
                                               </div>
   
                                               <div class="input-group mb-3">
+<<<<<<< Updated upstream
                                                   <label class="input-group-text" >Documentos</label>
                                                   <select class="form-select form-contro select-rol" th:field="*{documento}"
                                                       multiple required>
@@ -186,6 +218,21 @@
                                                     Porfavor ingrese almenos un documento.
                                                 </div>
                                               </div>
+=======
+                                            <input id="nuevo-apellidos" type="text" class="form-control"
+                                                aria-describedby="basic-addon2" th:field="*{costo}">
+                                            <span class="input-group-text" id="basic-addon2">Costo</span>
+                                        </div>
+                                        
+                                        <div class="input-group mb-3">
+                                        	<label class="input-group-text" for="Documentos">Documentos</label>
+                                            <select class="form-select form-contro select-rol" th:field="*{documentos}"
+                                               multiple>
+                                               <option th:each="lista : ${listDocumentos}" th:value="${lista.id}"
+                                                  th:text="${lista.nombre}"></option>
+                                            </select>
+                                         </div>
+>>>>>>> Stashed changes
   
                                           </div>
                                           <div class="modal-footer">

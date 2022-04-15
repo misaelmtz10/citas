@@ -1,11 +1,17 @@
 package utez.edu.mx.citas.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,52 +30,61 @@ public class Servicio {
     @Column(nullable = false, length = 100)
 	private String descripcion;
 
-    @ManyToOne
-	@JoinColumn(name = "idDocumento", nullable = false)
-	private Documento documento;
+    @Column(nullable = false)
+    private double costo;
     
-    public Servicio(Long id, String nombre, String descripcion, Documento documento) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.documento = documento;
-    }
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "servicios_has_documentos", joinColumns = @JoinColumn(name = "idServicos"), inverseJoinColumns = @JoinColumn(name = "idDocumentos"))
+    private Set<Documento> documentos;
 
-    public Servicio() {
-    }
+    public void agregarDocumento(Documento documento) {
+		if (documentos == null) {
+			documentos = new HashSet<Documento>();
+		}
+		documentos.add(documento);
+ 	}
 
-    public Long getId() {
-        return id;
-    }
+	public Servicio() {
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+	public String getDescripcion() {
+		return descripcion;
+	}
 
-    public Documento getDocumento() {
-        return documento;
-    }
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
-    public void setDocumento(Documento documento) {
-        this.documento = documento;
-    }
+	public double getCosto() {
+		return costo;
+	}
 
-    
+	public void setCosto(double costo) {
+		this.costo = costo;
+	}
+
+	public Set<Documento> getDocumentos() {
+		return documentos;
+	}
+
+	public void setDocumentos(Set<Documento> documentos) {
+		this.documentos = documentos;
+	}
 
 }
