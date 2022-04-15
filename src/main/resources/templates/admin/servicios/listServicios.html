@@ -62,11 +62,9 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-<<<<<<< Updated upstream
-                                <form class="needs-validation" novalidate th:action="@{/}" method="POST" th:object="${servicio}">
-=======
-                                <form th:action="@{/admin/servicios/guardar}" method="POST" th:object="${servicio}">
->>>>>>> Stashed changes
+                                
+                                <form class="needs-validation" novalidate th:action="@{/admin/servicios/guardar}" method="POST" th:object="${servicio}">
+                                
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
 
@@ -89,22 +87,9 @@
                                         </div>
                                         
                                         <div class="input-group mb-3">
-<<<<<<< Updated upstream
-                                            <label class="input-group-text" >Documentos</label>
-                                            <select class="form-select form-contro select-rol" th:field="*{documento}"
-                                                multiple required>
-                                                <option value="INE">INE</option>
-                                                <option value="Cedula">Cedula Profesional</option>
-                                                <option value="Certificado Estudios">Certificado de Estudios</option>
-                                            </select>
-                                            <div class="invalid-feedback">
-                                                Porfavor ingrese almenos un documento.
-                                            </div>
-=======
                                             <input id="nuevo-apellidos" type="text" class="form-control"
                                                 aria-describedby="basic-addon2" th:field="*{costo}">
                                             <span class="input-group-text" id="basic-addon2">Costo</span>
->>>>>>> Stashed changes
                                         </div>
                                         
                                         <div class="input-group mb-3">
@@ -122,6 +107,7 @@
                                                 data-bs-dismiss="modal">Cerrar</button>
                                             <button type="submit" class="btn btn-primary">Crear</button>
                                         </div>
+                                      </div>
                                 </form>
                             </div>
                         </div>
@@ -204,21 +190,7 @@
                                                     Porfavor ingrese una descripcion.
                                                 </div>
                                               </div>
-  
-                                              <div class="input-group mb-3">
-<<<<<<< Updated upstream
-                                                  <label class="input-group-text" >Documentos</label>
-                                                  <select class="form-select form-contro select-rol" th:field="*{documento}"
-                                                      multiple required>
-                                                      <option value="INE">INE</option>
-                                                      <option value="Cedula">Cedula Profesional</option>
-                                                      <option value="Certificado Estudios">Certificado de Estudios</option>
-                                                  </select>
-                                                  <div class="invalid-feedback">
-                                                    Porfavor ingrese almenos un documento.
-                                                </div>
-                                              </div>
-=======
+                                              
                                             <input id="nuevo-apellidos" type="text" class="form-control"
                                                 aria-describedby="basic-addon2" th:field="*{costo}">
                                             <span class="input-group-text" id="basic-addon2">Costo</span>
@@ -232,8 +204,7 @@
                                                   th:text="${lista.nombre}"></option>
                                             </select>
                                          </div>
->>>>>>> Stashed changes
-  
+                                         
                                           </div>
                                           <div class="modal-footer">
                                               <button type="button" class="btn btn-secondary"
