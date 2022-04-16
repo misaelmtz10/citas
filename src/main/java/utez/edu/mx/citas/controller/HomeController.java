@@ -60,22 +60,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
-      return "index";
+      return "formLogin";
     }
 
     @GetMapping("/index")
-    public String mostrarIndex(Authentication authentication, HttpSession session) {
-      try{
-        String username = authentication.getName();
-        for(GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
-          System.out.println("Role: " + grantedAuthority.getAuthority());
-        }
-        Usuario user = usuarioServiceImpl.buscarPorUsername(username);
-        //Add data user session
-        session.setAttribute("user", user);
-      }catch(Exception e){    
-        logger.error(e.getMessage());
-      }
+    public String mostrarIndex() {
       return "redirect:/";
     }
 
