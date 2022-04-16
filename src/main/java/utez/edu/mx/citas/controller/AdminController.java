@@ -219,11 +219,6 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
             logger.error(e.getMessage());
         }
-        if(bindingResult.hasErrors()){
-            for (FieldError fieldError : bindingResult.getFieldErrors()) {
-                logger.info(fieldError.getDefaultMessage());// Imprime el mensaje de error
-            }                
-        }
     	return "redirect:/admin/usuarios/listar";
     }
 
