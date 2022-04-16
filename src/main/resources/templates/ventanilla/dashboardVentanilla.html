@@ -28,10 +28,75 @@
         <!-- Page Content  -->
         <div id="content" class="p-1 p-md-2">
             <div th:insert="~{fragments/header :: header}"></div>
+            <div id="calendar"></div>
             <input type="hidden" th:value="${session.ventanilla}" name="" id="ventanilla">
         </div>
     </div>
 
+    <div id="modal-details" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalles de la cita</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-lg-12">
+                            <label for="message-text" class="col-form-label">
+                                Título:
+                            </label>
+                            <input type="text" class="form-control" id="title-details" placeholder="Título" disabled />
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="recipient-name" class="col-form-label">
+                                Fecha inicio:
+                            </label>
+                            <input type="datetime-local" class="form-control" id="start-details" disabled />
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="message-text" class="col-form-label">
+                                Fecha fin:
+                            </label>
+                            <input type="datetime-local" class="form-control" id="end-details" disabled />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label>Servicio:</label>
+                            <input type="text" class="form-control" id="servicio-details" placeholder="Servicio"
+                                disabled />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label>Ventanilla:</label>
+                            <input type="text" class="form-control" id="ventanilla-details" placeholder="Ventanilla"
+                                disabled />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label>Documento:</label>
+                            <div id="documento-details"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="changeStatus()">
+                                Finalizar
+                            </button>
+                            <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">
+                                Cerrar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--Full calendar-->
     <script th:src="@{/js/main.js}"></script>

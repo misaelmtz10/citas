@@ -52,6 +52,12 @@ public class HomeController {
     @Autowired 
     private EmpleadoServiceImpl empleadoService;
 
+    @Autowired
+	  private UsuarioServiceImpl usuarioService;
+
+    @Autowired
+	  private RolServiceImpl rolService;
+
     @GetMapping("/")
     public String index() {
       return "index";
@@ -92,9 +98,15 @@ public class HomeController {
     }
 
     @GetMapping("/admin/dashboard")
-    public String dashboardAdminstrador(Authentication authentication, HttpSession session) {
+    public String dashboardAdminstrador(Usuario obj,Model model, Authentication authentication, HttpSession session) {
       try{
         if (session.getAttribute("user") == null) {
+          List<Usuario> usuarios = usuarioService.listar();
+
+          List<Role> roles = rolService.listar();
+          model.addAttribute("lista", usuarios);
+          model.addAttribute("listaRoles", roles);
+          model.addAttribute("titulo", "Usuarios");
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
           user.setPassword(null);
           session.setAttribute("user", user);

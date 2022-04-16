@@ -10,7 +10,6 @@ const citas = [];
         const response = await fetch("/citas/");
         const data = await response.json();
         data.map((cita) => {
-            console.log(cita);
             //validar status
             let color;
             let dateif = new Date(cita.end);
@@ -112,7 +111,6 @@ const citas = [];
             }
         },
         eventClick: function (args) {
-            console.log(args);
             if (args.event._def.extendedProps.item.solicitante.matricula === matricula) {
                 let start = args.event._def.extendedProps.item.start;
                 let end = args.event._def.extendedProps.item.end;
@@ -127,7 +125,6 @@ const citas = [];
                 $("#servicio-details").val(servicio);
                 $("#ventanilla-details").val(ventanilla);
                 $("#documento-details").append(`<a type="*/*" href="`+data+`" target="_blank">Ver</a>`);
-                console.log($("#docuemento-details"));
             } else {
                 Swal.fire({
                     title: 'Agendar Cita',

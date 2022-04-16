@@ -50,14 +50,12 @@ const citas = [];
         });
         });
         calendarRender(citas);
-        console.log(citas);
     } catch (error) {
         console.log(error);
     }
     };
 
     const calendarRender = (citas) => {
-    console.log(citas);
     var calendarEl = document.getElementById("calendar");
     var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
@@ -90,13 +88,13 @@ const citas = [];
             })
         },
         eventClick: function (args) {
-            // console.log(args);
             idEvent = args.event._def.extendedProps.item.id;
             let start = args.event._def.extendedProps.item.start;
             let end = args.event._def.extendedProps.item.end;
             let title = args.event._def.extendedProps.item.title;
             let servicio = args.event._def.extendedProps.item.servicio.nombre;
             let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
+            let data = /*[[@{/citas/{i}(i = ${*/  args.event._def.extendedProps.item.archivo +/*})}]]*/'';
 
             $("#modal-details").modal("show");
             $("#title-details").val(title);
@@ -104,6 +102,7 @@ const citas = [];
             $("#end-details").val(end.replace(' ' ,'T'));
             $("#servicio-details").val(servicio);
             $("#ventanilla-details").val(ventanilla);
+            $("#documento-details").append(`<a type="*/*" href="`+data+`" target="_blank">Ver</a>`);
         },
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events
@@ -132,7 +131,6 @@ const changeStatus = () => {
                         type: 'error'
                     });
                       
-                    // throw new Error(response.statusText);
                 }else{
                     new Toast({
                         message: 'Cita finalizada correctamente',

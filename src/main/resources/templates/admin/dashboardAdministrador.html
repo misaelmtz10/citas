@@ -2,49 +2,312 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap-->
+    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
     <!--style plantilla-->
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <!--Full calendar-->
-    <link th:href="@{/css/main.css}" rel="stylesheet" />
-    <!--font-awesome-->
-    <link th:href="@{/css/all.min.css}" rel="stylesheet" />
+    <link th:href='@{/css/style.css}' rel='stylesheet' />
+    <!--Datatable-->
+    <link th:href='@{/css/datatable/datatables.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
     <!--Toast-->
     <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+
+    <title>Listado Usuarios</title>
     <style>
-        #calendar {
-            max-width: 1100px;
-            margin: 0 auto;
+        .multiselect-container {
+            width: 300px;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
         }
     </style>
 </head>
 
-<body>
+<body style="overflow-x:hidden !important">
     <div class="wrapper d-flex align-items-stretch">
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- Page Content  -->
-        <div id="content" class="p-1 p-md-2">
+        <div id="content">
             <div th:insert="~{fragments/header :: header}"></div>
+
+            <div class="row" style="padding-left: 5%; padding-right: 5%;">
+
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <h3>Listado de Usuarios</h3>
+                </div>
+
+                <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
+
+                    <!-- Button para abrir modal -->
+                    <button onclick="nuevo()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#createModal">
+                        <i class="fas fa-user-plus"></i>&nbsp; Crear Usuario
+                    </button>
+
+                    <!-- Modal creacion de usuario nuevo-->
+                    <div class="modal fade" id="createModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="createModalLabel">Crear Usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form class="needs-validation" th:action="@{/admin/usuarios/guardar}" method="POST"
+                                    id="crear" th:object="${usuario}" novalidate>
+                                    <div class="modal-body">
+                                        <div class="input-group mb-3">
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                                <input id="nuevo-nombre" type="text" class="form-control"
+                                                    aria-describedby="basic-addon1" th:field="*{nombre}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un nombre.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input id="nuevo-apellidos" type="text" class="form-control"
+                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" required>
+                                                <span class="input-group-text" id="basic-addon2">Apellidos</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese sus apellidos.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon3">Telefono</span>
+                                                <input id="nuevo-telefono" type="tel" class="form-control phone-mask"
+                                                    placeholder="777-516-78-23" aria-label="777-516-78-23"
+                                                    aria-describedby="basic-addon3" maxlength="10" minlength="14"
+                                                    th:field="*{telefono}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un numero telefonico.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input id="nuevo-correo" type="text" class="form-control"
+                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com"
+                                                    aria-describedby="basic-addon4" th:field="*{correo}" required>
+                                                <span class="input-group-text" id="basic-addon4">Correo</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un correo.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon5">Contraseña</span>
+                                                <input type="password" class="form-control"
+                                                    aria-describedby="basic-addon5" th:field="*{password}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese una contraseña.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text" for="Roles">Rol</label>
+                                                <select class="form-select form-contro select-rol" th:field="*{roles}"
+                                                    multiple required>
+                                                    <option th:each="lista : ${listaRoles}" th:value="${lista.id}"
+                                                        th:text="${lista.authority}"></option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Porfavor seleccione un rol.
+                                                </div>
+                                                <div class="valid-feedback">
+                                                    Perfecto!
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary">Crear</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 6%;">
+
+                <!-- class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9"-->
+                <div style="padding-left: 5%; padding-right: 5%;">
+                    <div class="table-responsive">
+                        <table id="dataTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Usuario</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Apellidos</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Correo</th>
+                                    <th scope="col">Estatus</th>
+                                    <th scope="col">Rol</th>
+                                    <th style="width: 15%;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="usuarioLista, i: ${lista}" th:class="'user_'+${usuarioLista.id}">
+                                    <td> [[${i.index+1}]] </td>
+                                    <td class="usuario">[[${usuarioLista.username}]]</td>
+                                    <td class="nombre">[[${usuarioLista.nombre}]]</td>
+                                    <td class="apellidos">[[${usuarioLista.apellidos}]]</td>
+                                    <td class="telefono">[[${usuarioLista.telefono}]]</td>
+                                    <td class="correo">[[${usuarioLista.correo}]]</td>
+                                    <td class="estatus" th:text="${usuarioLista.enabled} ? 'Activo' : 'Inactivo'"></td>
+                                    <td class="rol">
+                                        <span th:data-val="${rol.id}" th:each="rol : ${usuarioLista.roles}">
+                                            [[${rol.authority}]]
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <!-- Button para abrir modal de actualizacion -->
+                                        <button type="button" class="btn btn-outline-primary btn-md"
+                                            data-bs-toggle="modal" data-bs-target="#updateModal"
+                                            th:attr="onclick=|upload('${usuarioLista.id}')|" style="font-size: 13px;">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button id="eliminar" onclick=""
+                                            th:attr="onclick=|deleted('${usuarioLista.id}')|" type="button"
+                                            class="btn btn-outline-danger btn-md" style="font-size: 13px;"><i
+                                                class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <!-- Modal modificacion de usuario-->
+                    <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="createModalLabel">Modificar Usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form class="needs-validation" id="editar" th:action="@{/admin/usuarios/editar/{id}}"
+                                    method="POST" th:object="${usuario}" novalidate>
+                                    <div class="modal-body">
+                                        <input id="id" type="hidden" />
+                                        <div class="input-group mb-3">
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                                <input id="form-nombre" type="text" class="form-control"
+                                                    aria-describedby="basic-addon1" th:field="*{nombre}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un nombre.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input id="form-apellidos" type="text" class="form-control"
+                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" required>
+                                                <span class="input-group-text" id="basic-addon2">Apellidos</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese sus apellidos.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon3">Telefono</span>
+                                                <input id="form-telefono" type="tel" class="form-control phone-mask"
+                                                    placeholder="777-516-78-23" aria-label="777-516-78-23"
+                                                    aria-describedby="basic-addon3" minlength="14"
+                                                    th:field="*{telefono}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un numero telefonico.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <input id="form-correo" type="text" class="form-control"
+                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com"
+                                                    aria-describedby="basic-addon4" th:field="*{correo}" required>
+                                                <span class="input-group-text" id="basic-addon4">Correo</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un correo.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon5">Contraseña</span>
+                                                <input type="password" class="form-control"
+                                                    aria-describedby="basic-addon5" th:field="*{password}" required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese una contraseña.
+                                                </div>
+                                            </div>
+
+                                            <div class="input-group mb-3">
+                                                <label class="input-group-text" for="Roles">Rol</label>
+                                                <select class="form-select form-contro select-rol" multiple
+                                                    th:field="*{roles}" required>
+                                                    <option th:each="lista : ${listaRoles}" th:value="${lista.id}"
+                                                        th:text="${lista.authority}"></option>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Porfavor seleccione un rol.
+                                                </div>
+                                                <div class="valid-feedback">
+                                                    Perfecto!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-warning">Actualizar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
     </div>
-
-
-    <!--Full calendar-->
     <script th:src="@{/js/main.js}"></script>
+    <!--Bootstrap-->
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-
-    <!--Toast-->
-    <script th:src="@{/js/toast.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+    <!--Datatable-->
+    <script th:src="@{/js/datatable/datatables.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>
+    <!--Mask inputs-->
+    <script th:src="@{/js/jquery.mask.min.js}"></script>
     <!--font-awesome-->
     <script th:src="@{/js/all.min.js}"></script>
-    <!--sweetalert2-->
-    <script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
+    <!--Toast-->
+    <script th:src="@{/js/toast.min.js}"></script>
+    <!--Sweetalert-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
+    <!--Confirmaciones Modales Sweetalert-->
+    <script th:src="@{/js/confirmacion-sweetalert.js}"></script>
 
     <script th:if="${msg_success != null}">
         new Toast({
@@ -52,12 +315,122 @@
             type: 'success'
         });
     </script>
+
     <script th:if="${msg_error != null}">
         new Toast({
             message: '[[${msg_error}]]',
             type: 'danger'
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.phone-mask').mask('(000)000-00-00');
+            $(".select-rol").multiselect({
+                placeholder: 'Selecciona un rol'
+            });
+            $('#dataTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "lengthChange": true,
+                "responsive": true,
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+            });
+        });
+
+        function nuevo() {
+            $('.select-rol option').prop("selected", false)
+        }
+
+        function upload(id) {
+            var row = ".user_" + id;
+            $("#form-nombre").val($(row + ' .nombre').text());
+            $("#form-apellidos").val($(row + ' .apellidos').text());
+            $("#form-telefono").val($(row + ' .telefono').text());
+            $("#form-correo").val($(row + ' .correo').text());
+
+            $('.select-rol option').prop("selected", false)
+
+            $(".user_" + id + " .rol > span").each(function () {
+                $('option[value="' + $(this).data('val') + '"]', $('.select-rol')).prop('selected', true);
+            });
+            $('.select-rol').multiselect('refresh');
+
+            $("#editar").attr("action", "/admin/usuarios/editar/" + id);
+        }
+
+        function deleted(id) {
+            Swal.fire({
+                title: "¿Esta seguro?",
+                text: "Se eliminara la cuenta completamente",
+                icon: "error",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Eliminar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Borrando datos...',
+                        html: 'Tirando <b></b> archivos a la papelera....',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location.href = "/admin/usuarios/eliminar/" + id;
+                        }
+                    })
+                }
+            });
+        }
+
+        $(function () {
+
+            var $body = $(document);
+            $body.bind('scroll', function () {
+                // "Desactivar" el scroll horizontal
+                if ($body.scrollLeft() !== 0) {
+                    $body.scrollLeft(0);
+                }
+            });
+
+        });
+    </script>
+
 </body>
 
 </html>

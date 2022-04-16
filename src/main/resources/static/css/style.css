@@ -8213,7 +8213,7 @@ h1, h2, h3, h4, h5,
   width: 100%; }
 
 #sidebar {
-  height: 100vh;
+  height: 100%;
   min-width: 300px;
   max-width: 300px;
   background: #1d1919;
