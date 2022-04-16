@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import utez.edu.mx.citas.model.Carrera;
 import utez.edu.mx.citas.model.Role;
 import utez.edu.mx.citas.model.Solicitante;
@@ -25,6 +24,7 @@ import utez.edu.mx.citas.service.CarreraServiceImpl;
 import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
+import utez.edu.mx.citas.service.VentanillaEmpleadoServiceImpl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +47,9 @@ public class HomeController {
 
     @Autowired
     private CarreraServiceImpl carreraServiceImpl;
+    
+    @Autowired
+    private VentanillaEmpleadoServiceImpl ventanillaEmpleadoService;
 
     @GetMapping("/")
     public String index() {
@@ -122,6 +125,7 @@ public class HomeController {
         if (session.getAttribute("user") == null) {
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
           user.setPassword(null);
+          session.setAttribute("ventanilla", ventanillaEmpleadoService.findVentanillaByEmpleado(user.getId()));
           session.setAttribute("user", user);
         }
       } catch (Exception e) {
