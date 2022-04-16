@@ -307,5 +307,37 @@ public class AdminController {
     	
     	return "redirect:/admin/servicios/listar";
     }
+    
+    @GetMapping("/documentos/deshabilitar/{id}")
+    @Secured("ROLE_ADMIN")
+    public String deshabilitarDocumento(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    	Documento documento = documentoService.mostrarDocumento(id);
+    	documento.setEstatus(0);
+    	boolean guardado = documentoService.guardar(documento);
+
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Desactivado");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Desactivación Fallida");
+		}
+    	
+    	return "redirect:/admin/servicios/listar";
+    }
+    
+    @PostMapping("/documentos/editar/{id}")
+    @Secured("ROLE_ADMIN")
+    public String actualizarDocumento(@PathVariable Long id, Documento documento, Model model, RedirectAttributes redirectAttributes) {
+        Documento documento_old = documentoService.mostrarDocumento(id);
+        documento.setEstatus(documento_old.getEstatus());
+    	boolean guardado = documentoService.guardar(documento);
+
+        if (guardado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Actualización Exitosa");	
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Actualización Fallida");
+		}
+    	
+    	return "redirect:/admin/servicios/listar";
+    }
 
 }

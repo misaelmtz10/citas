@@ -20,14 +20,19 @@ public class Documento {
 
     @Column(nullable = false, length = 100)
 	private String descripcion;
+    
+    @Column(name = "estatus", columnDefinition = "tinyint not null")
+	private Integer estatus;
 
-    public Documento(Long id, String nombre, String descripcion) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-    }
+    public Documento(Long id, String nombre, String descripcion, Integer estatus) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.estatus = estatus;
+	}
 
-    public Documento() {
+	public Documento() {
     }
 
     public Long getId() {
@@ -54,11 +59,17 @@ public class Documento {
         this.descripcion = descripcion;
     }
 
-    @Override
+    public Integer getEstatus() {
+		return estatus;
+	}
+
+	public void setEstatus(Integer estatus) {
+		this.estatus = estatus;
+	}
+
+	@Override
     public String toString() {
         return "Documento [descripcion=" + descripcion + ", id=" + id + ", nombre=" + nombre + "]";
     }
-
-    
 
 }

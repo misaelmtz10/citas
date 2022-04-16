@@ -39,10 +39,54 @@
                 	<input placeholder="Descripción documento" id="nombre_doc" type="text" class="form-control" aria-describedby="basic-addon1" th:field="*{descripcion}">
                 	<input class="btn btn-primary" type="submit" value="Guardar" />
                 </form>
+                
+                <div class="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7">
+                    <h3>Listado de Documentos</h3>
+                </div>
+                   <div class="table-responsive">
+                        <table id="dataTable" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Estatus</th>
+                                    <th style="width: 15%;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="docList, i: ${listDocumentos}" th:class="'user_'+${docList.id}">
+                                    <td> [[${i.index+1}]] </td>
+                                    <td class="usuario">[[${docList.nombre}]]</td>
+                                    <td class="nombre">[[${docList.descripcion}]]</td>
+                                    <td class="estatus" th:data-val="${docList.estatus}"
+                                        th:text="${docList.estatus} ? 'Activo' : 'Inactivo'"></td>
+                                    <td>
+                                    <td>
+                                        <!-- Button para abrir modal de actualizacion -->
+                                        <button type="button" class="btn btn-outline-primary btn-md"
+                                            data-bs-toggle="modal" data-bs-target="#updateModal2"
+                                            th:attr="onclick=|upload(docList.id)|">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        
+                                        <button id="eliminar" onclick=""
+                                            th:attr="onclick=|deletedDoc('${docList.id}')|" type="button"
+                                            class="btn btn-outline-danger btn-md"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                
             
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                 </div>
                 <div class="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7">
+                	
+                	
+                
                     <h3>Listado de Servicios</h3>
                 </div>
                 <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
@@ -137,19 +181,21 @@
                                     <td class="usuario">[[${servicioLista.nombre}]]</td>
                                     <td class="nombre">[[${servicioLista.descripcion}]]</td>
                                     <td class="telefono">
-                                    	<span th:data-val="${documento.id}" th:each="documento : ${servicioLista.documentos}">
-                                            [[${documento.nombre}]]
-                                        </span>
+                                    	<ul>
+                                    		<span th:data-val="${documento.id}" th:each="documento : ${servicioLista.documentos}">
+                                            	<li> [[${documento.nombre}]] </li>
+                                        	</span>
+                                    	</ul>
                                     </td>
                                     <td>
                                         <!-- Button para abrir modal de actualizacion -->
                                         <button type="button" class="btn btn-outline-primary btn-md"
                                             data-bs-toggle="modal" data-bs-target="#updateModal"
-                                            th:attr="onclick=|upload(1)|">
+                                            th:attr="onclick=|upload(servicioLista.id)|">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button id="eliminar" onclick=""
-                                            th:attr="onclick=|deleted('${1}')|" type="button"
+                                            th:attr="onclick=|deleted('${servicioLista.id}')|" type="button"
                                             class="btn btn-outline-danger btn-md"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -159,17 +205,17 @@
                     </div>
 
 
-                    <!-- Modal modificacion de usuario-->
+                    <!-- Modal modificacion de servicio-->
                     <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="createModalLabel">Modificar Usuario</h5>
+                                    <h5 class="modal-title" id="createModalLabel">Modificar Servicio</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                    <form class="needs-validation" novalidate id="editar" th:action="@{/}" method="POST" th:object="${servicio}">
+                                    <form class="needs-validation" novalidate id="editar" th:action="@{/admin/servicios/editar}" method="POST" th:object="${servicio}">
                                       <div class="modal-body">
                                           <div class="input-group mb-3">
 
@@ -215,6 +261,53 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
+                    <!-- Modal modificacion de documento -->
+                    <div class="modal fade" id="updateModal2" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="createModalLabel">Modificar Documento</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                    <form class="needs-validation" novalidate id="editar" th:action="@{/admin/documentos/editar/{id}}" method="POST" th:object="${documento}">
+                                      <div class="modal-body">
+                                          <div class="input-group mb-3">
+
+                                              <div class="input-group mb-3">
+                                                  <span class="input-group-text" id="basic-addon1">Nombre</span>
+                                                  <input id="nuevo-nombre" type="text" class="form-control"
+                                                      aria-describedby="basic-addon1" th:field="*{nombre}" required>
+                                                      <div class="invalid-feedback">
+                                                        Porfavor ingrese un nombre.
+                                                    </div>
+                                              </div>
+  
+                                              <div class="input-group mb-3">
+                                                  <input id="nuevo-apellidos" type="text" class="form-control"
+                                                      aria-describedby="basic-addon2" th:field="*{descripcion}" required>
+                                                  <span class="input-group-text" id="basic-addon2">Descripcion</span>
+                                                  <div class="invalid-feedback">
+                                                    Porfavor ingrese una descripcion.
+                                                </div>
+                                              </div>
+                                              
+                                        </div>
+                                         
+                                          </div>
+                                          <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary"
+                                                  data-bs-dismiss="modal">Cerrar</button>
+                                              <button type="submit" class="btn btn-primary">Crear</button>
+                                          </div>
+                                  </form>
+                            </div>
+                        </div>
+                    </div>
+                    
 
                 </div>
             </div>
@@ -309,7 +402,7 @@
             });
             $('.select-rol').multiselect('refresh');
 
-            $("#editar").attr("action", "/admin/servicios/***/" + id);
+            $("#editar").attr("action", "/admin/servicios/editar" + id);
         }
 
         function deleted(id) {
@@ -342,7 +435,44 @@
                     }).then((result) => {
                         if (result.dismiss === Swal.DismissReason.timer) {
                           /* Ingresa la ruta de eliminacion aqui */
-                            window.location.href = "/admin/servicios/***/" + id;
+                            window.location.href = "/admin/servicios/eliminar/" + id;
+                        }
+                    })
+                }
+            });
+        }
+        
+        function deletedDoc(id) {
+            Swal.fire({
+                title: "¿Esta seguro?",
+                text: "Se deshabilitará el documento temporalmente",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Eliminar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Borrando datos...',
+                        html: 'Tirando <b></b> archivos a la papelera....',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                          /* Ingresa la ruta de eliminacion aqui */
+                            window.location.href = "/admin/documentos/deshabilitar/" + id;
                         }
                     })
                 }

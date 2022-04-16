@@ -49,8 +49,7 @@ public class VentanillaControler {
         List<Ventanilla> listaVentanillas = ventanillaServiceImpl.listarActivas();
         List<Empleado> listarEmpleados = empleadoServiceImpl.listarActivos();
         List<VentanillaEmpleado> listaVentanillaEmpleados = ventanillaEmpleadoService.listarActivos();
-        
-        System.out.println(new Gson().toJson(listaVentanillas));    
+          
         model.addAttribute("listaVentanillaEmpleados", listaVentanillaEmpleados); 
 
         model.addAttribute("listaVentanillas", listaVentanillas); 
