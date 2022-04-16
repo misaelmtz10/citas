@@ -107,6 +107,25 @@ public class VentanillaControler {
 		}
     	return "redirect:/ventanillas/listar";
     }
+    
+    @GetMapping("/eliminar/{id}")
+    @Secured("ROLE_ADMIN")
+    public String eliminarVentanilla(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+
+        Ventanilla ventanilla = ventanillaServiceImpl.mostrar(id);
+    	ventanilla.setEstatus(0);
+    	boolean eliminado = ventanillaServiceImpl.guardar(ventanilla);
+    	
+		if (eliminado) {
+			redirectAttributes.addFlashAttribute("msg_success", "Registro Desactivado");
+			
+		}else {
+			redirectAttributes.addFlashAttribute("msg_error", "Desactivación Fallida");
+			
+		}
+
+		return "redirect:/ventanillas/listar";
+    }
 
     @GetMapping("/liberar/{id}")
     @Secured("ROLE_ADMIN")
