@@ -54,5 +54,16 @@ public class VentanillaEmpleadoServiceImpl implements VentanillaEmpleadoService 
     @Override
     public List<VentanillaEmpleado> listarActivos() {
         return ventanillaEmpleadoRepo.findByEstatus(1);
-    }    
+    }
+
+	@Override
+	public Long findVentanillaByEmpleado(Long idEmpleado) {
+		if(ventanillaEmpleadoRepo.findVentanillaByEmpleado(idEmpleado) != null) {
+			return ventanillaEmpleadoRepo.findVentanillaByEmpleado(idEmpleado);
+		} else {
+			return 0L;
+		}
+	}    
+    
+    
 }

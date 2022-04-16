@@ -11,5 +11,6 @@ public interface VentanillaEmpleadoService {
     VentanillaEmpleado obtenerRegistro(long id);
     boolean eliminar(Long id);
     List <VentanillaEmpleado> listarActivos();
+    Long findVentanillaByEmpleado(Long idEmpleado);
 
 }
