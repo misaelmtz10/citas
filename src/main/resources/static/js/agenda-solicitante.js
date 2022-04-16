@@ -119,15 +119,14 @@ const citas = [];
                 let title = args.event._def.extendedProps.item.title;
                 let servicio = args.event._def.extendedProps.item.servicio.nombre;
                 let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
-                let data = `@{/files/{i}(i = ${args.event._def.extendedProps.item.archivo})}`;
- 
+                let data = /*[[@{/citas/{i}(i = ${*/  args.event._def.extendedProps.item.archivo +/*})}]]*/'';
                 $("#modal-details").modal("show");
                 $("#title-details").val(title);
                 $("#start-details").val(start.replace(' ' ,'T'));
                 $("#end-details").val(end.replace(' ' ,'T'));
                 $("#servicio-details").val(servicio);
                 $("#ventanilla-details").val(ventanilla);
-                $("#documento-details").append(`<a type="*/*" th:href="${data}" target="_blank">Ver</a>`);
+                $("#documento-details").append(`<a type="*/*" href="`+data+`" target="_blank">Ver</a>`);
                 console.log($("#docuemento-details"));
             } else {
                 Swal.fire({
