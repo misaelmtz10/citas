@@ -13,6 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -23,21 +27,27 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+    @NotBlank(message = "El nombre de usuario no puede estar en blanco")
     @Column(nullable = false, length = 100, unique = true)
 	private String username;
 
+    @NotBlank(message = "La contraseña no puede estar en blanco")
 	@Column(nullable = false, length = 255)
 	private String password;
 
+    @NotBlank(message = "El nombre no puede estar en blanco")
 	@Column(nullable = false, length = 30)
 	private String nombre;
 
+    @NotBlank(message = "Los apellidos no pueden estar en blanco")
     @Column(nullable = false, length = 60)
 	private String apellidos;
 
+    @NotBlank(message = "El teléfono no puede estar en blanco")
     @Column(nullable = false, length = 45)
 	private String telefono;
 
+    @NotBlank(message = "El correo no puede estar en blanco")
     @Column(nullable = false, length = 45)
 	private String correo;
 

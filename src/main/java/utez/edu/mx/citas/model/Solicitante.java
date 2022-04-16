@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Solicitantes")
@@ -18,6 +19,7 @@ public class Solicitante {
     @Column(name = "idSolicitantes", nullable = false)
 	private Long id;
 
+    @NotBlank(message = "La matricula no puede estar en blanco")
     @Column(nullable = false, length = 15)
 	private String matricula;
 

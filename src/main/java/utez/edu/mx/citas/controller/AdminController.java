@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +16,6 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import utez.edu.mx.citas.model.Documento;
-import utez.edu.mx.citas.model.ServicioDocumento;
 import utez.edu.mx.citas.model.Empleado;
 import utez.edu.mx.citas.model.Role;
 import utez.edu.mx.citas.model.Servicio;
@@ -27,10 +28,15 @@ import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
 import utez.edu.mx.citas.service.DocumentoServiceImpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping(value="/admin")
 public class AdminController {
 	
+    Logger logger = LoggerFactory.getLogger(AdminController.class); 
+
 	@Autowired
 	private EmpleadoServiceImpl empleadoService;
 	
@@ -64,168 +70,219 @@ public class AdminController {
 	}
     
     @GetMapping("/usuarios/listar")
-
+    
     public String listarUsuarios(Usuario user,Model model) {
-        List<Usuario> usuarios = usuarioService.listar();
+        try{
+            List<Usuario> usuarios = usuarioService.listar();
 
-        List<Role> roles = rolService.listar();
-        model.addAttribute("lista", usuarios);
-        model.addAttribute("listaRoles", roles);
-        model.addAttribute("titulo", "Usuarios");
+            List<Role> roles = rolService.listar();
+            model.addAttribute("lista", usuarios);
+            model.addAttribute("listaRoles", roles);
+            model.addAttribute("titulo", "Usuarios");
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
         return "admin/usuarios/listarUsuarios";
     }
 
     @GetMapping("/empleados/listar")
+    
     public String listarEmpleados(Model model, Empleado empleado) {
-        List<Empleado> empleados = empleadoService.listar();
-        
-        List<Usuario> usuarios = usuarioService.findByEnabledFalseAndRole();
-        model.addAttribute("listaUsuarios", usuarios);
-        model.addAttribute("lista", empleados);
-        model.addAttribute("titulo", "Empleados");
+        try{
+            List<Empleado> empleados = empleadoService.listar();
+            
+            List<Usuario> usuarios = usuarioService.findByEnabledFalseAndRole();
+            model.addAttribute("listaUsuarios", usuarios);
+            model.addAttribute("lista", empleados);
+            model.addAttribute("titulo", "Empleados");
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
         return "admin/empleados/listaEmpleados";
     }
 
     @GetMapping("/solicitantes/listar")
+    
     public String listarSolicitantes(Model model, Usuario usuario) {
-        List<Solicitante> solicitantes = solicitanteService.listar();
-        
-        model.addAttribute("lista", solicitantes);
-        model.addAttribute("titulo", "Solicitantes");
+        try{
+            List<Solicitante> solicitantes = solicitanteService.listar();
+            
+            model.addAttribute("lista", solicitantes);
+            model.addAttribute("titulo", "Solicitantes");
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
         return "admin/solicitantes/listSolicitantes";
     }
     
     @GetMapping("/servicios/listar")
+    
     public String listarServicios(Model model, Servicio servicio, Documento documento) {
-        List<Servicio> servicios = servicioService.listar();
-        List<Documento> documentos = documentoService.listar();
-        List<Documento> documentosActivos = documentoService.listarActivos(1);
-        
-        model.addAttribute("list", servicios);
-        model.addAttribute("listDocumentos", documentos);
-        model.addAttribute("documentosActivos", documentosActivos);
-        model.addAttribute("titulo", "Servicios");
+
+        try{
+            List<Servicio> servicios = servicioService.listar();
+            List<Documento> documentos = documentoService.listar();
+            List<Documento> documentosActivos = documentoService.listarActivos(1);
+
+            
+            model.addAttribute("list", servicios);
+            model.addAttribute("listDocumentos", documentos);
+            model.addAttribute("titulo", "Servicios");
+            model.addAttribute("documentosActivos", documentosActivos);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+        }
         return "admin/servicios/listServicios";
     }
     
     @PostMapping("/servicios/guardar")
-    @Secured("ROLE_ADMIN")
+    
     public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
-    	
-    	boolean guardado = servicioService.guardar(servicio);
+    	try{
+            boolean guardado = servicioService.guardar(servicio);
 
-        if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
-		}
-    	
+            if (guardado) {
+                redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            }
+        }catch(Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            logger.error(e.getMessage());
+        }
     	return "redirect:/admin/servicios/listar";
     }
 
     @GetMapping("/empleados/registrar")
+    
     public String registrarEmpleado(Usuario usuario) {
 
         return "admin/empleados/registrarEmpleado";
     }
     
     @GetMapping("/servicios/eliminar/{id}")
-    @Secured("ROLE_ADMIN")
+    
     public String eliminarServicio(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try{
+            boolean respuesta = servicioService.eliminar(id);
 
-        boolean respuesta = servicioService.eliminar(id);
-
-		if (respuesta) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
-			
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Eliminacion Fallida");
-			
-		}
-
+            if (respuesta) {
+                redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Eliminación Fallida");
+            }
+        }catch(Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            logger.error(e.getMessage());
+        }
 		return "redirect:/admin/servicios/listar";
     }
     
     @PostMapping("/servicios/editar/{id}")
+    
     public String editarServicio(@PathVariable long id, Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
-
-        boolean guardado = servicioService.guardar(servicio);
-    	
-        if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
-		}
+        try{
+            boolean guardado = servicioService.guardar(servicio);
+            
+            if (guardado) {
+                redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
+            }
+        }catch(Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            logger.error(e.getMessage());
+        }
         return "redirect:/admin/servicios/listar";
     }
     
 
     @PostMapping("/usuarios/guardar")
-    public String guardarUsuario(Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
-    	usuario.setIntentos(3);
-        usuario.setEnabled(false); 
-        usuario.setUsername(usuario.getCorreo());
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+    public String guardarUsuario(Usuario usuario, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        try{
+            usuario.setIntentos(3);
+            usuario.setEnabled(true); 
+            usuario.setUsername(usuario.getCorreo());
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
-        boolean guardado = usuarioService.guardar(usuario);
+            boolean guardado = usuarioService.guardar(usuario);
+            logger.info(""+usuario.toString());
+            
+          
 
-        if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Creacion Exitosa");	
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
-		}
-    	
+            if (guardado) {
+                redirectAttributes.addFlashAttribute("msg_success", "Creacion Exitosa");	
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            }
+        }catch(Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            logger.error(e.getMessage());
+        }
+        if(bindingResult.hasErrors()){
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                logger.info(fieldError.getDefaultMessage());// Imprime el mensaje de error
+            }                
+        }
     	return "redirect:/admin/usuarios/listar";
     }
 
     @GetMapping("/usuarios/mostrar/{id}")
+    
     public String mostrarUsuario() {
 
         return "admin/list";
     }
 
     @PostMapping("/usuarios/editar/{id}")
+    
     public String editarUsuario(@PathVariable long id, Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
-		Usuario new_usuario = usuarioService.mostrar(id);
+        try{
+            Usuario new_usuario = usuarioService.mostrar(id);
 
-    	usuario.setIntentos(3);
-        usuario.setEnabled(true);
-        usuario.setUsername(usuario.getCorreo());
+            usuario.setIntentos(3);
+            usuario.setEnabled(true);
+            usuario.setUsername(usuario.getCorreo());
 
-        if(!usuario.getPassword().isEmpty()){
-            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        }else{
-            usuario.setPassword(new_usuario.getPassword());
+            if(!usuario.getPassword().isEmpty()){
+                usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            }else{
+                usuario.setPassword(new_usuario.getPassword());
+            }
+            boolean guardado = usuarioService.guardar(usuario);
+            
+            if (guardado) {
+                redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
+            }
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
         }
-        boolean guardado = usuarioService.guardar(usuario);
-    	
-        if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
-		}
     	return "redirect:/admin/usuarios/listar";
     }
 
     @GetMapping("/usuarios/eliminar/{id}")
-    @Secured("ROLE_ADMIN")
+    
     public String borrarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try{
+            boolean respuesta = usuarioService.eliminar(id);
 
-        boolean respuesta = usuarioService.eliminar(id);
-
-		if (respuesta) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
-			
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Eliminacion Fallida");
-			
-		}
-
+            if (respuesta) {
+                redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Eliminación Fallida");
+            }
+        }catch(Exception e){
+            redirectAttributes.addFlashAttribute("msg_error", "Eliminación Fallida");
+            logger.error(e.getMessage());
+        }
     	return "redirect:/admin/usuarios/listar";
     }
 
     @GetMapping("/empleados/deshabilitar/{id}")
-    @Secured("ROLE_ADMIN")
+    
     public String deshabilitarEmpleado(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Empleado empleado = empleadoService.mostrarEmpleado(id);
 
@@ -243,16 +300,15 @@ public class AdminController {
             }
 
         }catch(Exception e){
-
+            logger.error(e.getMessage());
             redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
-
         }			
 
     	return "redirect:/admin/empleados/listar";
     }
 
     @GetMapping("/solicitantes/deshabilitar/{id}")
-    @Secured("ROLE_ADMIN")
+    
     public String deshabilitarSolicitante(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Solicitante solicitante = solicitanteService.mostrarSolicitante(id);
 
@@ -270,6 +326,7 @@ public class AdminController {
             }
 
         }catch(Exception e){
+            logger.error(e.getMessage());
             redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
         }
 
@@ -277,41 +334,49 @@ public class AdminController {
     }
 
     @PostMapping("/empleados/guardar")
+    
     public String guardarEmpleado(Empleado empleado, Model model, RedirectAttributes redirectAttributes) {
+        try{
+            empleado.setEstatus(1);
+            
+            Usuario usuario = usuarioService.mostrar(empleado.getUsuario().getId()); //Actualizar estado en usuario
+            usuario.setEnabled(true);
+            usuarioService.guardar(usuario);
+            boolean guardado = empleadoService.guardar(empleado);
 
-        empleado.setEstatus(1);
-        
-        Usuario usuario = usuarioService.mostrar(empleado.getUsuario().getId()); //Actualizar estado en usuario
-        usuario.setEnabled(true);
-        usuarioService.guardar(usuario);
-        boolean guardado = empleadoService.guardar(empleado);
-
-        if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
-		}
+            if (guardado) {
+                redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            }
+        }catch(Exception e){    
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            logger.error(e.getMessage());
+        }
     	
     	return "redirect:/admin/empleados/listar";
     }
     
     @PostMapping("/documentos/guardar")
-    @Secured("ROLE_ADMIN")
+    
     public String guardarDocumento(Documento documento, Model model, RedirectAttributes redirectAttributes) {
-        
-    	boolean guardado = documentoService.guardar(documento);
+        try{
+            boolean guardado = documentoService.guardar(documento);
 
-        if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
-		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
-		}
+            if (guardado) {
+                redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
+            }else {
+                redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            }
+        }catch(Exception e){    
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            logger.error(e.getMessage());
+        }
     	
     	return "redirect:/admin/servicios/listar";
     }
     
     @GetMapping("/documentos/deshabilitar/{id}")
-    @Secured("ROLE_ADMIN")
     public String deshabilitarDocumento(@PathVariable Long id, RedirectAttributes redirectAttributes) {
     	Documento documento = documentoService.mostrarDocumento(id);
     	documento.setEstatus(0);
@@ -327,7 +392,6 @@ public class AdminController {
     }
     
     @PostMapping("/documentos/editar/{id}")
-    @Secured("ROLE_ADMIN")
     public String actualizarDocumento(@PathVariable Long id, Documento documento, Model model, RedirectAttributes redirectAttributes) {
         Documento documento_old = documentoService.mostrarDocumento(id);
         documento.setEstatus(documento_old.getEstatus());
