@@ -57,4 +57,9 @@ public class DocumentoServiceImpl implements DocumentoService {
 		return null;
 	}
 
+	@Override
+	public List<Documento> listarActivos(int estatus) {
+		return docRepository.findByEstatus(estatus);
+	}
+
 }

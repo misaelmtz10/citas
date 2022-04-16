@@ -140,7 +140,7 @@
                                         	<label class="input-group-text" for="Documentos">Documentos</label>
                                             <select class="form-select form-contro select-rol" th:field="*{documentos}"
                                                multiple>
-                                               <option th:each="lista : ${listDocumentos}" th:value="${lista.id}"
+                                               <option th:each="lista : ${documentosActivos}" th:value="${lista.id}"
                                                   th:text="${lista.nombre}"></option>
                                             </select>
                                          </div>
@@ -246,7 +246,7 @@
                                         	<label class="input-group-text" for="Documentos">Documentos</label>
                                             <select class="form-select form-contro select-rol" th:field="*{documentos}"
                                                multiple>
-                                               <option th:each="lista : ${listDocumentos}" th:value="${lista.id}"
+                                               <option th:each="lista : ${documentosActivos}" th:value="${lista.id}"
                                                   th:text="${lista.nombre}"></option>
                                             </select>
                                          </div>

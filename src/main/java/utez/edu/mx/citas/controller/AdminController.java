@@ -99,9 +99,11 @@ public class AdminController {
     public String listarServicios(Model model, Servicio servicio, Documento documento) {
         List<Servicio> servicios = servicioService.listar();
         List<Documento> documentos = documentoService.listar();
+        List<Documento> documentosActivos = documentoService.listarActivos(1);
         
         model.addAttribute("list", servicios);
         model.addAttribute("listDocumentos", documentos);
+        model.addAttribute("documentosActivos", documentosActivos);
         model.addAttribute("titulo", "Servicios");
         return "admin/servicios/listServicios";
     }

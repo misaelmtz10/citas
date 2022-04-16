@@ -11,5 +11,6 @@ public interface DocumentoService {
     Documento obtenerDocumento(long id);
     boolean eliminar(Long id);
     Documento mostrarDocumento(long id);
+    List <Documento> listarActivos(int estatus);
 
 }
