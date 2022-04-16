@@ -63,4 +63,9 @@ public class RolServiceImpl implements RolService {
 		return rolRepository.findByAuthority(authority);
 	}
 
+	@Override
+	public List<Integer> findRolesByUser(long idUser) {
+		return rolRepository.findRolesByUser(idUser);
+	}
+
 }

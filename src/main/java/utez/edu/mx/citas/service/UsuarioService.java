@@ -11,7 +11,7 @@ public interface UsuarioService {
     boolean eliminar(Long id);
     Usuario mostrar(long id);
     Usuario buscarPorUsername(String username);
-    
+    Usuario findLastId(String user_);
     List <Usuario> findByEnabledFalseAndRole(); 
     boolean cambiarContrasena(String password, String username);
 }

@@ -180,8 +180,8 @@ public class AdminController {
     
     @PostMapping("/servicios/editar/{id}")
     
-    public String editarServicio(@PathVariable long id, Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
-        try{
+    public String editarServicio(@PathVariable Long id, Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
+    	try{
             boolean guardado = servicioService.guardar(servicio);
             
             if (guardado) {
@@ -204,13 +204,23 @@ public class AdminController {
             usuario.setEnabled(true); 
             usuario.setUsername(usuario.getCorreo());
             usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-
+           
             boolean guardado = usuarioService.guardar(usuario);
             logger.info(""+usuario.toString());
             
-          
-
             if (guardado) {
+            	Usuario last = usuarioService.findLastId(usuario.getUsername());
+            	List<Integer> roles= rolService.findRolesByUser(last.getId());
+            	
+            	for (Integer rol: roles) { 
+            		if(rol == 2) {
+            			Empleado empleado = new Empleado();
+            			empleado.setEstatus(1);
+            			empleado.setUsuario(usuario);
+            			empleadoService.guardar(empleado);
+            		} 
+            	}
+            	
                 redirectAttributes.addFlashAttribute("msg_success", "Creacion Exitosa");	
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
@@ -388,8 +398,6 @@ public class AdminController {
     
     @PostMapping("/documentos/editar/{id}")
     public String actualizarDocumento(@PathVariable Long id, Documento documento, Model model, RedirectAttributes redirectAttributes) {
-        Documento documento_old = documentoService.mostrarDocumento(id);
-        documento.setEstatus(documento_old.getEstatus());
     	boolean guardado = documentoService.guardar(documento);
 
         if (guardado) {

@@ -12,5 +12,6 @@ public interface RolService {
     boolean eliminar(Long id);
     Role mostrarRol(long id);
 	Role buscarPorAuthority(String authority);
+	List<Integer> findRolesByUser(long idUser);
 
 }

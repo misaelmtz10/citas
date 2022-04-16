@@ -79,5 +79,10 @@ public class UsuarioServiceImpl implements UsuarioService{
             return false;
         }
     }
+
+	@Override
+	public Usuario findLastId(String user_) {
+		return usuarioRepository.findLastId(user_);
+	}
     
 }
