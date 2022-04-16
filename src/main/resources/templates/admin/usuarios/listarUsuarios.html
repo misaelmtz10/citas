@@ -54,7 +54,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form class="needs-validation" th:action="@{/admin/usuarios/guardar}" method="POST"
+                                <form id="crear" class="needs-validation" th:action="@{/admin/usuarios/guardar}" method="POST"
                                     th:object="${usuario}" novalidate>
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
@@ -197,9 +197,8 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form class="needs-validation" id="editar"
-                                    th:action="@{/admin/usuarios/editar/{id}}" method="POST" th:object="${usuario}"
-                                    novalidate>
+                                <form class="needs-validation" id="editar" th:action="@{/admin/usuarios/editar/{id}}"
+                                    method="POST" th:object="${usuario}" novalidate>
                                     <div class="modal-body">
                                         <input id="id" type="hidden" />
                                         <div class="input-group mb-3">
@@ -302,6 +301,8 @@
     <script th:src="@{/js/toast.min.js}"></script>
     <!--Sweetalert-->
     <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
+    <!--Confirmaciones Modales Sweetalert-->
+    <script th:src="@{/js/confirmacion-sweetalert.js}"></script>
 
     <script th:if="${msg_success != null}">
         new Toast({
@@ -318,6 +319,8 @@
     </script>
 
     <script>
+
+
         $(document).ready(function () {
             $('.phone-mask').mask('(000)000-00-00');
             $(".select-rol").multiselect({
@@ -379,10 +382,10 @@
             Swal.fire({
                 title: "¿Esta seguro?",
                 text: "Se eliminara la cuenta completamente",
-                icon: "warning",
+                icon: "error",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
                 confirmButtonText: "Eliminar"
             }).then((result) => {
                 if (result.isConfirmed) {
