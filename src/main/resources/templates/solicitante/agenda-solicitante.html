@@ -63,6 +63,7 @@
                     placeholder="Título"
                     th:field="*{title}"
                     required
+                    pattern="[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]{2,100}"
                   />
                   <div class="invalid-feedback">
                     Ingrese un título válido

@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -15,15 +14,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import utez.edu.mx.citas.model.Carrera;
+import utez.edu.mx.citas.model.Cita;
 import utez.edu.mx.citas.model.Role;
 import utez.edu.mx.citas.model.Solicitante;
 import utez.edu.mx.citas.model.Usuario;
 import utez.edu.mx.citas.service.CarreraServiceImpl;
 import utez.edu.mx.citas.service.RolServiceImpl;
+import utez.edu.mx.citas.service.ServicioServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
 import utez.edu.mx.citas.service.EmpleadoServiceImpl;
 import utez.edu.mx.citas.service.VentanillaEmpleadoServiceImpl;
+import utez.edu.mx.citas.service.VentanillaServiceImpl;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +60,12 @@ public class HomeController {
 
     @Autowired
 	  private RolServiceImpl rolService;
+
+    @Autowired
+    private VentanillaServiceImpl ventanillaServiceImpl;
+
+    @Autowired
+    private ServicioServiceImpl servicioServiceImpl;
 
     @GetMapping("/")
     public String index() {
@@ -107,9 +116,11 @@ public class HomeController {
     }
 
     @GetMapping("/solicitante/dashboard")
-    public String dashboardSolicitante(Authentication authentication, HttpSession session) {
+    public String dashboardSolicitante(Cita cita, Model model, Authentication authentication, HttpSession session) {
       try{
         if (session.getAttribute("user") == null) {
+          model.addAttribute("listaVentanillas", ventanillaServiceImpl.listarActivas());
+          model.addAttribute("listaServicios", servicioServiceImpl.listar());
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
           user.setPassword(null);
           Solicitante solicitante = solicitanteServiceImpl.buscarPorIdUsuario(user.getId());
