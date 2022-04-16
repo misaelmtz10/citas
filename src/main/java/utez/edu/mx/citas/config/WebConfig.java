@@ -9,6 +9,6 @@ public class WebConfig implements WebMvcConfigurer{
   
   public void addResourceHandlers(ResourceHandlerRegistry handlerRegistry) {
 
-    handlerRegistry.addResourceHandler("/files/**").addResourceLocations("file:C:/citas/file-citas/");
+    handlerRegistry.addResourceHandler("/citas/**").addResourceLocations("file:C:/citas/file-citas/");
   }
 }
