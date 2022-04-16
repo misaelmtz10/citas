@@ -28,6 +28,7 @@
         <!-- Page Content  -->
         <div id="content" class="p-1 p-md-2">
             <div th:insert="~{fragments/header :: header}"></div>
+            <input type="hidden" th:value="${session.ventanilla}" name="" id="ventanilla">
         </div>
     </div>
 
@@ -38,7 +39,8 @@
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-
+    <!--agenda-->
+    <script th:src="@{/js/agenda.js}"></script>
     <!--Toast-->
     <script th:src="@{/js/toast.min.js}"></script>
     <!--font-awesome-->
@@ -57,6 +59,10 @@
             message: '[[${msg_error}]]',
             type: 'danger'
         });
+    </script>
+    <script>
+        let param = document.getElementById('ventanilla').value;
+        getVentanilla(param);
     </script>
 </body>
 

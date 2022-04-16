@@ -32,6 +32,7 @@
       <div id="content" class="p-1 p-md-2">
         <div th:insert="~{fragments/header :: header}"></div>
         <div id="calendar"></div>
+        <input type="hidden" th:value="${session.ventanilla}" name="" id="ventanilla">
       </div>
     </div>
     
@@ -161,6 +162,9 @@
         type: 'danger'
       });
     </script>
-
+    <script>
+      let param = document.getElementById('ventanilla').value;
+      getVentanilla(param);
+    </script>
   </body>
 </html>

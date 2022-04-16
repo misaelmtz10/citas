@@ -1,5 +1,10 @@
 let idEvent;
-let ventanilla = 1;
+let ventanilla;
+
+const getVentanilla = (param) => {
+    ventanilla = param;
+}
+
 const citas = [];
     document.body.onload = async () => {
     try {
@@ -7,7 +12,6 @@ const citas = [];
         const data = await response.json();
         data.map((cita) => {
         //validar status
-        console.log(cita);
         let color;
         let dateif = new Date(cita.end);
 
@@ -28,7 +32,7 @@ const citas = [];
         if (dateif < new Date()) {
             color = "#FFA500";
         }
-        console.log(cita.ventanilla.id);
+
         if (cita.ventanilla.id != ventanilla) {
             cita.title = "";
             cita.start = "";
