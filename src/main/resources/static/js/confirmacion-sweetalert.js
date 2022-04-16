@@ -73,7 +73,7 @@ if(formNew != null){
                 let timerInterval
                 Swal.fire({
                     title: 'Guardando datos...',
-                    html: 'Metiendo <b></b> archivos a la fuerza....',
+                    html: 'Introduciendo <b></b> archivos a la fuerza....',
                     timer: 2000,
                     timerProgressBar: true,
                     didOpen: () => {
@@ -106,4 +106,3 @@ if(formNew != null){
         formNew.classList.add('was-validated');
     }, false);
 }
-
