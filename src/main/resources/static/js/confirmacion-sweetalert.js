@@ -1,7 +1,7 @@
 
 var formEdit = document.getElementById('editar');
 
-if(formEdit != null){
+if (formEdit != null) {
 
     const alertEdit = (event) => {
         event.preventDefault();
@@ -53,10 +53,63 @@ if(formEdit != null){
 }
 
 
+var formEdit2 = document.getElementById('editar2');
+
+if (formEdit2 != null) {
+    const alertEdit2 = (event) => {
+        event.preventDefault();
+        Swal.fire({
+            title: "¿Esta seguro?",
+            text: "Los datos seran reescritos y almacenados",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Actualizar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let timerInterval
+                Swal.fire({
+                    title: 'Reescribiendo datos...',
+                    html: 'Colocando corrector en <b></b> archivos....',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        document.getElementById('editar2').submit();
+                    }
+                })
+            }
+        });
+    }
+
+    formEdit2.addEventListener('submit', function (event) {
+        if (!formEdit2.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            alertEdit2(event);
+        }
+        formEdit2.classList.add('was-validated');
+    }, false);
+}
+
+
 
 var formNew = document.getElementById('crear');
 
-if(formNew != null){
+if (formNew != null) {
 
     const alertNew = (event) => {
         event.preventDefault();
@@ -104,5 +157,59 @@ if(formNew != null){
             alertNew(event);
         }
         formNew.classList.add('was-validated');
+    }, false);
+}
+
+
+var formNew2 = document.getElementById('crear2');
+
+if (formNew2 != null) {
+
+    const alertNew = (event) => {
+        event.preventDefault();
+        Swal.fire({
+            title: "¿Esta seguro?",
+            text: "Verifique que los datos ingresados son correctos",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#009c80",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Guardar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let timerInterval
+                Swal.fire({
+                    title: 'Guardando datos...',
+                    html: 'Introduciendo <b></b> archivos a la fuerza....',
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                            b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        document.getElementById('crear2').submit();
+                    }
+                })
+            }
+        });
+    }
+
+    formNew2.addEventListener('submit', function (event) {
+        if (!formNew2.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            alertNew(event);
+        }
+        formNew2.classList.add('was-validated');
     }, false);
 }

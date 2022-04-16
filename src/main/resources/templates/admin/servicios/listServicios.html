@@ -14,6 +14,7 @@
     <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
     <!--Toast-->
     <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/sidebars.css}" />
 
     <title>Listado Servicios</title>
     <style>
@@ -21,6 +22,22 @@
             width: 300px;
         }
     </style>
+
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -46,7 +63,7 @@
                         <i class="fas fa-folder-plus"></i>&nbsp; Crear Documento
                     </button>
 
-                    <!-- Modal modificacion de documento -->
+                    <!-- Modal creacios de documento -->
                     <div class="modal fade" id="createModal2" data-bs-backdrop="static" data-bs-keyboard="false"
                         tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -56,7 +73,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form class="needs-validation" novalidate id="editar"
+                                <form class="needs-validation crearNuevo" novalidate id="crear"
                                     th:action="@{/admin/documentos/guardar}" method="POST" th:object="${documento}">
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
@@ -147,7 +164,7 @@
                                         <!-- Button para abrir modal de actualizacion -->
                                         <button type="button" class="btn btn-outline-primary btn-md"
                                             data-bs-toggle="modal" data-bs-target="#updateModal2"
-                                            th:attr="onclick=|upload2('${docList.id}')|">
+                                            th:attr="onclick=|uploadDoc('${docList.id}')|">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
@@ -187,7 +204,7 @@
                                         aria-label="Close"></button>
                                 </div>
 
-                                <form class="needs-validation" id="crear" novalidate th:action="@{/admin/servicios/guardar}"
+                                <form class="needs-validation crearNuevo" id="crear2"  novalidate th:action="@{/admin/servicios/guardar}"
                                     method="POST" th:object="${servicio}">
 
                                     <div class="modal-body">
@@ -212,7 +229,7 @@
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="nuevo-apellidos" type="number" class="form-control"
+                                                <input id="nuevo-apellidos" value="" type="number" step="any" class="form-control"
                                                     aria-describedby="basic-addon2" th:field="*{costo}">
                                                 <span class="input-group-text" id="basic-addon2">Costo</span>
                                             </div>
@@ -259,6 +276,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Descripcion</th>
+                                    <th scope="col">Costo</th>
                                     <th scope="col">Documentos</th>
                                     <th style="width: 15%;">Acciones</th>
                                 </tr>
@@ -326,7 +344,7 @@
                                             </div>
 
                                             <input id="form-costo-servicio" type="number" class="form-control"
-                                                aria-describedby="basic-addon2" th:field="*{costo}" required>
+                                                aria-describedby="basic-addon2" th:field="*{costo}" value="" step="any" required>
                                             <span class="input-group-text" id="basic-addon2">Costo</span>
                                         </div>
 
@@ -448,6 +466,10 @@
     <script th:src="@{/js/toast.min.js}"></script>
     <!--Sweetalert-->
     <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
+    <!--Confirmaciones Modales Sweetalert-->
+    <script th:src="@{/js/confirmacion-sweetalert.js}"></script>
+    <script th:src="@{/js/sidebars.js}"></script>
+    
 
     <script th:if="${msg_success != null}">
         new Toast({
@@ -553,7 +575,7 @@
             $("#editar").attr("action", "/admin/servicios/editar/" + id);
         }
 
-        function upload2(id) {
+        function uploadDoc(id) {
             var row = ".documento_" + id;
             $("#form-nombre").val($(row + ' .nombre').text());
             $("#form-descripcion").val($(row + ' .descripcion').text());
@@ -569,56 +591,6 @@
 
             $("#editar2").attr("action", "/admin/documentos/editar/" + id);
         }
-
-        var formEdit2 = document.getElementById('editar2');
-
-        const alertEdit2 = (event) => {
-            event.preventDefault();
-            Swal.fire({
-                title: "¿Esta seguro?",
-                text: "Los datos seran reescritos y almacenados",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#6c757d",
-                confirmButtonText: "Actualizar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let timerInterval
-                    Swal.fire({
-                        title: 'Reescribiendo datos...',
-                        html: 'Colocando corrector en <b></b> archivos....',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                                b.textContent = Swal.getTimerLeft()
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        /* Read more about handling dismissals below */
-                        if (result.dismiss === Swal.DismissReason.timer) {
-                            document.getElementById('editar2').submit();
-                        }
-                    })
-                }
-            });
-        }
-
-        formEdit2.addEventListener('submit', function (event) {
-            if (!formEdit2.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-                alertEdit2(event);
-            }
-            formEdit2.classList.add('was-validated');
-        }, false);
 
         function deleted(id) {
             Swal.fire({
