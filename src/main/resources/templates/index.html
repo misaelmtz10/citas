@@ -1,41 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Bootstrap-->
+    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
     <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <link th:href='@{/css/main.css}' rel='stylesheet' />
-    <title>Document</title>
+    <!--Datatable-->
+    <link th:href='@{/css/datatable/datatables.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+
+    <title>Perfil</title>
+    <style>
+        .multiselect-container {
+            width: 300px;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+    </style>
 </head>
-<body>
-        <div class="wrapper d-flex align-items-stretch">
+
+<body style="overflow-x:hidden !important">
+    <div class="wrapper d-flex align-items-stretch">
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
-        
+
         <!-- Page Content  -->
-        <div id="content" class="p-1 p-md-2">
-            
-            <div th:insert="~{fragments/header :: header}"></div>
+        <div id="content">
+            <div th:insert="~{fragments/header :: headerB}"></div>
+            <div class="row">
+                <div class="offset-1 offset-md-2 col-10 col-md-9">
+                    <div class="card mb-3">
+                        <img th:src="@{/images/muestra.png}" class="card-img-top" style="" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">¡Acude con nosotros!</h5>
+                          <p class="card-text">Estamos disponibles de lunes a viernes, puedes venir con cita previa para ahorrar tiempo.</p>
+                          <p class="card-text"><small class="text-muted">- Juan Vasquez </small></p>
+                        </div>
+                      </div>
+
+                </div>
+            </div>
+            <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
     </div>
-    <script th:src='@{/js/main.js}'></script>
-    <script th:src='@{/js/bootstrap/jquery.min.js}'></script>
-    <script th:src='@{/js/bootstrap/popper.js}'></script>
-    <script th:src='@{/js/bootstrap/bootstrap.min.js}'></script>
-    <script th:src='@{/js/bootstrap/main.js}'></script>
-    <script th:src='@{/SweetAlert/dist/sweetalert2.all.min.js}'></script>
-    <script>
-$("#sda").click(function(){
-Swal.fire({
-        title: 'Error!',
-        text: 'Do you want to continue',
-        icon: 'error',
-        confirmButtonText: 'Cool'
-    })
-})
-    
+    <script th:src="@{/js/main.js}"></script>
+    <!--Bootstrap-->
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap/popper.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap/main.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <!--Datatable-->
+    <script th:src="@{/js/datatable/datatables.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>
+    <!--Mask inputs-->
+    <script th:src="@{/js/jquery.mask.min.js}"></script>
+    <!--font-awesome-->
+    <script th:src="@{/js/all.min.js}"></script>
+    <!--Toast-->
+    <script th:src="@{/js/toast.min.js}"></script>
+    <!--Sweetalert-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
+    <!--Confirmaciones Modales Sweetalert-->
+    <script th:src="@{/js/confirmacion-sweetalert.js}"></script>
 
+    <script>
+        $(function () {
+
+            var $body = $(document);
+            $body.bind('scroll', function () {
+                // "Desactivar" el scroll horizontal
+                if ($body.scrollLeft() !== 0) {
+                    $body.scrollLeft(0);
+                }
+            });
+
+        }); 
     </script>
 </body>
+
 </html>
