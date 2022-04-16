@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Carreras")
@@ -15,10 +16,12 @@ public class Carrera {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "idCarreras", nullable = false)
 	private Long id;
-	
+
+    @NotBlank(message = "El nomber no puede estar en blanco")
 	@Column(nullable = false, length = 45)
 	private String nombre;
 
+    @NotBlank(message = "Las siglas no pueden estar en blanco")
     @Column(nullable = false, length = 8)
 	private String siglas;
 

@@ -50,7 +50,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}" class="needs-validation" novalidate id="formRegister" onsubmit="validate(event)">
+            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}" class="needs-validation" novalidate id="formRegister" onsubmit="validate(event)" enctype="multipart/form-data">
               <div class="form-row">
                 <div class="form-group col-lg-12">
                   <label for="message-text" class="col-form-label">
@@ -114,6 +114,29 @@
 									</select>
                   <div class="invalid-feedback">
                     Seleccione un servicio
+                  </div>
+								</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+									<label>Ventanilla:</label>
+									<select class="form-control form-control" th:field="*{ventanilla.id}" required>
+										<option hidden selected value="">Selecciona una ventanilla...</option>
+										<option th:each="tmpVentanilla: ${listaVentanillas}" th:value="${tmpVentanilla.id}" th:text="${tmpVentanilla.nombreVentanilla}">
+
+										</option>
+									</select>
+                  <div class="invalid-feedback">
+                    Seleccione una ventanilla
+                  </div>
+								</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+									<label>Documento:</label>
+									<input class="form-control" type="file" name="documentoCita" required>
+                  <div class="invalid-feedback">
+                    Seleccione un documento
                   </div>
 								</div>
               </div>
@@ -205,6 +228,12 @@
                     placeholder="Ventanilla"
                     disabled
                   />
+								</div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col">
+									<label>Documento:</label>
+									<div id="documento-details"></div>
 								</div>
               </div>
               <div class="modal-footer">
