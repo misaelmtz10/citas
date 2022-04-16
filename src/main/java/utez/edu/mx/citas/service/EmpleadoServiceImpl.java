@@ -64,5 +64,10 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         }
 		return null;
     }
+
+	@Override
+	public Long findEmpleadoByUser(long idUser) {
+		return empleadoRepository.findEmpleadoByUser(idUser);
+	}
     
 }

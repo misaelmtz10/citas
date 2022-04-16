@@ -1,10 +1,8 @@
 package utez.edu.mx.citas.controller;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,8 +22,8 @@ import utez.edu.mx.citas.service.CarreraServiceImpl;
 import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
+import utez.edu.mx.citas.service.EmpleadoServiceImpl;
 import utez.edu.mx.citas.service.VentanillaEmpleadoServiceImpl;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +48,9 @@ public class HomeController {
     
     @Autowired
     private VentanillaEmpleadoServiceImpl ventanillaEmpleadoService;
+    
+    @Autowired 
+    private EmpleadoServiceImpl empleadoService;
 
     @GetMapping("/")
     public String index() {
@@ -125,7 +126,8 @@ public class HomeController {
         if (session.getAttribute("user") == null) {
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
           user.setPassword(null);
-          session.setAttribute("ventanilla", ventanillaEmpleadoService.findVentanillaByEmpleado(user.getId()));
+          long idEmpleado = empleadoService.findEmpleadoByUser(user.getId());
+          session.setAttribute("ventanilla", ventanillaEmpleadoService.findVentanillaByEmpleado(idEmpleado));
           session.setAttribute("user", user);
         }
       } catch (Exception e) {
