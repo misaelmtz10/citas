@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +27,14 @@ import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
 import utez.edu.mx.citas.service.VentanillaServiceImpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 @RequestMapping(value = "/citas")
 public class CitaController {
+
+    Logger logger = LoggerFactory.getLogger(CitaController.class); 
 
     @Autowired
     private CitaServiceImpl citaServiceImpl;
@@ -47,15 +53,23 @@ public class CitaController {
 
     @GetMapping(value = "ver-agenda")
     public String mostrarAgenda(Cita cita, Model model) {
-        List<Servicio> listaServicios = servicioServiceImpl.listar();
-        model.addAttribute("listaServicios", listaServicios);
+        try{
+            List<Servicio> listaServicios = servicioServiceImpl.listar();
+            model.addAttribute("listaServicios", listaServicios);
+        }catch(Exception e){    
+            logger.error(e.getMessage());
+        }
         return "ventanilla/citas/agenda";
     }
 
     @GetMapping(value = "agenda-solicitante")
     public String mostrarAgendaSolicitante(Cita cita, Model model) {
-        List<Servicio> listaServicios = servicioServiceImpl.listar();
-        model.addAttribute("listaServicios", listaServicios);
+        try{
+            List<Servicio> listaServicios = servicioServiceImpl.listar();
+            model.addAttribute("listaServicios", listaServicios);
+        }catch(Exception e){    
+            logger.error(e.getMessage());
+        }
         return "solicitante/agenda-solicitante";
     }
 
@@ -63,16 +77,25 @@ public class CitaController {
     @GetMapping(value = "/lista/{userId}")
     public String listaCitas(@PathVariable(required = false) String tipoMascota, Model model,
             RedirectAttributes redirectAttributes) {
-        List<Cita> listaCitas = citaServiceImpl.listar();
-        model.addAttribute("listaCitas", listaCitas);
-
+        try{
+            List<Cita> listaCitas = citaServiceImpl.listar();
+            model.addAttribute("listaCitas", listaCitas);
+        }catch(Exception e){    
+            redirectAttributes.addFlashAttribute("msg_error", "Consulta Fallida");
+            logger.error(e.getMessage());
+        }
         return "citas/list";
     }
 
     // Lista de citas asincrona
     @GetMapping(value = "/")
     public ResponseEntity<Object> citas() {
-        List<Cita> listaCitas = citaServiceImpl.listar();
+        List<Cita> listaCitas = null;
+        try{
+            listaCitas = citaServiceImpl.listar();
+        }catch(Exception e){    
+            logger.error(e.getMessage());
+        }
         return new ResponseEntity<>(listaCitas, HttpStatus.OK);
     }
 
@@ -104,42 +127,57 @@ public class CitaController {
             }
         }catch(Exception e){
             e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return "redirect:/citas/agenda-solicitante";
     }
 
     @GetMapping(value = "/mostrar/{id}")
     public String mostrarCita(@PathVariable long id, Model modelo, RedirectAttributes redirectAttributes) {
-        Cita cita = citaServiceImpl.mostrarCita(id);
-        if (cita != null) {
-            modelo.addAttribute("cita", cita);
-            return "citas/mostrarCita";
-        }
+        try{
+            Cita cita = citaServiceImpl.mostrarCita(id);
+            if (cita != null) {
+                modelo.addAttribute("cita", cita);
+                return "citas/mostrarCita";
+            }
 
-        redirectAttributes.addFlashAttribute("msg_error", "Registro no existente");
+            redirectAttributes.addFlashAttribute("msg_error", "Registro no existente");
+        }catch(Exception e){    
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            logger.error(e.getMessage());
+        }
         return "redirect:/citas/list";
     }
 
     @GetMapping(value = "/editar/{id}")
     public String editarCita(@PathVariable long id, Model model, RedirectAttributes redirectAttributes) {
-        Cita cita = citaServiceImpl.mostrarCita(id);
+        try{
+            Cita cita = citaServiceImpl.mostrarCita(id);
 
-        if (cita != null) {
-            model.addAttribute("cita", cita);
-            return "citas/mostrarCita";
+            if (cita != null) {
+                model.addAttribute("cita", cita);
+                return "citas/mostrarCita";
+            }
+            redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
+        }catch(Exception e){    
+            redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
+            logger.error(e.getMessage());
         }
-
-        redirectAttributes.addFlashAttribute("msg_error", "Registro no encontrado.");
         return "redirect:/citas/list";
     }
 
     @GetMapping(value = "/borrar/{id}")
     public String borrarCita(@PathVariable long id, RedirectAttributes redirectAttributes) {
-        boolean respuesta = citaServiceImpl.eliminar(id);
-        if (respuesta) {
-            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
-        } else {
-            redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
+        try{
+            boolean respuesta = citaServiceImpl.eliminar(id);
+            if (respuesta) {
+                redirectAttributes.addFlashAttribute("msg_success", "Eliminación exitosa");
+            } else {
+                redirectAttributes.addFlashAttribute("msg_success", "Eliminación fallida");
+            }
+        }catch(Exception e){    
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            logger.error(e.getMessage());
         }
         return "redirect:/citas/list";
     }
@@ -151,12 +189,13 @@ public class CitaController {
             cita.setEstatus(2);
             boolean respuesta = citaServiceImpl.guardar(cita);
             if (respuesta) {
-                redirectAttributes.addFlashAttribute("msg_success", "Eliminacion exitosa");
+                redirectAttributes.addFlashAttribute("msg_success", "Eliminación exitosa");
             } else {
-                redirectAttributes.addFlashAttribute("msg_success", "Eliminacion fallida");
+                redirectAttributes.addFlashAttribute("msg_success", "Eliminación fallida");
             }
         }catch(Exception e){
             e.printStackTrace();
+            logger.error(e.getMessage());
         }
         
         return "redirect:/citas/ver-agenda";

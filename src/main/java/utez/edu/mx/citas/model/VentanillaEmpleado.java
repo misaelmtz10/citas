@@ -1,6 +1,5 @@
 package utez.edu.mx.citas.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -9,10 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -34,12 +34,15 @@ public class VentanillaEmpleado {
     @Column(columnDefinition = "tinyint not null")
 	private Integer estatus;
 
+    @NotNull(message = "La hora de inicio no puede estar vacía")
     @Column(nullable = false, name = "hora_inicio", columnDefinition = "TIME NOT NULL")
 	private String horaInicio;
 
+    @NotNull(message = "La hora de finalización no puede estar vacía")
     @Column(nullable = false, name = "hora_fin", columnDefinition = "TIME NOT NULL")
 	private String horaFin;
 
+    @NotNull(message = "La fecha no puede estar vacía")
     @Column(nullable = false, name = "created_at")
 	@CreationTimestamp
     private Date createdAt;

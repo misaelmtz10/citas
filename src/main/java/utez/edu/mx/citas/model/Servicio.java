@@ -12,8 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Servicios")
@@ -24,12 +26,16 @@ public class Servicio {
     @Column(name = "idServicos", nullable = false)
 	private Long id;
 
+	@NotBlank(message = "El nombre no puede estar en blanco")
 	@Column(nullable = false, length = 45)
 	private String nombre;
 
+	@NotBlank(message = "La descripción no puede estar en blanco")
     @Column(nullable = false, length = 100)
 	private String descripcion;
 
+	@NotEmpty(message = "Valor no valido")
+	@Size(min = 0, max = 5000)
     @Column(nullable = false)
     private double costo;
     

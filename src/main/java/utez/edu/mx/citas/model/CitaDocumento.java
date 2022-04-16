@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "citas_has_documentos")
@@ -24,10 +27,10 @@ public class CitaDocumento {
 	/*@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idServicioDocumento", nullable = false)
     private ServicioDocumento servicio_documento;*/
-	
 	@Column(columnDefinition = "tinyint not null")
 	private Integer estatus;
 	
+	@NotBlank(message = "El valor no puede estar en blanco")
 	@Column(nullable = true, length = 100)
 	private String archivo;
 

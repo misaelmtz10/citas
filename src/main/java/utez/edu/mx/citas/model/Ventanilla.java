@@ -10,7 +10,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.WhereJoinTable;
 
@@ -23,6 +27,7 @@ public class Ventanilla {
     @Column(name = "id_ventanilla", nullable = false)
 	private Long id;
 
+    @NotBlank(message = "El nombre no puede estar en blanco")
 	@Column(name = "nombre_ventanilla", nullable = false, length = 45)
 	private String nombreVentanilla;
 
@@ -34,6 +39,9 @@ public class Ventanilla {
     @WhereJoinTable(clause = "estatus = 1")
     private List<Empleado> empleados;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Cita> citas;
+    
     public Ventanilla() {
     }
 
@@ -74,4 +82,5 @@ public class Ventanilla {
     public void setEmpleados(List<Empleado> empleados) {
         this.empleados = empleados;
     }
+
 }

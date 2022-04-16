@@ -12,8 +12,12 @@ import utez.edu.mx.citas.model.Usuario;
 import utez.edu.mx.citas.service.EmailServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 public class RecoverPasswordController {
+    Logger logger = LoggerFactory.getLogger(RecoverPasswordController.class); 
 
 	@Autowired
 	EmailServiceImpl emailServiceImpl;
@@ -48,28 +52,34 @@ public class RecoverPasswordController {
 	@PostMapping("/reset/password/email")
 	public String enviarContrasenaEmail(@RequestParam("username") String username,
 			RedirectAttributes redirectAttributes) {
-		// Remove white spaces
-		username = username.replaceAll("[\\s]", "");
-		// Create new password with 12 characters
-		String nuevaContrasena = generarContrasena(12);
-		// Encoder password
-		String contrasenaEncriptada = passwordEncoder.encode(nuevaContrasena);
-		// Search user_name
-		Usuario user = usuarioServiceImpl.buscarPorUsername(username);
-		// Update password
-		boolean respuestaCambio = usuarioServiceImpl.cambiarContrasena(contrasenaEncriptada, user.getUsername());
-		// Get full user_name
-		String nombreUsuario = user.getNombre().concat(" ").concat(user.getApellidos());
-		// Create email content
-		String htmlContent = plantillaRecuperacionContrasena(nombreUsuario, user.getUsername(), nuevaContrasena);
-		// Send message
-		boolean respuestaEmail = emailServiceImpl.sendEmail(user.getCorreo(), "Cambio de contraseña", htmlContent);
+		try{
+			// Remove white spaces
+			username = username.replaceAll("[\\s]", "");
+			// Create new password with 12 characters
+			String nuevaContrasena = generarContrasena(12);
+			// Encoder password
+			String contrasenaEncriptada = passwordEncoder.encode(nuevaContrasena);
+			// Search user_name
+			Usuario user = usuarioServiceImpl.buscarPorUsername(username);
+			// Update password
+			boolean respuestaCambio = usuarioServiceImpl.cambiarContrasena(contrasenaEncriptada, user.getUsername());
+			// Get full user_name
+			String nombreUsuario = user.getNombre().concat(" ").concat(user.getApellidos());
+			// Create email content
+			String htmlContent = plantillaRecuperacionContrasena(nombreUsuario, user.getUsername(), nuevaContrasena);
+			// Send message
+			boolean respuestaEmail = emailServiceImpl.sendEmail(user.getCorreo(), "Cambio de contraseña", htmlContent);
 
-		if (respuestaCambio && respuestaEmail) {
-			redirectAttributes.addFlashAttribute("msg_success",
-					"Correo de recuperación de contraseña enviado, por favor revisa tu bandeja de correo.");
-			return "redirect:/login";
-		} else {
+			if (respuestaCambio && respuestaEmail) {
+				redirectAttributes.addFlashAttribute("msg_success",
+						"Correo de recuperación de contraseña enviado, por favor revisa tu bandeja de correo.");
+				return "redirect:/login";
+			} else {
+				redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error, por favor intenta de nuevo.");
+				return "redirect:/reset/password";
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
 			redirectAttributes.addFlashAttribute("msg_error", "Ocurrió un error, por favor intenta de nuevo.");
 			return "redirect:/reset/password";
 		}

@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -24,15 +27,19 @@ public class Horario {
 	@Column(nullable = false)
 	@CreationTimestamp
 	private Date fecha;
-
+    
+	@NotNull(message = "La hora de inicio no puede estar vacía")
     @Column(nullable = false, name = "hora_inicio")
 	@CreationTimestamp
 	private LocalDateTime horaInicio;
 
+    @NotNull(message = "La hora de finalización no puede estar vacía")
     @Column(nullable = false, name = "hora_fin")
 	@CreationTimestamp
 	private LocalDateTime horaFin;
 
+    @NotEmpty(message = "Valor no valido")
+    @Size(min = 0, max = 5)
     @Column(nullable = false, name = "repeticiones_disponibles")
     private Integer repeticionesDisponibles;
 
