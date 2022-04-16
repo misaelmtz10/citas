@@ -17,29 +17,35 @@
 
 
     <title>Asingacion Ventanillas</title>
+    <style>
+        .multiselect-container {
+            width: 300px;
+        }
 
+        html,
+        body {
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 
-<body>
+<body style="overflow-x:hidden !important">
     <div class="wrapper d-flex align-items-stretch">
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- Page Content  -->
-        <div id="content" class="p-1 p-md-2">
+        <div id="content">
             <div th:insert="~{fragments/header :: header}"></div>
 
-            <div class="row">
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                </div>
-                <div class="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7">
+            <div class="row" style="padding-left: 5%; padding-right: 5%;">
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                     <h3>Listado de Ventanillas</h3>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                </div>
-                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+
+                <div style="padding-left: 5%; padding-right: 5%;">
                     <table id="dataTable" class="display table table-striped table-hover">
                         <thead>
                             <tr>
@@ -61,7 +67,7 @@
                                 <td>
                                     <!-- Button para abrir modal de actualizacion -->
                                     <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="modal"
-                                        data-bs-target="#updateModal" th:attr="onclick=|upload('${lista.id}')|">
+                                        data-bs-target="#updateModal" th:attr="onclick=|upload('${lista.id}')|" style="font-size: 13px;">
                                         <i class="fas fa-user-edit"></i> Asignar
                                     </button>
                                     <!--
@@ -75,112 +81,110 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                </div>
-
-                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
-
+            <div class="row" style="padding-left: 5%; padding-right: 5%;">
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                     <h3> Listado de personal asignado </h3>
+                </div>
+            </div>
 
-                    <table id="dataTable2" class="display table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Empleado</th>
-                                <th scope="col">Ventanilla</th>
-                                <th scope="col">Hora de servicio </th>
+            <div class="row" style="padding-left: 5%; padding-right: 5%;">
 
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="lista, i: ${listaVentanillaEmpleados}" th:class="'ventanilla_'+${lista.id}">
-                                <td> [[${i.index+1}]] </td>
-                                <td class="nombre">[[${lista.empleado.usuario.nombre}+' A
-                                    '+${lista.empleado.usuario.apellidos}]]</td>
-                                <td> [[${lista.ventanilla.nombreVentanilla}]] </td>
-                                <td> [[${lista.horaInicio} +' A '+ ${lista.horaFin}]] </td>
+                <table id="dataTable2" class="display table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Empleado</th>
+                            <th scope="col">Ventanilla</th>
+                            <th scope="col">Hora de servicio </th>
 
-                                <td>
-                                    <!-- Button para abrir modal de actualizacion -->
-                                    <a type="button" class="btn btn-outline-danger btn-md" th:attr="onclick=|deleted('${lista.id}')|"
-                                        onclick="">
-                                        <i class="fas fa-person-booth"></i> Liberar
-                                    </a>
-                                    <!--
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="lista, i: ${listaVentanillaEmpleados}" th:class="'ventanilla_'+${lista.id}">
+                            <td> [[${i.index+1}]] </td>
+                            <td class="nombre">[[${lista.empleado.usuario.nombre}+' A
+                                '+${lista.empleado.usuario.apellidos}]]</td>
+                            <td> [[${lista.ventanilla.nombreVentanilla}]] </td>
+                            <td> [[${lista.horaInicio} +' A '+ ${lista.horaFin}]] </td>
+
+                            <td>
+                                <!-- Button para abrir modal de actualizacion -->
+                                <a type="button" class="btn btn-outline-danger btn-md"
+                                    th:attr="onclick=|deleted('${lista.id}')|" onclick="" style="font-size: 13px;">
+                                    <i class="fas fa-person-booth"></i> Liberar
+                                </a>
+                                <!--
                                     <a th:href="@{/ventanillas/eliminar/{id} (id=${lista.id})}" type="button" class="btn btn-danger">Eliminar</a>
                                     -->
-                                </td>
-                            </tr>
+                            </td>
+                        </tr>
 
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
-
-            <!-- Modal Asignacion de ventanilla-->
-            <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="updateModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="createModalLabel">Asignar Ventanilla</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form class="needs-validation" novalidate id="crear" th:action="@{/ventanillas/asiganarUsuario}"
-                            method="POST" th:object="${ventanillaEmpleado}">
-                            <div class="modal-body">
-                                <input type="hidden" id="ventanilla-id" th:field="*{ventanilla}">
-
-                                <div class="input-group mb-3">
-                                    <div class="input-group mb-3">
-                                        <label class="input-group-text" for="Empleados">Empleados</label>
-                                        <select title="Seleccionar..." class="form-select form-contro selectpicker"
-                                            data-show-subtext="true" data-live-search="true" th:field="*{empleado}"
-                                            required>
-                                            <option th:each="lista : ${listarEmpleados}" th:value="${lista.id}"
-                                                th:text="${lista.usuario.nombre}+'  '+${lista.usuario.apellidos}">
-                                            </option>
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Porfavor ingrese un empleado.
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <input id="form-hora-inicio" type="time" class="form-control"
-                                        placeholder="10:00 a.m" min="08:00:00" max="17:00:00"
-                                        aria-describedby="basic-addon2" required th:field="*{horaInicio}">
-                                    <span class="input-group-text" id="form-hora-inicio" placeholder="08:00 a.m">Hora
-                                        inicio</span>
-                                    <div class="invalid-feedback">
-                                        Porfavor ingrese una hora de entrada.
-                                    </div>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon3">Hora Fin</span>
-                                    <input id="form-hora-fin" type="time" class="form-control phone-mask"
-                                        placeholder="10:00 a.m" min="08:00:00" max="17:00:00" required
-                                        th:field="*{horaFin}">
-                                    <div class="invalid-feedback">
-                                        Porfavor ingrese una hora de salida.
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-warning">Actualizar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
             <div th:insert="~{fragments/footer :: footer}"></div>
+        </div>
+
+        <!-- Modal Asignacion de ventanilla-->
+        <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="updateModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel">Asignar Ventanilla</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form class="needs-validation" novalidate id="crear" th:action="@{/ventanillas/asiganarUsuario}"
+                        method="POST" th:object="${ventanillaEmpleado}">
+                        <div class="modal-body">
+                            <input type="hidden" id="ventanilla-id" th:field="*{ventanilla}">
+
+                            <div class="input-group mb-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="Empleados">Empleados</label>
+                                    <select title="Seleccionar..." class="form-select form-contro selectpicker"
+                                        data-show-subtext="true" data-live-search="true" th:field="*{empleado}"
+                                        required>
+                                        <option th:each="lista : ${listarEmpleados}" th:value="${lista.id}"
+                                            th:text="${lista.usuario.nombre}+'  '+${lista.usuario.apellidos}">
+                                        </option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Porfavor ingrese un empleado.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <input id="form-hora-inicio" type="time" class="form-control" placeholder="10:00 a.m"
+                                    min="08:00:00" max="17:00:00" aria-describedby="basic-addon2" required
+                                    th:field="*{horaInicio}">
+                                <span class="input-group-text" id="form-hora-inicio" placeholder="08:00 a.m">Hora
+                                    inicio</span>
+                                <div class="invalid-feedback">
+                                    Porfavor ingrese una hora de entrada.
+                                </div>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon3">Hora Fin</span>
+                                <input id="form-hora-fin" type="time" class="form-control phone-mask"
+                                    placeholder="10:00 a.m" min="08:00:00" max="17:00:00" required
+                                    th:field="*{horaFin}">
+                                <div class="invalid-feedback">
+                                    Porfavor ingrese una hora de salida.
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-warning">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     <!--Bootstrap-->
@@ -325,6 +329,17 @@
             });
         }
 
+        $(function () {
+
+            var $body = $(document);
+            $body.bind('scroll', function () {
+                // "Desactivar" el scroll horizontal
+                if ($body.scrollLeft() !== 0) {
+                    $body.scrollLeft(0);
+                }
+            });
+
+        }); 
     </script>
 </body>
 

@@ -21,30 +21,30 @@
         .multiselect-container {
             width: 300px;
         }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
     </style>
 </head>
 
-<body>
+<body style="overflow-x:hidden !important">
     <div class="wrapper d-flex align-items-stretch">
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- Page Content  -->
-        <div id="content" class="p-1 p-md-2">
+        <div id="content">
             <div th:insert="~{fragments/header :: header}"></div>
 
-            <div class="row">
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                </div>
-                <div class="col-7 col-sm-7 col-md-7 col-lg-7 col-xl-7">
+            <div class="row" style="padding-left: 5%; padding-right: 5%;">
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
                     <h3>Listado de Solicitantes</h3>
                 </div>
             </div>
             <div class="row">
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
 
-                </div>
-
-                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                <div style="padding-left: 5%; padding-right: 5%;">
                     <div class="table-responsive">
                         <table id="dataTable" class="display table table-striped table-hover">
                             <thead>
@@ -71,9 +71,10 @@
                                     <td class="Matricula">[[${usuarioLista.matricula}]]</td>
                                     <td class="Carrera">[[${usuarioLista.carrera.nombre}]]</td>
                                     <td>
-                                            <button id="eliminar" onclick=""
+                                        <button id="eliminar" onclick=""
                                             th:attr="onclick=|deleted('${usuarioLista.id}')|" type="button"
-                                            class="btn btn-outline-danger btn-md"><i class="fas fa-trash"></i></button>
+                                            class="btn btn-outline-danger btn-md"><i class="fas fa-trash"
+                                                style="font-size: 13px;"></i></button>
 
                                     </td>
                                 </tr>
@@ -196,6 +197,18 @@
                 }
             });
         }
+
+        $(function () {
+
+            var $body = $(document);
+            $body.bind('scroll', function () {
+                // "Desactivar" el scroll horizontal
+                if ($body.scrollLeft() !== 0) {
+                    $body.scrollLeft(0);
+                }
+            });
+
+        }); 
     </script>
 </body>
 

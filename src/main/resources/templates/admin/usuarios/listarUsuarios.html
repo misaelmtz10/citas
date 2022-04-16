@@ -20,7 +20,9 @@
         .multiselect-container {
             width: 300px;
         }
-        html, body{
+
+        html,
+        body {
             overflow-x: hidden;
         }
     </style>
@@ -31,19 +33,19 @@
         <div th:insert="~{fragments/sidebar :: sidebar}"></div>
 
         <!-- Page Content  -->
-        <div id="content" >
+        <div id="content">
             <div th:insert="~{fragments/header :: header}"></div>
 
             <div class="row" style="padding-left: 5%; padding-right: 5%;">
-                
-                <div  class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                    <h3  >Listado de Usuarios</h3>
+
+                <div class="col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <h3>Listado de Usuarios</h3>
                 </div>
-                
+
                 <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
-                   
+
                     <!-- Button para abrir modal -->
-                    <button  onclick="nuevo()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    <button onclick="nuevo()" type="button" class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#createModal">
                         <i class="fas fa-user-plus"></i>&nbsp; Crear Usuario
                     </button>
@@ -58,8 +60,8 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form class="needs-validation" th:action="@{/admin/usuarios/guardar}" method="POST" id="crear"
-                                    th:object="${usuario}" novalidate>
+                                <form class="needs-validation" th:action="@{/admin/usuarios/guardar}" method="POST"
+                                    id="crear" th:object="${usuario}" novalidate>
                                     <div class="modal-body">
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
@@ -139,7 +141,7 @@
                 </div>
             </div>
             <div class="row">
-                
+
                 <!-- class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9"-->
                 <div style="padding-left: 5%; padding-right: 5%;">
                     <div class="table-responsive">
@@ -180,7 +182,8 @@
                                         </button>
                                         <button id="eliminar" onclick=""
                                             th:attr="onclick=|deleted('${usuarioLista.id}')|" type="button"
-                                            class="btn btn-outline-danger btn-md" style="font-size: 13px;"><i class="fas fa-trash"></i></button>
+                                            class="btn btn-outline-danger btn-md" style="font-size: 13px;"><i
+                                                class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
 
@@ -415,16 +418,16 @@
             });
         }
 
-        $(function() {
+        $(function () {
 
-        var $body = $(document);
-        $body.bind('scroll', function() {
-            // "Desactivar" el scroll horizontal
-            if ($body.scrollLeft() !== 0) {
-                $body.scrollLeft(0);
-            }
-        });
-        
+            var $body = $(document);
+            $body.bind('scroll', function () {
+                // "Desactivar" el scroll horizontal
+                if ($body.scrollLeft() !== 0) {
+                    $body.scrollLeft(0);
+                }
+            });
+
         }); 
     </script>
 
