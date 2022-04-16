@@ -26,7 +26,7 @@
 
   <body>
     <div class="wrapper d-flex align-items-stretch">
-      <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+      <div th:insert="~{fragments/sidebar :: sidebarB}"></div>
 
       <!-- Page Content  -->
       <div id="content" class="p-1 p-md-2">
@@ -34,84 +34,7 @@
         <div id="calendar"></div>
       </div>
     </div>
-    <!-- <div id="modal-register" class="modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Registrar cita</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form th:action="@{/citas/guardar}" method="post" th:object="${cita}">
-              <div class="form-row">
-                <div class="form-group col-lg-12">
-                  <label for="message-text" class="col-form-label">
-                    Título:
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    placeholder="Título"
-                    th:field="*{title}"
-                  />
-                </div>
-                <div class="form-group col-lg-6">
-                  <label for="recipient-name" class="col-form-label">
-                    Fecha inicio:
-                  </label>
-                  <input
-                    type="datetime-local"
-                    class="form-control"
-                    id="fechaInicio"
-                    th:field="*{start}"
-                  />
-                </div>
-                <div class="form-group col-lg-6">
-                  <label for="message-text" class="col-form-label">
-                    Fecha fin:
-                  </label>
-                  <input
-                    type="datetime-local"
-                    class="form-control"
-                    id="fechaFin"
-                    th:field="*{end}"
-                  />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col">
-									<label>Servicio:</label>
-									<select class="form-control form-control" th:field="*{servicio.id}">
-										<option hidden selected value="">Selecciona un servicio...</option>
-										<option th:each="tmpServicio: ${listaServicios}" th:value="${tmpServicio.id}" th:text="${tmpServicio.nombre}">
-
-										</option>
-									</select>
-								</div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Cancelar
-                </button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div> -->
+    
     <div id="modal-details" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -1,4 +1,5 @@
 let idEvent;
+let ventanilla = 1;
 const citas = [];
     document.body.onload = async () => {
     try {
@@ -6,6 +7,7 @@ const citas = [];
         const data = await response.json();
         data.map((cita) => {
         //validar status
+        console.log(cita);
         let color;
         let dateif = new Date(cita.end);
 
@@ -26,7 +28,14 @@ const citas = [];
         if (dateif < new Date()) {
             color = "#FFA500";
         }
+        console.log(cita.ventanilla.id);
+        if (cita.ventanilla.id != ventanilla) {
+            cita.title = "";
+            cita.start = "";
+            cita.end = "";
+            color = "";
 
+        }
         citas.push({
             id: cita.id,
             title: cita.title,
@@ -77,7 +86,7 @@ const citas = [];
             })
         },
         eventClick: function (args) {
-            console.log(args);
+            // console.log(args);
             idEvent = args.event._def.extendedProps.item.id;
             let start = args.event._def.extendedProps.item.start;
             let end = args.event._def.extendedProps.item.end;

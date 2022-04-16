@@ -42,7 +42,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 
                 //  Asignar permisos a las URL de acuerdo a los roles
                  .antMatchers("/admin/**").hasAnyAuthority("ROL_ADMINISTRADOR")
-                 .antMatchers("/citas/**").hasAnyAuthority("ROL_SOLICITANTE")
+                 .antMatchers("/citas/**").hasAnyAuthority("ROL_SOLICITANTE", "ROL_VENTANILLA")
 
                  // Las demas URL requieren autenticacion
                  .anyRequest().authenticated()

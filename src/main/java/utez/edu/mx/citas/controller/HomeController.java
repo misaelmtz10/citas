@@ -106,10 +106,8 @@ public class HomeController {
       try{
         if (session.getAttribute("user") == null) {
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
-          System.out.println(user.toString());
           user.setPassword(null);
           Solicitante solicitante = solicitanteServiceImpl.buscarPorIdUsuario(user.getId());
-          System.out.println(solicitante.toString());
           session.setAttribute("user", solicitante);
         }
       } catch (Exception e) {

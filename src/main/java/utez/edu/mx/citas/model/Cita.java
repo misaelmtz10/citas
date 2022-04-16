@@ -42,6 +42,9 @@ public class Cita {
 	@Column(columnDefinition = "tinyint not null")
 	private Integer estatus;
 
+	@Column(nullable = true, length = 255)
+	private String archivo;
+
     @ManyToOne
 	@JoinColumn(name = "idSolicitante", nullable = false)
 	private Solicitante solicitante;
@@ -54,24 +57,9 @@ public class Cita {
 	@JoinColumn(name = "idServicio", nullable = false)
 	private Servicio servicio;
 
-
 	public Cita() {
 	}
 
-	public Cita(Long id, @NotBlank(message = "El título no puede estar en blanco") String title,
-			@NotNull(message = "La fecha de inicio no puede estar vacía") String start,
-			@NotNull(message = "La fecha de término no puede estar vacía") String end, Date registered, Integer estatus,
-			Solicitante solicitante, Ventanilla ventanilla, Servicio servicio) {
-		this.id = id;
-		this.title = title;
-		this.start = start;
-		this.end = end;
-		this.registered = registered;
-		this.estatus = estatus;
-		this.solicitante = solicitante;
-		this.ventanilla = ventanilla;
-		this.servicio = servicio;
-	}
 
 	public Long getId() {
 		return id;
@@ -132,6 +120,14 @@ public class Cita {
 		this.estatus = estatus;
 	}
 
+	
+	public String getArchivo() {
+		return archivo;
+	}
+
+	public void setArchivo(String archivo) {
+		this.archivo = archivo;
+	}
 
 	public Solicitante getSolicitante() {
 		return solicitante;

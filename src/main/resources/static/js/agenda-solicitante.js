@@ -67,7 +67,7 @@ const citas = [];
         selectable: true,
         nowIndicator: true,
         allDaySlot: false,
-        selectMirror: false,
+        selectMirror: true,
         timeZone: "America/Mexico_City",
         locale: "es",
         hiddenDays: [0, 6],
@@ -112,20 +112,23 @@ const citas = [];
             }
         },
         eventClick: function (args) {
-            // console.log(args);
+            console.log(args);
             if (args.event._def.extendedProps.item.solicitante.matricula === matricula) {
                 let start = args.event._def.extendedProps.item.start;
                 let end = args.event._def.extendedProps.item.end;
                 let title = args.event._def.extendedProps.item.title;
                 let servicio = args.event._def.extendedProps.item.servicio.nombre;
                 let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
-
+                let data = `@{/files/{i}(i = ${args.event._def.extendedProps.item.archivo})}`;
+ 
                 $("#modal-details").modal("show");
                 $("#title-details").val(title);
                 $("#start-details").val(start.replace(' ' ,'T'));
                 $("#end-details").val(end.replace(' ' ,'T'));
                 $("#servicio-details").val(servicio);
                 $("#ventanilla-details").val(ventanilla);
+                $("#documento-details").append(`<a type="*/*" th:href="${data}" target="_blank">Ver</a>`);
+                console.log($("#docuemento-details"));
             } else {
                 Swal.fire({
                     title: 'Agendar Cita',

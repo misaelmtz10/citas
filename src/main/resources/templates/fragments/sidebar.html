@@ -59,18 +59,9 @@
 			<h5 style="color: white;" th:if="${session.user != null}" th:text="${session.user.getNombre()} + ' ' + ${session.user.getApellidos()}"></h5>
 		</div>
 		<ul class="list-unstyled components mb-5" sec:authorize="isAuthenticated()">
-			<li class="active">
-				<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Citas</a>
-				<ul class="collapse list-unstyled" id="homeSubmenu">
-					<li>
-						<a th:href="@{/page}">Agenda de Citas</a>
-					</li>
-					<li>
-						<a th:href="@{/page}">Atender Citas</a>
-					</li>
-				</ul>
+			<li>
+				<a th:href="@{/citas/ver-agenda}">Agenda de Citas</a>
 			</li>
-
 			<li>
 				<a th:href="@{/page}">Horarios Disponibles</a>
 			</li>
