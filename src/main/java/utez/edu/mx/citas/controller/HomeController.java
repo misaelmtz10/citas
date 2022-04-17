@@ -82,6 +82,12 @@ public class HomeController {
       return "formLogin";
     }
 
+    @GetMapping("/login-error")
+    public String mostrarLoginError(RedirectAttributes redirectAttributes) {
+      redirectAttributes.addFlashAttribute("msg_error", "Usuario y/o contraseña incorrecta");
+      return "redirect:/login";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, RedirectAttributes redirectAttributes) {
       try {

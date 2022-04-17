@@ -95,7 +95,6 @@ const citas = [];
             let servicio = args.event._def.extendedProps.item.servicio.nombre;
             let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
             let data = args.event._def.extendedProps.item.archivo;
-            console.log(data);
             $("#modal-details").modal("show");
             $("#title-details").val(title);
             $("#start-details").val(start.replace(' ' ,'T'));

@@ -50,7 +50,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
                  .anyRequest().authenticated()
 
                 //  Formulario de inicio de sesion no requiere autenticacion
-                .and().formLogin().successHandler(successHandler).loginPage("/login").permitAll();
+                .and().formLogin().successHandler(successHandler).loginPage("/login").permitAll()
+                .and().formLogin().loginPage("/login").failureUrl("/login-error");
      }
 
     

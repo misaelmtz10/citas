@@ -2,8 +2,6 @@ package utez.edu.mx.citas.service;
 
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
 import utez.edu.mx.citas.model.Empleado;
 
 public interface EmpleadoService {
