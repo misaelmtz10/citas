@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.OneToOne;
 
@@ -23,6 +24,7 @@ public class Empleado {
 	private Integer estatus;
 
     @OneToOne
+    @MapsId
 	@JoinColumn(name = "idUsuario", nullable = false)
 	private Usuario usuario;
 
@@ -69,5 +71,4 @@ public class Empleado {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-
 }

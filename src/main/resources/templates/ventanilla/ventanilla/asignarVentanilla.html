@@ -14,12 +14,17 @@
     <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
     <!--Toast-->
     <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+    <!--Timepicker-->
+    <link th:href='@{/css/jquery.timepicker.min.css}' rel='stylesheet' type="text/css" />
 
 
     <title>Asingacion Ventanillas</title>
     <style>
         .multiselect-container {
             width: 300px;
+        }
+        .ui-timepicker-standard{
+            z-index: 9999 !important;
         }
 
         html,
@@ -56,7 +61,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="lista, i: ${listaVentanillas}" th:class="'ventanilla_'+${lista.id}">
+                            <tr th:each="lista, i: ${listaVentanillas}" th:class="'ventanilla_'+${lista.id}" >
                                 <td> [[${i.index+1}]] </td>
                                 <td class="nombre">[[${lista.nombreVentanilla}]]</td>
                                 <td class="empleado">
@@ -102,12 +107,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="lista, i: ${listaVentanillaEmpleados}" th:class="'ventanilla_'+${lista.id}">
+                        <tr th:each="lista, i: ${listaVentanillaEmpleados}" th:class="'usuario_'+${lista.id}">
                             <td> [[${i.index+1}]] </td>
                             <td class="nombre">[[${lista.empleado.usuario.nombre}+' A
                                 '+${lista.empleado.usuario.apellidos}]]</td>
                             <td> [[${lista.ventanilla.nombreVentanilla}]] </td>
-                            <td> [[${lista.horaInicio} +' A '+ ${lista.horaFin}]] </td>
+                            <td class="horarios" th:data-horaIn="${lista.horaInicio}" th:data-horaFin="${lista.horaFin}"> [[${lista.horaInicio} +' A '+ ${lista.horaFin}]] </td>
 
                             <td>
                                 <!-- Button para abrir modal de actualizacion -->
@@ -159,10 +164,10 @@
                             </div>
 
                             <div class="input-group mb-3">
-                                <input id="form-hora-inicio" type="time" class="form-control" placeholder="10:00 a.m"
-                                    min="08:00:00" max="17:00:00" aria-describedby="basic-addon2" required
+                                <input id="form-hora-inicio" class="form-control timepicker" placeholder="08:00"
+                                    aria-describedby="basic-addon2" required autocomplete="off"
                                     th:field="*{horaInicio}">
-                                <span class="input-group-text" id="form-hora-inicio" placeholder="08:00 a.m">Hora
+                                <span class="input-group-text" id="form-hora-inicio" placeholder="08:00">Hora
                                     inicio</span>
                                 <div class="invalid-feedback">
                                     Porfavor ingrese una hora de entrada.
@@ -171,8 +176,10 @@
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon3">Hora Fin</span>
-                                <input id="form-hora-fin" type="time" class="form-control phone-mask"
-                                    placeholder="10:00 a.m" min="08:00:00" max="17:00:00" required
+                                <input id="form-hora-fin" class="form-control timepicker"
+                                    placeholder="08:00" required autocomplete="off"
+
+
                                     th:field="*{horaFin}">
                                 <div class="invalid-feedback">
                                     Porfavor ingrese una hora de salida.
@@ -209,6 +216,8 @@
     <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
     <!--Confirmaciones Modales Sweetalert-->
     <script th:src="@{/js/confirmacion-sweetalert.js}"></script>
+    <!--Timepicker-->
+    <script th:src="@{/js/jquery.timepicker.min.js}"></script>
 
     <script th:if="${msg_success != null}">
         new Toast({
@@ -226,7 +235,22 @@
 
     <script>
 
+
         $(document).ready(function () {
+
+            $('.timepicker').timepicker({
+                use24hours: true,
+                pickTime: true,
+                timeFormat: 'HH:mm',
+                interval: 30,
+                minTime: '08',
+                maxTime: '17:00',
+                startTime: '08:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
+
             $('#dataTable').DataTable({
                 "paging": true,
                 "searching": true,
@@ -292,6 +316,7 @@
             var row = ".ventanilla_" + id;
             $("#ventanilla-id").val(id);
             $("#crear").attr("action", "/ventanillas/asiganarUsuario");
+
         }
 
         function deleted(id) {
@@ -341,6 +366,12 @@
             });
 
         }); 
+
+        function udateTimePicker(i,j) {
+            $('.timepicker').timepicker('option', 'minTime', i);
+            $('.timepicker').timepicker('option', 'maxTime', j);
+            $('.timepicker').timepicker('option', 'scrollbar', true);
+        }
     </script>
 </body>
 

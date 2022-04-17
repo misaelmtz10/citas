@@ -10,10 +10,14 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 @Service
 public class EmailServiceImpl implements EmailService {
+
+	Logger logger = LoggerFactory.getLogger(EmailServiceImpl.class); 
 
 	@Value("${sendgrid.api.key}")
 	private String sendgridApiKey;
@@ -37,10 +41,9 @@ public class EmailServiceImpl implements EmailService {
 			request.setEndpoint("mail/send");
 			request.setBody(mail.build());
 			Response response = sg.api(request);
-
 			return response.getStatusCode() == 202;
 		} catch (Exception exception) {
-			System.err.println(exception.getMessage());
+			logger.error(exception.getMessage());
 			return false;
 		}
 	}

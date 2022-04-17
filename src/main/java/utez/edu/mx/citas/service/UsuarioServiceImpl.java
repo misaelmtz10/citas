@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 
 import utez.edu.mx.citas.model.Usuario;
 import utez.edu.mx.citas.repository.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
+    Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class); 
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -74,7 +77,7 @@ public class UsuarioServiceImpl implements UsuarioService{
             usuarioRepository.updatePassword(password, username);
             return true;
         } catch (Exception exception) {
-            System.out.println(exception.getMessage());
+            logger.error(exception.getMessage());
             exception.printStackTrace();
             return false;
         }

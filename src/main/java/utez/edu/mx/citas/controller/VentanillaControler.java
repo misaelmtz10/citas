@@ -51,7 +51,6 @@ public class VentanillaControler {
             List<Ventanilla> listaVentanillas = ventanillaServiceImpl.listarActivas();
             List<Empleado> listarEmpleados = empleadoServiceImpl.listarActivos();
             List<VentanillaEmpleado> listaVentanillaEmpleados = ventanillaEmpleadoService.listarActivos();
-            
             model.addAttribute("listaVentanillaEmpleados", listaVentanillaEmpleados); 
 
             model.addAttribute("listaVentanillas", listaVentanillas); 

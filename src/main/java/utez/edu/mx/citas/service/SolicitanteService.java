@@ -12,4 +12,5 @@ public interface SolicitanteService {
     boolean eliminar(Long id);
     Solicitante mostrarSolicitante(long id);
     Solicitante buscarPorIdUsuario(long idUsuario);
+    Long findSolicitanteByUser(long idUser);
 }
