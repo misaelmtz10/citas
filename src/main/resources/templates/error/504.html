@@ -11,30 +11,36 @@
 <body>
   <div class="container">
     <div class="row">
-        <div class="xs-12 md-6 mx-auto">
-            <div id="countUp">
-                <div class="number" data-count="504">0</div>
-                <div class="text">Gateway Timeout</div>
-                <div class="text">Espera... Puedo hacerlo...</div>
-                <div class="text">El servidor no pudo obtener una respuesta a tiempo</div>
-            </div>
+      <div class="xs-12 md-6 mx-auto">
+        <div id="countUp">
+          <div class="number" data-count="504">0</div>
+          <div class="text">Gateway Timeout</div>
+          <div class="text">Espera... Puedo hacerlo...</div>
+          <div class="text">El servidor no pudo obtener una respuesta a tiempo</div>
+          <div class="text" style="margin-top: 1%;">
+            <a th:href="@{/logout}">
+              <button class="buttonReturn" style="vertical-align:middle"><i class="fas fa-home"></i> Regresar</button>
+            </a>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-<script th:src="@{/js/jqueryV3.6.0.min.js}"></script>
-<script th:src="@{/js/inView.js}"></script>
-
-<style th:inline="text">
-body {
-  background: url([[@{/images/background.jpg}]]);
-  background-size: cover;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  min-width: 100vw;
-  font-family: "Roboto Mono", "Liberation Mono", Consolas, monospace;
-  color: rgba(255, 255, 255, 0.87);
-}
-</style>
+  </div>
+  <script th:src="@{/js/jqueryV3.6.0.min.js}"></script>
+  <script th:src="@{/js/inView.js}"></script>
+  <!--font-awesome-->
+  <script th:src="@{/js/all.min.js}"></script>
+  <style th:inline="text">
+    body {
+      background: url([[@{/images/background.jpg}]]);
+      background-size: cover;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      min-width: 100vw;
+      font-family: "Roboto Mono", "Liberation Mono", Consolas, monospace;
+      color: rgba(255, 255, 255, 0.87);
+    }
+  </style>
 </body>
+
 </html>

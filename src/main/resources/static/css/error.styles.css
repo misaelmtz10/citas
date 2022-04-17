@@ -269,3 +269,28 @@ template {
     font-weight: 300;
     text-align: center;
 }
+
+.buttonReturn {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #002e60;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px;
+    width: 150px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .buttonReturn span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+
+  .buttonReturn:hover{
+    background-color: #061F78;
+  }
