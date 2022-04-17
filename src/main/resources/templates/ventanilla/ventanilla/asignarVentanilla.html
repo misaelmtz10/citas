@@ -43,10 +43,10 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="margin-bottom: 6%;">
 
-                <div style="padding-left: 5%; padding-right: 5%;">
-                    <table id="dataTable" class="display table table-striped table-hover">
+                <div style="padding-left: 2%; padding-right: 2%;">
+                    <table id="dataTable" class="display table table-striped table-hover table-sm">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -66,7 +66,7 @@
                                 </td>
                                 <td>
                                     <!-- Button para abrir modal de actualizacion -->
-                                    <button type="button" class="btn btn-outline-primary btn-md" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#updateModal" th:attr="onclick=|upload('${lista.id}')|" style="font-size: 13px;">
                                         <i class="fas fa-user-edit"></i> Asignar
                                     </button>
@@ -87,9 +87,10 @@
                 </div>
             </div>
 
-            <div class="row" style="padding-left: 5%; padding-right: 5%;">
+            <div class="row" style="margin-bottom: 6%;">
+                <div style="padding-left: 2%; padding-right: 2%;">
 
-                <table id="dataTable2" class="display table table-striped table-hover">
+                <table id="dataTable2" class="display table table-striped table-hover table-sm">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -110,7 +111,7 @@
 
                             <td>
                                 <!-- Button para abrir modal de actualizacion -->
-                                <a type="button" class="btn btn-outline-danger btn-md"
+                                <a type="button" class="btn btn-outline-danger btn-sm"
                                     th:attr="onclick=|deleted('${lista.id}')|" onclick="" style="font-size: 13px;">
                                     <i class="fas fa-person-booth"></i> Liberar
                                 </a>
@@ -122,6 +123,7 @@
 
                     </tbody>
                 </table>
+                </div>
             </div>
             <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
