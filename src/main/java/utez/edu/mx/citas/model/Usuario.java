@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "users")
 public class Usuario {
@@ -55,11 +57,13 @@ public class Usuario {
 
     @Column(columnDefinition = "tinyint not null")
 	private boolean enabled;
-    
-    @ManyToOne(fetch=FetchType.LAZY)
-    private Empleado empleado;
 
-    @ManyToOne( fetch=FetchType.LAZY)
+    @JsonBackReference
+    @OneToOne( fetch=FetchType.LAZY,cascade = CascadeType.ALL, mappedBy="usuario")
+    private Empleado empleado;
+    
+    @JsonBackReference
+    @OneToOne( fetch=FetchType.LAZY,cascade = CascadeType.ALL, mappedBy="usuario")
     private Solicitante solicitante;
 
    	@ManyToMany(cascade = CascadeType.MERGE)
@@ -171,4 +175,14 @@ public class Usuario {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+    @Override
+    public String toString() {
+        return "Usuario [apellidos=" + apellidos + ", correo=" + correo + ", empleado=" + empleado + ", enabled="
+                + enabled + ", id=" + id + ", intentos=" + intentos + ", nombre=" + nombre + ", password=" + password
+                + ", roles=" + roles + ", solicitante=" + solicitante + ", telefono=" + telefono + ", username="
+                + username + "]";
+    }
+
+    
 }
