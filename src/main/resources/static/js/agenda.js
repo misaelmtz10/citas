@@ -101,7 +101,7 @@ const citas = [];
             $("#end-details").val(end.replace(' ' ,'T'));
             $("#servicio-details").val(servicio);
             $("#ventanilla-details").val(ventanilla);
-            $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/citas/${data}" target="_blank">Ver</a>`);
+            $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/file-citas/${data}" target="_blank">Ver</a>`);
         },
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events
