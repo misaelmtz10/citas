@@ -1,7 +1,9 @@
 package utez.edu.mx.citas.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,8 +31,7 @@ public class Solicitante {
 	@JoinColumn(name = "idCarrera", nullable = false)
 	private Carrera carrera;
 
-    @OneToOne
-    @MapsId
+    @ManyToOne
     @JoinColumn(name = "idUsuario", nullable = false)
 	private Usuario usuario;
 
