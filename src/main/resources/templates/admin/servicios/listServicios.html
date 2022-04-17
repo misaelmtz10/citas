@@ -65,7 +65,7 @@
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
                                                 <input placeholder="Nombre documento" id="nombre_doc" type="text"
-                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
+                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){2,}"
                                                     th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -370,7 +370,7 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
+                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){2,}"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -624,8 +624,8 @@
                 if (result.isConfirmed) {
                     let timerInterval
                     Swal.fire({
-                        title: 'Borrando datos...',
-                        html: 'Tirando <b></b> archivos a la papelera....',
+                        title: 'Inhabilitando documento...',
+                        html: 'Ocultando <b></b> archivos bajo el escritorio....',
                         timer: 2000,
                         timerProgressBar: true,
                         didOpen: () => {
