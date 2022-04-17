@@ -3,12 +3,12 @@
 
 <head>
 	<title>Iniciar sesión</title>
-	<!--Style plantilla-->
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-	<!--Bootstrap-->
-	<link th:href="@{/css/style.css}" rel="stylesheet" />
-	<!--Toast-->
-	<link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+    <!--Bootstrap-->
+    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
+    <link th:href='@{/css/style.css}' rel='stylesheet' />
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 </head>
 
 <body style="background-color: #e9ecef;">
@@ -20,23 +20,29 @@
 					<div class="card-body">
 						<h2 class="my-auto text-center">Ingresar a mi cuenta</h2>
 						<hr>
-						<form th:action="@{/login}" method="post">
+						<form class="needs-validation" novalidate th:action="@{/login}" method="post">
 							<div class="form-group col">
 								<label>Correo electrónico</label>
 								<input class="form-control form-control-lg" type="email" name="username" max="100"
 									required>
+									<div class="invalid-feedback">
+										Porfavor ingrese un usuario.
+									</div>
 							</div>
 
 							<div class="form-group col">
 								<label>Contraseña</label>
 								<div class="input-group mb-3">
 									<input type="password" class="form-control form-control-lg" id="password"
-										name="password" max="22">
+										name="password" max="22" required>
 									<div class="input-group-append">
 										<button class="btn btn-secondary" type="button" id="seePasswordButton"
 											onclick="mostrarContrasena()">
 											<i class="fas fa-eye"></i>
 										</button>
+									</div>
+									<div class="invalid-feedback">
+										Porfavor ingrese la contraseña.
 									</div>
 								</div>
 							</div>
@@ -63,15 +69,20 @@
 		</div>
 	</div>
 
-	<!--Bootstrap-->
+    <script th:src="@{/js/main.js}"></script>
+    <!--Bootstrap-->
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
     <script th:src="@{/js/bootstrap/popper.js}"></script>
     <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
     <script th:src="@{/js/bootstrap/main.js}"></script>
-	<!--Toast-->
-	<script th:src="@{/js/toast.min.js}"></script>
-	<!--font-awesome-->
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+    <!--Mask inputs-->
+    <script th:src="@{/js/jquery.mask.min.js}"></script>
+    <!--font-awesome-->
     <script th:src="@{/js/all.min.js}"></script>
+    <!--Toast-->
+    <script th:src="@{/js/toast.min.js}"></script>
 	
 	<script th:if="${msg_success != null}">
 		new Toast({

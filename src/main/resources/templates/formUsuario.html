@@ -6,9 +6,12 @@
 	<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Bootstrap-->
+    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
     <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <link th:href='@{/css/main.css}' rel='stylesheet' />
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 </head>
 
 <body style="background-color: #e9ecef;">
@@ -22,20 +25,26 @@
 							<div class="card-body">
 								<h2 class="my-auto text-center">Crear cuenta</h2>
 								<hr>
-								<form th:action="@{/crearNuevaCuenta}" method="POST" th:object="${usuario}">
+								<form class="needs-validation" novalidate th:action="@{/crearNuevaCuenta}" method="POST" th:object="${usuario}">
 									<div class="form-row">
 										<div class="form-group col">
 											<label>Matricula<span class="text-danger">*</span></label>
 											<input class="form-control form-control-lg" name="matricula" type="text" max="45" required>
+											<div class="invalid-feedback">
+												Porfavor ingrese una matricula.
+											</div>
 										</div>
 										<div class="form-group col">
 											<label>Carrera<span class="text-danger">*</span></label>
 											<div class="input-group mb-3">
-                                                <select class="form-select form-control form-control" id="carrera" name="carrera">
-													<option value="" selected>Seleccionar...</option>
+                                                <select class="form-select form-control form-control" id="carrera" name="carrera" required>
+													<option selected disabled value="">Choose...</option>
                                                     <option th:each="lista : ${listaCarreras}" th:value="${lista.id}"
                                                         th:text="${lista.nombre} +' ('+ ${lista.siglas}+')'"></option>
                                                 </select>
+												<div class="invalid-feedback">
+													Porfavor seleccione una carrera.
+												</div>
                                             </div>
 										</div>
 									</div>
@@ -43,14 +52,20 @@
 									<div class="form-row">
 										<div class="form-group col">
 											<label>Contraseña<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg" onchange="validarContrasena()"
+											<input class="form-control form-control-lg has-validation" onchange="validarContrasena()"
 												type="password" max="22" id="password" name="password" th:field="*{password}" required>
+												<div class="invalid-feedback">
+													Porfavor ingrese una contraseña.
+												</div>
 										</div>
 										<div class="form-group col">
 											<label>Confirmar contraseña<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg" onchange="validarContrasena()"
+											<input class="form-control form-control-lg has-validation" onchange="validarContrasena()"
 												type="password" max="22" id="confirmarContrasena" name="confirmarContrasena"
 												required>
+												<div class="invalid-feedback">
+													Porfavor confirme la contraseña.
+												</div>
 										</div>
 									</div>
 		
@@ -58,10 +73,16 @@
 										<div class="form-group col">
 											<label>Nombre<span class="text-danger">*</span></label>
 											<input class="form-control form-control-lg" type="text" max="45" th:field="*{nombre}" required>
+											<div class="invalid-feedback">
+												Porfavor ingrese un nombre.
+											</div>
 										</div>
 										<div class="form-group col">
 											<label>Apellidos<span class="text-danger">*</span></label>
 											<input class="form-control form-control-lg" type="text" max="45" th:field="*{apellidos}" required>
+											<div class="invalid-feedback">
+												Porfavor ingrese sus apellidos.
+											</div>
 										</div>
 									</div>
 		
@@ -70,10 +91,16 @@
 											<label>Telefóno<span class="text-danger">*</span></label>
 											<input type="text" class="form-control form-control-lg phone-mask" maxlength="10"
 												minlength="14" placeholder="( ___ ) - ___ - __ - __" th:field="*{telefono}" required>
+												<div class="invalid-feedback">
+													Porfavor ingrese un numero telefonico.
+												</div>
 										</div>
 										<div class="form-group col">
 											<label>Correo electrónico<span class="text-danger">*</span></label>
 											<input class="form-control form-control-lg" type="email" max="100" th:field="*{correo}" required>
+											<div class="invalid-feedback">
+												Porfavor ingrese un correo.
+											</div>
 										</div>
 		
 									</div>
@@ -93,12 +120,19 @@
     </div>
 
 
-	<!--Ionicons-->
-	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-	<!--Toast-->
-	<script th:src="@{/js/toast.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <!--Bootstrap-->
+    <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap/popper.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap/main.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+    <!--Mask inputs-->
+    <script th:src="@{/js/jquery.mask.min.js}"></script>
+    <!--font-awesome-->
+    <script th:src="@{/js/all.min.js}"></script>
+    <!--Toast-->
+    <script th:src="@{/js/toast.min.js}"></script>
 
 	<script th:if="${msg_success != null}">
 		new Toast({
@@ -114,14 +148,6 @@
 		});
 	</script>
 
-<script th:src='@{/js/main.js}'></script>
-<script th:src='@{/js/bootstrap/jquery.min.js}'></script>
-<script th:src='@{/js/bootstrap/popper.js}'></script>
-<script th:src='@{/js/bootstrap/bootstrap.min.js}'></script>
-<script th:src='@{/js/bootstrap/main.js}'></script>
-
-	<!--Mask inputs-->
-	<script th:src="@{/js/jquery.mask.min.js}"></script>
 	<script>
 		$(document).ready(function () {
 			$('.phone-mask').mask('(000)000-00-00');
@@ -136,19 +162,18 @@
 			var submitButton = $("#registrar");
 			if (pass1 !== pass2) {
 				submitButton.attr('disabled', true);
-				$("#password").addClass('is-invalid');
 				$("#confirmarContrasena").addClass('is-invalid');
-				$(".alertPass").attr('hidden', false);
+				$(".alertPass").attr('hidden', true);
 				event.preventDefault();
 				return;
 			} else {
-				$("#password").removeClass("is-invalid");
 				$("#confirmarContrasena").removeClass("is-invalid");
-				$(".alertPass").attr('hidden', true);
+				$(".alertPass").attr('hidden', false);
 				submitButton.attr('disabled', false);
 			}
 		}
 	</script>
+
 </body>
 
 </html> 
