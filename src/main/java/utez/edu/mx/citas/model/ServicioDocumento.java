@@ -13,14 +13,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "servicios_has_documentos")
 public class ServicioDocumento {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
-    private Long id;
+	private Long id;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idServicos", nullable = false)
+    @JoinColumn(name = "idServicios", nullable = false)
     private Servicio servicio;
 	
 	@ManyToOne(cascade = CascadeType.ALL)

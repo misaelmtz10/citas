@@ -23,8 +23,7 @@ import javax.validation.constraints.NotNull;
 public class Servicio {
     
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idServicos", nullable = false)
+    @Column(name = "id_servicios", nullable = false)
 	private Long id;
 
 	@NotBlank(message = "El nombre no puede estar en blanco")
@@ -42,7 +41,7 @@ public class Servicio {
     private double costo;
     
     @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "servicios_has_documentos", joinColumns = @JoinColumn(name = "idServicos"), inverseJoinColumns = @JoinColumn(name = "idDocumentos"))
+    @JoinTable(name = "servicios_has_documentos", joinColumns = @JoinColumn(name = "idServicios"), inverseJoinColumns = @JoinColumn(name = "idDocumentos"))
     private Set<Documento> documentos;
 
     public void agregarDocumento(Documento documento) {
