@@ -25,7 +25,6 @@ public class EmpleadoController {
     @Autowired
     EmpleadoServiceImpl empleadoServiceImpl;
 
-    //Lista de emplados en general
     @GetMapping("/listar")
     
     public String listarEmpleados(Model model) {
@@ -54,13 +53,6 @@ public class EmpleadoController {
     
     public String guardarEmpleado(Empleado empleado, Model model, RedirectAttributes redirectAttributes) {
         try{
-            if (empleado.getId() == null) { // Create
-
-            } else { // Update
-
-                Empleado empleadoExistente = empleadoServiceImpl.mostrarEmpleado(empleado.getId());
-            }
-            
             boolean respuesta = empleadoServiceImpl.guardar(empleado);
             if (respuesta) {
                 redirectAttributes.addFlashAttribute("msg_success","Registro exitoso");

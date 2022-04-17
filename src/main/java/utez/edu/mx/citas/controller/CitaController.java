@@ -67,7 +67,6 @@ public class CitaController {
         return "solicitante/agenda-solicitante";
     }
 
-    // Lista de citas asincrona
     @GetMapping(value = "/")
     public ResponseEntity<Object> citas() {
         List<Cita> listaCitas = null;

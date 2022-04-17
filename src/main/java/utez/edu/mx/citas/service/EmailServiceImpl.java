@@ -38,10 +38,6 @@ public class EmailServiceImpl implements EmailService {
 			request.setBody(mail.build());
 			Response response = sg.api(request);
 
-			System.out.println(response.getStatusCode());
-			System.out.println(response.getBody());
-			System.out.println(response.getHeaders());
-
 			return response.getStatusCode() == 202;
 		} catch (Exception exception) {
 			System.err.println(exception.getMessage());

@@ -1,3 +1,4 @@
+
 package utez.edu.mx.citas.controller;
 
 import java.util.List;
@@ -24,7 +25,6 @@ public class CarreraControler {
     @Autowired
     private CarreraServiceImpl carreraServiceImpl;
     
-    //Lista de carreras disponibles
     @GetMapping(value="/lista")
     
     public String listaCarreras(Model model, RedirectAttributes redirectAttributes) {

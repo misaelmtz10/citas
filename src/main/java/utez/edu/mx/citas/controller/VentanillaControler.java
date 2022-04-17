@@ -44,7 +44,6 @@ public class VentanillaControler {
     @Autowired
     private VentanillaEmpleadoServiceImpl ventanillaEmpleadoService;
 
-     //Lista de ventanillas disponibles
     @GetMapping(value="/asignar")
     
     public String asignarVentanilla(Model model, Ventanilla ventanilla, Empleado empleado,VentanillaEmpleado ventanillaEmpleado) {
@@ -64,7 +63,6 @@ public class VentanillaControler {
         return "ventanilla/ventanilla/asignarVentanilla";
     }
 
-    //Lista de ventanillas disponibles
     @GetMapping(value="/listar")
     
     public String listaVentanillas(Model model, Ventanilla ventanilla) {
@@ -155,7 +153,6 @@ public class VentanillaControler {
     
     public String liberar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try{
-            //ELIMINACION LOGICA
             VentanillaEmpleado ventanilla = ventanillaEmpleadoService.obtenerRegistro(id);
             ventanilla.setEstatus(0);
             boolean guardado = ventanillaEmpleadoService.guardar(ventanilla);
@@ -175,7 +172,6 @@ public class VentanillaControler {
      
     @InitBinder
     public void initBinder(WebDataBinder binder, WebRequest request) {
-        //convert the date Note that the conversion here should always be in the same format as the string passed in, e.g. 2015-9-9 should be yyyy-MM-dd
         DateFormat dateFormat=new SimpleDateFormat("HH:mm");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// CustomDateEditor is a custom date editor
     }

@@ -170,23 +170,13 @@ public class HomeController {
     public String guardarUsuario(@RequestParam("matricula") String matricula,
       @RequestParam("carrera") Carrera carrera, Usuario usuario, RedirectAttributes redirectAttributes) {  
       try{
-        //Encriptar la contraseña
         String contrasenaEncriptada = passwordEncoder.encode(usuario.getPassword());
-        //Settear datos por defecto
         usuario.setIntentos(3);
         usuario.setUsername(usuario.getCorreo());
-        
-        // Asignar la contraseña encriptada
         usuario.setPassword(contrasenaEncriptada);
-    
-        // Aplicar tratemiento al telefono para solo guardar los numeros
         String telefono = usuario.getTelefono().replaceAll("[\\s]", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", "");
         usuario.setTelefono(telefono);
-    
-        //  Habilitar la cuenta por defecto
         usuario.setEnabled(true);
-    
-        // Asignar un rol de solicitante por defecto
         Role role = roleServiceImpl.buscarPorAuthority("ROL_SOLICITANTE");
         usuario.agregarRol(role);
         boolean respuesta = usuarioServiceImpl.guardar(usuario);

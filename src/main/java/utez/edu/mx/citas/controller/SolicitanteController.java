@@ -30,7 +30,6 @@ public class SolicitanteController {
     @Autowired
     CarreraServiceImpl carreraServiceImpl;
     
-    //Lista de solicitantes en general
     @GetMapping("/listar")
     
     public String listarSolicitantes(Model model) {
@@ -60,13 +59,6 @@ public class SolicitanteController {
     
     public String guardarSolicitante(Solicitante solicitante, Model model, RedirectAttributes redirectAttributes) {
         try{
-            if (solicitante.getId() == null) { // Create
-
-            } else { // Update
-
-                Solicitante solicitanteExistente = solicitanteServiceImpl.mostrarSolicitante(solicitante.getId());
-            }
-            
             boolean respuesta = solicitanteServiceImpl.guardar(solicitante);
             if (respuesta) {
                 redirectAttributes.addFlashAttribute("msg_success","Registro exitoso");

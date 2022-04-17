@@ -28,8 +28,7 @@ public class ServicioController {
     private ServicioServiceImpl servicioServiceImpl;
     @Autowired
     private DocumentoServiceImpl documentoServiceImpl;
-    
-    //Lista de servicios disponibles
+
     @GetMapping(value="/lista")
     public String listaServicios(Model model, RedirectAttributes redirectAttributes) {
         try{
@@ -57,13 +56,6 @@ public class ServicioController {
     
     public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
         try{
-            if (servicio.getId() == null) { // Create
-
-            } else { // Update
-
-                Servicio servicioExistente = servicioServiceImpl.mostrarServicio(servicio.getId());
-            }
-
             boolean respuesta = servicioServiceImpl.guardar(servicio);
 
             if (respuesta) {

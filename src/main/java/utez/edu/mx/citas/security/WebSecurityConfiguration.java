@@ -35,21 +35,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
      @Override
      public void configure(HttpSecurity httpSecurity) throws Exception {
          httpSecurity.authorizeRequests().antMatchers(
-                 // Los recursos estaticos no requieren autenticacion
-                 "/css/**", "/js/**", "/images/**", "/file-citas/**").permitAll()
-                 // Las URL publicas no requieren autenticacion
+        		 "/css/**", "/js/**", "/images/**", "/file-citas/**").permitAll()
+        
                  .antMatchers("/", "/crearCuenta","/crearNuevaCuenta","/reset/password/**").permitAll()
-
-                //  Asignar permisos a las URL de acuerdo a los roles
                  .antMatchers("/admin/**").hasAnyAuthority("ROL_ADMINISTRADOR")
                  .antMatchers("/citas/ver-agenda", "/cambiar-estatus/*").hasAnyAuthority("ROL_VENTANILLA")
                  .antMatchers("/citas/agenda-solicitante", "/citas/guardar").hasAnyAuthority( "ROL_SOLICITANTE")
                  .antMatchers("/").hasAnyAuthority( "ROL_SOLICITANTE", "ROL_VENTANILLA")
+                 .antMatchers("/carrera/**").hasAnyAuthority("ROL_ADMINISTRADOR")
+                 .antMatchers("/carrera/lista", "/carrera/mostrar/**").hasAnyAuthority("ROL_SOLICITANTE")
+                 .antMatchers("/empleados/**").hasAnyAuthority("ROL_ADMINISTRADOR")
+                 .antMatchers("/servicios/**").hasAnyAuthority("ROL_ADMINISTRADOR")
+                 .antMatchers("/solicitantes/**").hasAnyAuthority("ROL_ADMINISTRADOR")
+                 .antMatchers("/ventanillas/asignar", "/ventanillas/listar", "/ventanillas/asiganarUsuario", "/ventanillas/guardar", "/ventanillas/editar/**", "/ventanillas/eliminar/**", "/ventanillas/liberar/**").hasAnyAuthority("ROL_ADMINISTRADOR")
+                 .antMatchers("/ventanillas/listar").hasAnyAuthority("ROL_SOLICITANTE")
 
-                 // Las demas URL requieren autenticacion
                  .anyRequest().authenticated()
 
-                //  Formulario de inicio de sesion no requiere autenticacion
                 .and().formLogin().successHandler(successHandler).loginPage("/login").permitAll()
                 .and().formLogin().loginPage("/login").failureUrl("/login-error");
      }
