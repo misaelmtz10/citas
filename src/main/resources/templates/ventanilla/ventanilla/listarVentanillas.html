@@ -102,7 +102,7 @@
 
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                        <input id="nombre" type="text" class="form-control"
+                                        <input id="nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                             aria-describedby="basic-addon1" th:field="*{nombreVentanilla}" required>
                                         <div class="invalid-feedback">
                                             Porfavor ingrese un nombre de ventanilla.
@@ -161,7 +161,7 @@
 
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                        <input id="form-nombre" type="text" class="form-control"
+                                        <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                             aria-describedby="basic-addon1" th:field="*{nombreVentanilla}" required>
                                         <div class="invalid-feedback">
                                             Porfavor ingrese un nombre de ventanilla.

@@ -23,7 +23,7 @@
 						<form class="needs-validation" novalidate th:action="@{/login}" method="post">
 							<div class="form-group col">
 								<label>Correo electrónico</label>
-								<input class="form-control form-control-lg" type="email" name="username" max="100"
+								<input class="form-control form-control-lg" type="email" name="username" max="100" pattern=".+@utez.edu.mx"
 									required>
 									<div class="invalid-feedback">
 										Porfavor ingrese un usuario.
@@ -33,7 +33,7 @@
 							<div class="form-group col">
 								<label>Contraseña</label>
 								<div class="input-group mb-3">
-									<input type="password" class="form-control form-control-lg" id="password"
+									<input type="password" class="form-control form-control-lg" id="password" pattern="([A-Za-z0-9].)([^'\x22]){3,}"
 										name="password" max="22" required>
 									<div class="input-group-append">
 										<button class="btn btn-secondary" type="button" id="seePasswordButton"

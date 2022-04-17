@@ -66,7 +66,7 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="nuevo-nombre" type="text" class="form-control"
+                                                <input id="nuevo-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -75,7 +75,8 @@
 
                                             <div class="input-group mb-3">
                                                 <input id="nuevo-apellidos" type="text" class="form-control"
-                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" required>
+                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
+                                                    required>
                                                 <span class="input-group-text" id="basic-addon2">Apellidos</span>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese sus apellidos.
@@ -95,7 +96,7 @@
 
                                             <div class="input-group mb-3">
                                                 <input id="nuevo-correo" type="text" class="form-control"
-                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com"
+                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@utez.edu.mx" pattern=".+@utez.edu.mx"
                                                     aria-describedby="basic-addon4" th:field="*{correo}" required>
                                                 <span class="input-group-text" id="basic-addon4">Correo</span>
                                                 <div class="invalid-feedback">
@@ -105,7 +106,7 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
-                                                <input type="password" class="form-control"
+                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}"
                                                     aria-describedby="basic-addon5" th:field="*{password}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese una contraseña.
@@ -209,7 +210,7 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="form-nombre" type="text" class="form-control"
+                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -217,7 +218,7 @@
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="form-apellidos" type="text" class="form-control"
+                                                <input id="form-apellidos" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon2" th:field="*{apellidos}" required>
                                                 <span class="input-group-text" id="basic-addon2">Apellidos</span>
                                                 <div class="invalid-feedback">
@@ -238,7 +239,7 @@
 
                                             <div class="input-group mb-3">
                                                 <input id="form-correo" type="text" class="form-control"
-                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com"
+                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@utez.edu.mx" pattern=".+@utez.edu.mx"
                                                     aria-describedby="basic-addon4" th:field="*{correo}" required>
                                                 <span class="input-group-text" id="basic-addon4">Correo</span>
                                                 <div class="invalid-feedback">
@@ -248,7 +249,7 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
-                                                <input type="password" class="form-control"
+                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}"
                                                     aria-describedby="basic-addon5" th:field="*{password}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese una contraseña.

@@ -65,7 +65,7 @@
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
                                                 <input placeholder="Nombre documento" id="nombre_doc" type="text"
-                                                    class="form-control" aria-describedby="basic-addon1"
+                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -74,7 +74,7 @@
 
                                             <div class="input-group mb-3">
                                                 <input placeholder="Descripción documento" id="nombre_doc" type="text"
-                                                    class="form-control" aria-describedby="basic-addon1"
+                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     th:field="*{descripcion}" required>
                                                 <span class="input-group-text" id="basic-addon2">Descripcion</span>
                                                 <div class="invalid-feedback">
@@ -196,7 +196,7 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="nuevo-nombre" type="text" class="form-control"
+                                                <input id="nuevo-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -204,7 +204,7 @@
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="nuevo-apellidos" type="text" class="form-control"
+                                                <input id="nuevo-apellidos" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon2" th:field="*{descripcion}" required>
                                                 <span class="input-group-text" id="basic-addon2">Descripcion</span>
                                                 <div class="invalid-feedback">
@@ -311,7 +311,7 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="form-nombre-servicio" type="text" class="form-control"
+                                                <input id="form-nombre-servicio" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -319,7 +319,7 @@
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="form-descripcion-servicio" type="text" class="form-control"
+                                                <input id="form-descripcion-servicio" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon2" th:field="*{descripcion}" required>
                                                 <span class="input-group-text" id="basic-addon2">Descripcion</span>
                                                 <div class="invalid-feedback">
@@ -370,7 +370,7 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="form-nombre" type="text" class="form-control"
+                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese un nombre.
@@ -378,7 +378,7 @@
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="form-descripcion" type="text" class="form-control"
+                                                <input id="form-descripcion" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9 ]){5,}"
                                                     aria-describedby="basic-addon2" th:field="*{descripcion}" required>
                                                 <span class="input-group-text" id="basic-addon2">Descripcion</span>
                                                 <div class="invalid-feedback">
