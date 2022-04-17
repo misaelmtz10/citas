@@ -124,7 +124,7 @@ const citas = [];
                 $("#end-details").val(end.replace(' ' ,'T'));
                 $("#servicio-details").val(servicio);
                 $("#ventanilla-details").val(ventanilla);
-                $("#documento-details").append(`<a type="*/*" href="`+data+`" target="_blank">Ver</a>`);
+                $("#documento-details").html(`<a type="*/*" href="`+data+`" target="_blank">Ver</a>`);
             } else {
                 Swal.fire({
                     title: 'Agendar Cita',

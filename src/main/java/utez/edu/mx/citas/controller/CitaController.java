@@ -79,11 +79,6 @@ public class CitaController {
         return new ResponseEntity<>(listaCitas, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/crear")
-    public String crearCita(Cita cita, Model model) {
-        return "citas/formulario";
-    }
-
     @PostMapping(value = "/guardar")
     public String guardarCita(Cita cita, Model model, RedirectAttributes redirectAttributes, Authentication authentication, 
         @RequestParam("documentoCita") MultipartFile multipartFile) {

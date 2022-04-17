@@ -94,15 +94,15 @@ const citas = [];
             let title = args.event._def.extendedProps.item.title;
             let servicio = args.event._def.extendedProps.item.servicio.nombre;
             let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
-            let data = /*[[@{/citas/{i}(i = ${*/  args.event._def.extendedProps.item.archivo +/*})}]]*/'';
-
+            let data = args.event._def.extendedProps.item.archivo;
+            console.log(data);
             $("#modal-details").modal("show");
             $("#title-details").val(title);
             $("#start-details").val(start.replace(' ' ,'T'));
             $("#end-details").val(end.replace(' ' ,'T'));
             $("#servicio-details").val(servicio);
             $("#ventanilla-details").val(ventanilla);
-            $("#documento-details").append(`<a type="*/*" href="`+data+`" target="_blank">Ver</a>`);
+            $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/citas/${data}" target="_blank">Ver</a>`);
         },
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events

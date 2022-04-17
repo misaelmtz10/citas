@@ -3,7 +3,6 @@ package utez.edu.mx.citas.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,19 +63,6 @@ public class ServicioController {
 
                 Servicio servicioExistente = servicioServiceImpl.mostrarServicio(servicio.getId());
             }
-
-            /*
-            if(!multipartFile.isEmpty()) {
-                // Establecer directorio local para subida de archivos; en prod: /var/www/html
-                String ruta = "C:/tmp/citas/pdf-citas";
-                
-                String nombreImagen = ImagenUtilieria.guardarImagen(multipartFile, ruta);
-                if(nombreImagen != null) {
-                    servicio.setImagen(nombreImagen);
-                }
-                
-            }
-            */
 
             boolean respuesta = servicioServiceImpl.guardar(servicio);
 
