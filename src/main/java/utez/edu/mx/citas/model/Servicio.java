@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 public class Servicio {
     
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_servicios", nullable = false)
 	private Long id;
 
