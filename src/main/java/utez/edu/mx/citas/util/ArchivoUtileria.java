@@ -4,21 +4,22 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ArchivoUtileria {
     
+	static Logger logger = LoggerFactory.getLogger(ArchivoUtileria.class);
+
     public static String guardarArchivo(MultipartFile multipartFile, String ruta) {
 		String nombreArchivo = multipartFile.getOriginalFilename();
-		System.err.println(nombreArchivo);
 		try {
-			System.err.println(ruta);
 			String rutaArchivo = ruta + "/" + nombreArchivo;
-			System.err.println(rutaArchivo);
 			File file = new File(rutaArchivo);
 			multipartFile.transferTo(file);
 			return nombreArchivo;
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
+			logger.error(e.getMessage());
 			return "null";
 		}
 	}

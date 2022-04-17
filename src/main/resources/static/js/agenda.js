@@ -118,7 +118,7 @@ const changeStatus = () => {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
-        cancelButtonColor: "#DD6B55", cancelButtonText: "Cancelar",
+        cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",
         showLoaderOnConfirm: true,
         preConfirm: async () => {
             let id = parseInt(idEvent);

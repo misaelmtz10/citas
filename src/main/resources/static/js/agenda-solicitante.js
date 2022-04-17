@@ -34,7 +34,7 @@ const citas = [];
 
             if (cita.solicitante.matricula != matricula) {
                 cita.title = "Espacio ocupado";
-                color = "#ffd062";
+                color = "#787772";
             }
 
             citas.push({
@@ -125,13 +125,15 @@ const citas = [];
                 $("#servicio-details").val(servicio);
                 $("#ventanilla-details").val(ventanilla);
                 $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/file-citas/${data}" target="_blank">Ver</a>`);
-                Swal.fire({
-                    title: 'Agendar Cita',
-                    text: 'Espacio ocupado',
-                    icon: 'info',
-                    confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
-                })
-            }
+                
+            }else{
+              Swal.fire({
+                title: 'Agendar Cita',
+                text: 'Espacio ocupado',
+                icon: 'info',
+                confirmButtonColor: "#009574", confirmButtonText: 'Aceptar'
+                })  
+            }  
         },
 
         editable: false,
