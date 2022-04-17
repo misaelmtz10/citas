@@ -143,9 +143,9 @@
             <div class="row" style="margin-bottom: 6%;">
 
                 <!-- class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9"-->
-                <div style="padding-left: 2%; padding-right: 2%;">
+                <div style="padding-left: 5%; padding-right: 5%;">
                     <div class="table-responsive">
-                        <table id="dataTable" class="display table table-striped table-hover table-sm">
+                        <table id="dataTable" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -175,14 +175,14 @@
                                     </td>
                                     <td>
                                         <!-- Button para abrir modal de actualizacion -->
-                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                        <button type="button" class="btn btn-outline-primary btn-md"
                                             data-bs-toggle="modal" data-bs-target="#updateModal"
                                             th:attr="onclick=|upload('${usuarioLista.id}')|" style="font-size: 13px;">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button id="eliminar" onclick=""
                                             th:attr="onclick=|deleted('${usuarioLista.id}')|" type="button"
-                                            class="btn btn-outline-danger btn-sm" style="font-size: 13px;"><i
+                                            class="btn btn-outline-danger btn-md" style="font-size: 13px;"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -387,9 +387,8 @@
                 text: "Se eliminara la cuenta completamente",
                 icon: "error",
                 showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#6c757d",
-                confirmButtonText: "Eliminar"
+                confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
+        cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",
             }).then((result) => {
                 if (result.isConfirmed) {
                     let timerInterval

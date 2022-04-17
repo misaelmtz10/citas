@@ -10,9 +10,8 @@ if (formEdit != null) {
             text: "Los datos seran reescritos y almacenados",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Actualizar"
+            confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
+            cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
                 let timerInterval
@@ -63,9 +62,8 @@ if (formEdit2 != null) {
             text: "Los datos seran reescritos y almacenados",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Actualizar"
+            confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
+            cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
                 let timerInterval
@@ -118,9 +116,8 @@ if (formNew != null) {
             text: "Verifique que los datos ingresados son correctos",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#009c80",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Guardar"
+            confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
+            cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
                 let timerInterval
@@ -172,9 +169,8 @@ if (formNew2 != null) {
             text: "Verifique que los datos ingresados son correctos",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#009c80",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Guardar"
+            confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
+            cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
                 let timerInterval
