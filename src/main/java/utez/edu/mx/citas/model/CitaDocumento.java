@@ -21,9 +21,6 @@ public class CitaDocumento {
     @JoinColumn(name = "idCitas", nullable = false)
     private Cita cita;
 	
-	/*@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idServicioDocumento", nullable = false)
-    private ServicioDocumento servicio_documento;*/
 	@Column(columnDefinition = "tinyint not null")
 	private Integer estatus;
 	
@@ -39,7 +36,6 @@ public class CitaDocumento {
 		super();
 		this.id = id;
 		this.cita = cita;
-		/*this.servicio_documento = servicio_documento;*/
 		this.estatus = estatus;
 		this.archivo = archivo;
 	}
@@ -59,14 +55,6 @@ public class CitaDocumento {
 	public void setCita(Cita cita) {
 		this.cita = cita;
 	}
-
-	/*public ServicioDocumento getServicio_documento() {
-		return servicio_documento;
-	}
-
-	public void setServicio_documento(ServicioDocumento servicio_documento) {
-		this.servicio_documento = servicio_documento;
-	}*/
 
 	public Integer getEstatus() {
 		return estatus;
