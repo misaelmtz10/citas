@@ -1,7 +1,7 @@
 package utez.edu.mx.citas.controller;
 
 import java.util.List;
-
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import utez.edu.mx.citas.model.Carrera;
 import utez.edu.mx.citas.model.Documento;
 import utez.edu.mx.citas.model.Empleado;
 import utez.edu.mx.citas.model.Role;
@@ -24,6 +25,7 @@ import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.ServicioServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
+import utez.edu.mx.citas.service.CarreraServiceImpl;
 import utez.edu.mx.citas.service.DocumentoServiceImpl;
 
 import org.slf4j.Logger;
@@ -55,6 +57,9 @@ public class AdminController {
     
     @Autowired
     private DocumentoServiceImpl documentoService;
+
+    @Autowired
+    private CarreraServiceImpl carreraServiceImpl;
      
     @GetMapping("/")
     public String index(){
@@ -242,17 +247,39 @@ public class AdminController {
     public String editarUsuario(@PathVariable long id, Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
         try{
             Usuario new_usuario = usuarioService.mostrar(id);
+            new_usuario.setRoles(usuario.getRoles());
 
-            usuario.setIntentos(3);
-            usuario.setEnabled(true);
-            usuario.setUsername(usuario.getCorreo());
+            new_usuario.setIntentos(3);
+            new_usuario.setEnabled(true);
+            new_usuario.setUsername(usuario.getCorreo());
+            
+            Solicitante solicitante = new_usuario.getSolicitante() != null ? new_usuario.getSolicitante() : new Solicitante();
+            Empleado empleado = new_usuario.getEmpleado() != null ? new_usuario.getEmpleado() : new Empleado();
+            empleado.setEstatus(0);
+
+            Set<Role> roles = new_usuario.getRoles();
+            for (Role role : roles) {
+                if (role.getAuthority().equals("ROL_VENTANILLA")) {
+                    empleado.setEstatus(1);
+                    if(empleado.getId() == null){
+                        new_usuario.setEmpleado(empleado);    
+                    }
+                }else if(role.getAuthority().equals("ROL_SOLICITANTE")){
+
+                    if(solicitante.getId() == null){
+                        Carrera carrera = carreraServiceImpl.mostrarCarrera(1);
+                        solicitante.setMatricula("por definir");
+                        solicitante.setCarrera(carrera);
+                        solicitante.setUsuario(new_usuario);
+                    }
+                    new_usuario.setSolicitante(solicitante);
+                }
+            }
 
             if(!usuario.getPassword().isEmpty()){
-                usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-            }else{
-                usuario.setPassword(new_usuario.getPassword());
+                new_usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
             }
-            boolean guardado = usuarioService.guardar(usuario);
+            boolean guardado = usuarioService.guardar(new_usuario);
             
             if (guardado) {
                 redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	

@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -27,7 +29,8 @@ public class Solicitante {
 	@JoinColumn(name = "idCarrera", nullable = false)
 	private Carrera carrera;
 
-    @ManyToOne
+    @OneToOne
+    @MapsId
     @JoinColumn(name = "idUsuario", nullable = false)
 	private Usuario usuario;
 
@@ -73,11 +76,5 @@ public class Solicitante {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	@Override
-    public String toString() {
-        return "Solicitante [carrera=" + carrera + ", id=" + id + ", matricula=" + matricula + "]";
-    }
-    
 }
 

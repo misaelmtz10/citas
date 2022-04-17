@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -53,6 +55,14 @@ public class Usuario {
 
     @Column(columnDefinition = "tinyint not null")
 	private boolean enabled;
+    
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @PrimaryKeyJoinColumn
+    private Empleado empleado;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    @PrimaryKeyJoinColumn
+    private Solicitante solicitante;
 
    	@ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -65,6 +75,21 @@ public class Usuario {
 		roles.add(role);
  	}
     
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public Solicitante getSolicitante() {
+        return solicitante;
+    }
+
+    public void setSolicitante(Solicitante solicitante) {
+        this.solicitante = solicitante;
+    }
 
     public Usuario() {
     }
@@ -148,11 +173,4 @@ public class Usuario {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-	@Override
-    public String toString() {
-        return "Usuario [apellidos=" + apellidos + ", correo=" + correo + ", enabled=" + enabled + ", id=" + id
-                + ", intentos=" + intentos + ", nombre=" + nombre + ", password=" + password + ", roles=" + roles
-                + ", telefono=" + telefono + ", username=" + username + "]";
-    } 
 }
