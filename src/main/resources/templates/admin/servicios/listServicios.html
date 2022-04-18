@@ -21,6 +21,11 @@
         .multiselect-container {
             width: 300px;
         }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
     </style>
 </head>
 
@@ -123,11 +128,11 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"></div>
-                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+            <div class="row" style="margin-bottom: 6%;">
+
+                <div style="padding-left: 2%; padding-right: 2%;">
                     <div class="table-responsive">
-                        <table id="dataTable" class="display table table-striped table-hover">
+                        <table id="dataTable" class="display table table-striped table-hover table-sm">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -146,14 +151,14 @@
                                         th:text="${docList.estatus} ? 'Activo' : 'Inactivo'"></td>
                                     <td>
                                         <!-- Button para abrir modal de actualizacion -->
-                                        <button type="button" class="btn btn-outline-primary btn-md"
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#updateModal2"
-                                            th:attr="onclick=|uploadDoc('${docList.id}')|">
+                                            th:attr="onclick=|uploadDoc('${docList.id}')|" style="font-size: 13px;">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
                                         <button id="eliminar" onclick="" th:attr="onclick=|deletedDoc('${docList.id}')|"
-                                            type="button" class="btn btn-outline-danger btn-md"><i
+                                            type="button" class="btn btn-outline-danger btn-sm" style="font-size: 13px;"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -247,14 +252,11 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+            <div class="row" style="margin-bottom: 6%;">
 
-                </div>
-
-                <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+                <div style="padding-left: 2%; padding-right: 2%;">
                     <div class="table-responsive">
-                        <table id="dataTable2" class="display table table-striped table-hover">
+                        <table id="dataTable2" class="display table table-striped table-hover table-sm">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -278,14 +280,14 @@
                                     </td>
                                     <td>
                                         <!-- Button para abrir modal de actualizacion -->
-                                        <button type="button" class="btn btn-outline-primary btn-md"
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#updateModal"
-                                            th:attr="onclick=|upload('${servicioLista.id}')|">
+                                            th:attr="onclick=|upload('${servicioLista.id}')|" style="font-size: 13px;">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button id="eliminar" onclick=""
                                             th:attr="onclick=|deleted('${servicioLista.id}')|" type="button"
-                                            class="btn btn-outline-danger btn-md"><i class="fas fa-trash"></i></button>
+                                            class="btn btn-outline-danger btn-sm"><i class="fas fa-trash" style="font-size: 13px;"></i></button>
                                     </td>
                                 </tr>
 

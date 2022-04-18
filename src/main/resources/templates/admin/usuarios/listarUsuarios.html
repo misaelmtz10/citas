@@ -141,9 +141,9 @@
             <div class="row" style="margin-bottom: 6%;">
 
                 <!-- class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9"-->
-                <div style="padding-left: 5%; padding-right: 5%;">
+                <div style="padding-left: 2%; padding-right: 2%;">
                     <div class="table-responsive">
-                        <table id="dataTable" class="display table table-striped table-hover">
+                        <table id="dataTable" class="display table table-striped table-hover table-sm">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -173,14 +173,14 @@
                                     </td>
                                     <td>
                                         <!-- Button para abrir modal de actualizacion -->
-                                        <button type="button" class="btn btn-outline-primary btn-md"
+                                        <button type="button" class="btn btn-outline-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#updateModal"
                                             th:attr="onclick=|upload('${usuarioLista.id}')|" style="font-size: 13px;">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <button id="eliminar" onclick=""
                                             th:attr="onclick=|deleted('${usuarioLista.id}')|" type="button"
-                                            class="btn btn-outline-danger btn-md" style="font-size: 13px;"><i
+                                            class="btn btn-outline-danger btn-sm" style="font-size: 13px;"><i
                                                 class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
