@@ -47,6 +47,7 @@
               class="close"
               data-dismiss="modal"
               aria-label="Close"
+              onclick="cleanFields()"
             >
               <span aria-hidden="true">&times;</span>
             </button>
@@ -109,7 +110,7 @@
               <div class="form-row">
                 <div class="form-group col">
 									<label>Servicio:</label>
-									<select class="form-control form-control" th:field="*{servicio.id}" required>
+									<select class="form-control form-control" th:field="*{servicio.id}" required id="idServicio">
 										<option hidden selected value="">Selecciona un servicio...</option>
 										<option th:each="tmpServicio: ${listaServicios}" th:value="${tmpServicio.id}" th:text="${tmpServicio.nombre}">
 
@@ -123,7 +124,7 @@
               <div class="form-row">
                 <div class="form-group col">
 									<label>Ventanilla:</label>
-									<select class="form-control form-control" th:field="*{ventanilla.id}" required>
+									<select class="form-control form-control" th:field="*{ventanilla.id}" id="idVentanilla" required>
 										<option hidden selected value="">Selecciona una ventanilla...</option>
 										<option th:each="tmpVentanilla: ${listaVentanillas}" th:value="${tmpVentanilla.id}" th:text="${tmpVentanilla.nombreVentanilla}">
 
@@ -135,19 +136,28 @@
 								</div>
               </div>
               <div class="form-row">
-                <div class="custom-file">
-                  <input type="file" lang="es" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" name="documentoCita" required>
-                  <label class="custom-file-label" for="inputGroupFile01">Elegir archivo</label>
-                  <div class="invalid-feedback">
-                    Seleccione un documento
+                <div class="form-group col">
+                  <div class="custom-file">
+                    <input type="file" lang="es" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" name="documentoCita" required>
+                    <label class="custom-file-label" for="inputGroupFile01">Elegir archivo</label>
+                    <div class="invalid-feedback">
+                      Seleccione un documento
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="form-row">
+                <div class="form-group col">
+									<div id="mostrarDocs"></div>
+								</div>
+              </div>
+
               <div class="modal-footer">
                 <button
                   type="button"
                   class="btn btn-secondary"
                   data-dismiss="modal"
+                  onclick="cleanFields()"
                 >
                   Cancelar
                 </button>
@@ -284,6 +294,11 @@
     <script>
       let param = document.getElementById('matricula').value;
       getMatricula(param);
+
+      $('#idServicio').on('change', function(e) {
+          var idServicio = $(this).val();
+          getServicio(idServicio);
+      });
     </script>
   </body>
 </html>

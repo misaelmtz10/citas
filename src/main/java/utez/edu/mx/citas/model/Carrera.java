@@ -18,7 +18,7 @@ public class Carrera {
 	private Long id;
 
     @NotBlank(message = "El nomber no puede estar en blanco")
-	@Column(nullable = false, length = 45)
+	@Column(nullable = false, length = 100)
 	private String nombre;
 
     @NotBlank(message = "Las siglas no pueden estar en blanco")

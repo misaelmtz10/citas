@@ -11,5 +11,5 @@ public interface ServicioService {
     Servicio obtenerServicio(long id);
     boolean eliminar(Long id);
     Servicio mostrarServicio(long id);
-
+    List<String> obtenerServicioDocumento(long idServicio);
 }

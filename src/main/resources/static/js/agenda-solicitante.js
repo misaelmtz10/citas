@@ -4,6 +4,29 @@ const getMatricula = (param) => {
     matricula = param;
 }
 
+const getServicio = async (idServicio) => {
+    let id = parseInt(idServicio);
+    const response = await fetch(`/servicios/getServicio/${id}`)
+    const data = await response.json();
+    let list = data;
+    let content = "";
+    content += `
+        <div class="alert alert-primary" role="alert">
+            Para anexar el archivo deberás contemplar los siguientes documentos:
+        <br/>
+        <ul>`
+            for (let index = 0; index < list.length; index++) {
+                content += `<li><b>${list[index]}</b></li>`
+                
+            }
+        content += `
+        </ul>
+        <span class="text-wrap"><b>Nota:</b> Es importante anexar todos los documentos requeridos en un solo archivo (PDF).</span>
+        </div>
+    `;
+    $("#mostrarDocs").html(content);
+}
+
 const citas = [];
     document.body.onload = async () => {
     try {
@@ -178,3 +201,15 @@ function validate(){
     });
 }
 
+
+let cleanFields = () =>{
+    document.getElementById('title').value = "";
+    document.getElementById('idServicio').value = "";
+    document.getElementById('idVentanilla').value = "";
+    document.getElementById('inputGroupFile01').value = "";
+    $("#mostrarDocs").html('');
+    const forms = document.querySelectorAll(".needs-validation");
+    Array.prototype.slice.call(forms).forEach((form) => {
+    form.classList.remove("was-validated");
+    });
+}

@@ -45,6 +45,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
                  .antMatchers("/carrera/**").hasAnyAuthority("ROL_ADMINISTRADOR")
                  .antMatchers("/carrera/lista", "/carrera/mostrar/**").hasAnyAuthority("ROL_SOLICITANTE")
                  .antMatchers("/empleados/**").hasAnyAuthority("ROL_ADMINISTRADOR")
+                 .antMatchers("/servicios/getServicio/*").hasAnyAuthority("ROL_SOLICITANTE")
                  .antMatchers("/servicios/**").hasAnyAuthority("ROL_ADMINISTRADOR")
                  .antMatchers("/solicitantes/**").hasAnyAuthority("ROL_ADMINISTRADOR")
                  .antMatchers("/ventanillas/asignar", "/ventanillas/listar", "/ventanillas/asiganarUsuario", "/ventanillas/guardar", "/ventanillas/editar/**", "/ventanillas/eliminar/**", "/ventanillas/liberar/**").hasAnyAuthority("ROL_ADMINISTRADOR")

@@ -135,7 +135,7 @@ public class HomeController {
       } catch (Exception e) {
         logger.error(e.getMessage());
       }
-      return "solicitante/dashboardSolicitante";
+      return "solicitante/agenda-solicitante";
     }
 
     @GetMapping("/ventanilla/dashboard")
