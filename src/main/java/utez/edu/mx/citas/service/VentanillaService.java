@@ -13,5 +13,6 @@ public interface VentanillaService {
     Ventanilla obtenerVentanilla(long id);
     boolean eliminar(Long id);
     Ventanilla mostrar(long id);
+    List<Ventanilla> listarPorVentanillaEmpleado();
 
 }

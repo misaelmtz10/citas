@@ -10,21 +10,23 @@ const getServicio = async (idServicio) => {
     const data = await response.json();
     let list = data;
     let content = "";
-    content += `
-        <div class="alert alert-primary" role="alert">
-            Para anexar el archivo deberás contemplar los siguientes documentos:
-        <br/>
-        <ul>`
-            for (let index = 0; index < list.length; index++) {
-                content += `<li><b>${list[index]}</b></li>`
-                
-            }
+    if (list.length > 0) {
         content += `
-        </ul>
-        <span class="text-wrap"><b>Nota:</b> Es importante anexar todos los documentos requeridos en un solo archivo (PDF).</span>
-        </div>
-    `;
-    $("#mostrarDocs").html(content);
+            <div class="alert alert-primary" role="alert">
+                Para anexar el archivo deberás contemplar los siguientes documentos:
+            <br/>
+            <ul>`
+                for (let index = 0; index < list.length; index++) {
+                    content += `<li><b>${list[index]}</b></li>`
+                    
+                }
+            content += `
+            </ul>
+            <span class="text-wrap"><b>Nota:</b> Es importante anexar todos los documentos requeridos en un solo archivo (PDF).</span>
+            </div>
+        `;
+        $("#mostrarDocs").html(content);
+    }
 }
 
 const citas = [];

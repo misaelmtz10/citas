@@ -8,7 +8,7 @@
 		</div>
 		<ul class="list-unstyled components mb-5" sec:authorize="isAuthenticated()">
 			<li class="active">
-				<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Usuarios</a>
+				<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-users"></i>&nbsp;Usuarios</a>
 				<ul class="collapse list-unstyled" id="homeSubmenu">
 					<li>
 						<a th:href="@{/admin/usuarios/listar}">Administrar Usuarios</a>
@@ -26,7 +26,7 @@
 
 			<li>
 				<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"
-					class="dropdown-toggle">Servicios</a>
+					class="dropdown-toggle"><i class="fas fa-folder"></i>&nbsp;Servicios</a>
 				<ul class="collapse list-unstyled" id="pageSubmenu">
 					<li>
 						<a th:href="@{/admin/servicios/listar}">Administrar Servicios</a>
@@ -36,7 +36,7 @@
 
 			<li>
 				<a href="#pageVentanilla" data-toggle="collapse" aria-expanded="false"
-					class="dropdown-toggle">Ventanilla</a>
+					class="dropdown-toggle"><i class="fab fa-windows"></i>&nbsp;Ventanillas</a>
 				<ul class="collapse list-unstyled" id="pageVentanilla">
 					<li>
 						<a th:href="@{/ventanillas/listar}">Administrar Ventanillas</a>
@@ -60,7 +60,7 @@
 		</div>
 		<ul class="list-unstyled components mb-5" sec:authorize="isAuthenticated()">
 			<li>
-				<a th:href="@{/citas/ver-agenda}">Agenda de Citas</a>
+				<a th:href="@{/citas/ver-agenda}"><i class="fas fa-calendar"></i>&nbsp;Agenda de Citas</a>
 			</li>
 		</ul>
 	</div>
