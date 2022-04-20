@@ -34,7 +34,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     @Override
 	public List<Empleado> listarActivos() {
-		return empleadoRepository.findByEstatus(1);
+		return empleadoRepository.findByEmpleadosDisponibles();
 	}
 
     @Override

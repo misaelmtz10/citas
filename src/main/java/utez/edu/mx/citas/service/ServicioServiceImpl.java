@@ -56,4 +56,11 @@ public class ServicioServiceImpl implements ServicioService {
 		return null;
 	}
 
+	@Override
+	public List<String> obtenerServicioDocumento(long idServicio) {
+		return servicioRepository.findServicioDocumentoByServicio(idServicio);
+	}
+
+	
+
 }

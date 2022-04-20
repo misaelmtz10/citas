@@ -1,60 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--Bootstrap-->
+    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+    <!--style plantilla-->
     <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <link th:href='@{/css/main.css}' rel='stylesheet' />
-    <title>Document</title>
+    <!--Datatable-->
+    <link th:href='@{/css/datatable/datatables.min.css}' rel='stylesheet' />
+    <link th:href='@{/css/bootstrap/bootstrap-multiselect.css}' rel='stylesheet' type="text/css" />
+    <!--Toast-->
+    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+    <link rel="icon" type="image/png" th:href="@{/images/ut.png}"/>
+    <title>Perfil</title>
+    <style>
+        .multiselect-container {
+            width: 300px;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+    </style>
 </head>
-<body>
-        <div class="wrapper d-flex align-items-stretch">
-        <div th:insert="~{fragments/sidebar :: sidebarB}"></div>
-        
+
+<body style="overflow-x:hidden !important">
+    <div class="wrapper d-flex align-items-stretch">
+        <div th:insert="~{fragments/sidebar :: sidebar}"></div>
+
         <!-- Page Content  -->
-        <div id="content" class="p-1 p-md-2">
+        <div id="content">
             <div th:insert="~{fragments/header :: header}"></div>
             <div class="row">
-                <div class="offset-1 col-10 offset-md-2 col-md-8 align-self-center">
-                    <div class="card">
+                <div class="offset-1 col-1 offset-md-2 col-md-8 align-self-center">
+                    <div class="card mb-3">
                         <div class="card-header">
-                          Inicio
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">Informacion de la cuenta</h5>
-                          <p class="card-text">
-                            <form th:action="@{/admin/usuarios/guardar}" method="POST" th:object="${usuario}">
-                                <div class="modal-body">
-                                    <div class="input-group mb-3">
-                                        <div class="input-group mb-3">
+                        ¡Bienvenido de vuelta!
+                          </div>
+                        <div class="row g-0 text-center">
+                          <div class="col-md-5">
+                            <img th:src="@{/images/backgroundForm.jpg}" class="img-fluid rounded-start"style="width: 100%; height: 100%; left: 0px; top: 0px; z-index: -1;" alt="...">
+                          </div>
+                          <div class="col-md-7">
+                            <div class="card-body">
+                              <h5 class="card-title" style="margin-bottom: 10%;">Informacion Personal</h5>
+                              <form th:action="@{/admin/usuarios/guardar}" method="POST" th:object="${usuario}">
+                                <div class="modal-body ">
+                                    <div class="input-group mb-12">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-text" id="basic-addon1">Nombre</span>
                                             <input id="nuevo-nombre" type="text" class="form-control" aria-describedby="basic-addon1" th:field="*{nombre}">
                                         </div>
         
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-text" id="basic-addon2">Apellidos</span>
                                             <input id="nuevo-apellidos" type="text" class="form-control"  aria-describedby="basic-addon2" th:field="*{apellidos}" >
                                         </div>
         
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-text" id="basic-addon3">Telefono</span>
                                             <input id="nuevo-telefono" type="tel" class="form-control phone-mask" placeholder="777-516-78-23" aria-label="777-516-78-23" aria-describedby="basic-addon3"  maxlength="10"
                                             minlength="14" th:field="*{telefono}">
                                         </div>
         
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-text" id="basic-addon4">Correo</span>
                                             <input disabled id="nuevo-correo" type="text" class="form-control" placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@gmail.com" aria-describedby="basic-addon4"  th:field="*{correo}">
                                         </div>
         
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-text" id="basic-addon5">Contraseña</span>
                                             <input id="contrasena" type="password" class="form-control" aria-describedby="basic-addon5"  th:field="*{password}" onchange="validarContrasena()">
                                         </div>
 
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-text" id="basic-addon6">Confirmar Contraseña</span>
                                             <input id="confirmarContrasena" type="password" class="form-control" aria-describedby="basic-addon6" onchange="validarContrasena()">
                                             <span id="mensajeError" class="input-group-text" onchange="validarContrasena()" hidden="true">Las contraseñas deben coincidir</span>
@@ -66,55 +89,72 @@
                                 </div>
         
                             </form>
-                          </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                 </div>
             </div>
-           
+            <div th:insert="~{fragments/footer :: footer}"></div>
         </div>
     </div>
-    <script th:src='@{/js/main.js}'></script>
-    <script th:src='@{/js/bootstrap/jquery.min.js}'></script>
-    <script th:src='@{/js/bootstrap/popper.js}'></script>
-    <script th:src='@{/js/bootstrap/bootstrap.min.js}'></script>
-    <script th:src='@{/js/bootstrap/main.js}'></script>
-    <script th:src='@{/SweetAlert/dist/sweetalert2.all.min.js}'></script>
+    <script th:src="@{/js/main.js}"></script>
+    <!--Bootstrap-->
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
+    <script th:src="@{/js/bootstrap/popper.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+    <script th:src="@{/js/bootstrap/main.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+    <!--Datatable-->
+    <script th:src="@{/js/datatable/datatables.min.js}"></script>
+    <script th:src="@{/js/bootstrap/bootstrap-multiselect.js}" type="text/javascript"></script>
+    <!--Mask inputs-->
+    <script th:src="@{/js/jquery.mask.min.js}"></script>
+    <!--font-awesome-->
+    <script th:src="@{/js/all.min.js}"></script>
+    <!--Toast-->
+    <script th:src="@{/js/toast.min.js}"></script>
+    <!--Sweetalert-->
+    <script th:src="@{/js/sweetalert/sweetalert2.all.js}"></script>
+    <!--Confirmaciones Modales Sweetalert-->
+    <script th:src="@{/js/confirmacion-sweetalert.js}"></script>
+
     <script>
-$("#sda").click(function(){
-Swal.fire({
-        title: 'Error!',
-        text: 'Do you want to continue',
-        icon: 'error',
-        confirmButtonText: 'Cool'
-    })
-})
-    
-
-    </script>
-
-<script>
-    function validarContrasena() {
-        var pass1 = $("#contrasena").val();
-        var pass2 = $("#confirmarContrasena").val();
-        var submitButton = $("#registrar");
-        var errorText = $("#mensajeError");
-        if (pass1 !== pass2) {
-            submitButton.attr('disabled', true);
-            $("#contrasena").addClass('is-invalid');
-            $("#confirmarContrasena").addClass('is-invalid');
-            $("#mensajeError").attr('hidden', false);
-            $("alertPass").attr('hidden', false);
-            event.preventDefault();
-            return;
-        } else {
-            $("#contrasena").removeClass("is-invalid");
-            $("#confirmarContrasena").removeClass("is-invalid");
-            $(".alertPass").attr('hidden', true);
-            $("#mensajeError").attr('hidden', true);
-            submitButton.attr('disabled', false);
+        function validarContrasena() {
+            var pass1 = $("#contrasena").val();
+            var pass2 = $("#confirmarContrasena").val();
+            var submitButton = $("#registrar");
+            var errorText = $("#mensajeError");
+            if (pass1 !== pass2) {
+                submitButton.attr('disabled', true);
+                $("#contrasena").addClass('is-invalid');
+                $("#confirmarContrasena").addClass('is-invalid');
+                $("#mensajeError").attr('hidden', false);
+                $("alertPass").attr('hidden', false);
+                event.preventDefault();
+                return;
+            } else {
+                $("#contrasena").removeClass("is-invalid");
+                $("#confirmarContrasena").removeClass("is-invalid");
+                $(".alertPass").attr('hidden', true);
+                $("#mensajeError").attr('hidden', true);
+                submitButton.attr('disabled', false);
+            }
         }
-    }
-</script>
+
+        $(function () {
+
+            var $body = $(document);
+            $body.bind('scroll', function () {
+                // "Desactivar" el scroll horizontal
+                if ($body.scrollLeft() !== 0) {
+                    $body.scrollLeft(0);
+                }
+            });
+
+        }); 
+    </script>
 </body>
+
 </html>

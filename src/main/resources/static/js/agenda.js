@@ -31,6 +31,8 @@ const citas = [];
         
         if (dateif < new Date()) {
             color = "#FFA500";
+            const btnFinalizar = document.getElementById('btnFinalizar');
+            btnFinalizar.disabled = true;
         }
 
         if (cita.ventanilla.id != ventanilla) {
@@ -94,6 +96,7 @@ const citas = [];
             let title = args.event._def.extendedProps.item.title;
             let servicio = args.event._def.extendedProps.item.servicio.nombre;
             let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
+            let solicitante = args.event._def.extendedProps.item.solicitante;
             let data = args.event._def.extendedProps.item.archivo;
             $("#modal-details").modal("show");
             $("#title-details").val(title);
@@ -101,6 +104,10 @@ const citas = [];
             $("#end-details").val(end.replace(' ' ,'T'));
             $("#servicio-details").val(servicio);
             $("#ventanilla-details").val(ventanilla);
+            $("#solicitante-details").val(solicitante.usuario.nombre + ' ' + solicitante.usuario.apellidos);
+            $("#matricula-details").val(solicitante.matricula);
+            $("#carrera-details").val(solicitante.carrera.nombre);
+            $("#correo-details").val(solicitante.usuario.correo);
             $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/file-citas/${data}" target="_blank">Ver</a>`);
         },
         editable: false,

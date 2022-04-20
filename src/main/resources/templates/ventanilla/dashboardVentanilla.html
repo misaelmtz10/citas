@@ -13,6 +13,7 @@
     <link th:href="@{/css/all.min.css}" rel="stylesheet" />
     <!--Toast-->
     <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+    <link rel="icon" type="image/png" th:href="@{/images/ut.png}"/>
     <title>Dashboard | Ventanilla</title>
     <style>
         #calendar {
@@ -70,8 +71,6 @@
                             <input type="text" class="form-control" id="servicio-details" placeholder="Servicio"
                                 disabled />
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="form-group col">
                             <label>Ventanilla:</label>
                             <input type="text" class="form-control" id="ventanilla-details" placeholder="Ventanilla"
@@ -80,13 +79,37 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col">
-                            <label>Documento:</label>
+                            <label>Solicitante:</label>
+                            <input type="text" class="form-control" id="solicitante-details" placeholder="Solicitante"
+                                disabled />
+                        </div>
+                        <div class="form-group col">
+                            <label>Matrícula:</label>
+                            <input type="text" class="form-control" id="matricula-details" placeholder="Matrícula"
+                                disabled />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label>Correo:</label>
+                            <input type="text" class="form-control" id="correo-details" placeholder="Correo" disabled />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                          <label>Carrera:</label>
+                          <input type="text" class="form-control" id="carrera-details" placeholder="Carrera" disabled />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label>Archivo:</label>
                             <div id="documento-details"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <div class="row">
-                            <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="changeStatus()">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal" id="btnFinalizar" onclick="changeStatus()">
                                 Finalizar
                             </button>
                             <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">

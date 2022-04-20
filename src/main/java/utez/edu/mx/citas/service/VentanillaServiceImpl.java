@@ -62,4 +62,9 @@ public class VentanillaServiceImpl implements VentanillaService {
 		return null;
 	}
 
+	@Override
+	public List<Ventanilla> listarPorVentanillaEmpleado() {
+		return ventanillaRepository.findByVentanillaEmpleado();
+	}
+
 }

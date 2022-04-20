@@ -3,6 +3,8 @@ package utez.edu.mx.citas.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -122,5 +124,16 @@ public class ServicioController {
             redirectAttributes.addFlashAttribute("msg_success", "Eliminación fallida");
         }
 		return "redirect:/citas/list";
+    }
+
+    @GetMapping(value = "/getServicio/{id}")
+    public ResponseEntity<Object> citas(@PathVariable(value="id") long id) {
+        List<String> servicioDocumento = null;
+        try{
+            servicioDocumento = servicioServiceImpl.obtenerServicioDocumento(id);
+        }catch(Exception e){    
+            logger.error(e.getMessage());
+        }
+        return new ResponseEntity<>(servicioDocumento, HttpStatus.OK);
     }
 }

@@ -23,7 +23,6 @@ import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.ServicioServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
-import utez.edu.mx.citas.service.EmpleadoServiceImpl;
 import utez.edu.mx.citas.service.VentanillaEmpleadoServiceImpl;
 import utez.edu.mx.citas.service.VentanillaServiceImpl;
 
@@ -51,9 +50,6 @@ public class HomeController {
     
     @Autowired
     private VentanillaEmpleadoServiceImpl ventanillaEmpleadoService;
-    
-    @Autowired 
-    private EmpleadoServiceImpl empleadoService;
 
     @Autowired
 	  private UsuarioServiceImpl usuarioService;
@@ -125,7 +121,7 @@ public class HomeController {
     public String dashboardSolicitante(Cita cita, Model model, Authentication authentication, HttpSession session) {
       try{
         if (session.getAttribute("user") == null) {
-          model.addAttribute("listaVentanillas", ventanillaServiceImpl.listarActivas());
+          model.addAttribute("listaVentanillas", ventanillaServiceImpl.listarPorVentanillaEmpleado());
           model.addAttribute("listaServicios", servicioServiceImpl.listar());
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
           user.setPassword(null);
@@ -135,7 +131,7 @@ public class HomeController {
       } catch (Exception e) {
         logger.error(e.getMessage());
       }
-      return "solicitante/dashboardSolicitante";
+      return "solicitante/agenda-solicitante";
     }
 
     @GetMapping("/ventanilla/dashboard")
@@ -144,8 +140,7 @@ public class HomeController {
         if (session.getAttribute("user") == null) {
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
           user.setPassword(null);
-          long idEmpleado = empleadoService.findEmpleadoByUser(user.getId());
-          session.setAttribute("ventanilla", ventanillaEmpleadoService.findVentanillaByEmpleado(idEmpleado));
+          session.setAttribute("ventanilla", ventanillaEmpleadoService.findVentanillaByEmpleado(user.getId()));
           session.setAttribute("user", user);
         }
       } catch (Exception e) {

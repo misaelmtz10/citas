@@ -1,176 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    
-    <!--style plantilla-->
-    <link th:href="@{/css/style.css}" rel="stylesheet" />
-    <!--Full calendar-->
-    <link th:href="@{/css/main.css}" rel="stylesheet" />
-    <!--font-awesome-->
-    <link th:href="@{/css/all.min.css}" rel="stylesheet"/>
-    <!--Toast-->
-    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
-    <title>Agenda | Ventanilla</title>
-    <style>
-      #calendar {
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-    </style>
-  </head>
 
-  <body>
-    <div class="wrapper d-flex align-items-stretch">
-      <div th:insert="~{fragments/sidebar :: sidebarB}"></div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-      <!-- Page Content  -->
-      <div id="content" class="p-1 p-md-2">
-        <div th:insert="~{fragments/header :: header}"></div>
-        <div id="calendar"></div>
-        <input type="hidden" th:value="${session.ventanilla}" name="" id="ventanilla">
-      </div>
+  <!--style plantilla-->
+  <link th:href="@{/css/style.css}" rel="stylesheet" />
+  <!--Full calendar-->
+  <link th:href="@{/css/main.css}" rel="stylesheet" />
+  <!--font-awesome-->
+  <link th:href="@{/css/all.min.css}" rel="stylesheet" />
+  <!--Toast-->
+  <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+  <link rel="icon" type="image/png" th:href="@{/images/ut.png}"/>
+  <title>Agenda | Ventanilla</title>
+  <style>
+    #calendar {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper d-flex align-items-stretch">
+    <div th:insert="~{fragments/sidebar :: sidebarB}"></div>
+
+    <!-- Page Content  -->
+    <div id="content" class="p-1 p-md-2">
+      <div th:insert="~{fragments/header :: header}"></div>
+      <div id="calendar"></div>
+      <input type="hidden" th:value="${session.ventanilla}" name="" id="ventanilla">
     </div>
-    
-    <div id="modal-details" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Detalles de la cita</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-              <div class="form-row">
-                <div class="form-group col-lg-12">
-                  <label for="message-text" class="col-form-label">
-                    Título:
-                  </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="title-details"
-                    placeholder="Título"
-                    disabled
-                  />
-                </div>
-                <div class="form-group col-lg-6">
-                  <label for="recipient-name" class="col-form-label">
-                    Fecha inicio:
-                  </label>
-                  <input
-                    type="datetime-local"
-                    class="form-control"
-                    id="start-details"
-                    disabled
-                  />
-                </div>
-                <div class="form-group col-lg-6">
-                  <label for="message-text" class="col-form-label">
-                    Fecha fin:
-                  </label>
-                  <input
-                    type="datetime-local"
-                    class="form-control"
-                    id="end-details"
-                    disabled
-                  />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col">
-									<label>Servicio:</label>
-									<input
-                    type="text"
-                    class="form-control"
-                    id="servicio-details"
-                    placeholder="Servicio"
-                    disabled
-                  />
-								</div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col">
-									<label>Ventanilla:</label>
-									<input
-                    type="text"
-                    class="form-control"
-                    id="ventanilla-details"
-                    placeholder="Ventanilla"
-                    disabled
-                  />
-								</div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col">
-									<label>Documento:</label>
-									<div id="documento-details"></div>
-								</div>
-              </div>
-              <div class="modal-footer">
-                <div class="row">
-                  <button
-                    type="button"
-                    class="btn btn-warning"
-                    data-dismiss="modal"
-                    onclick="changeStatus()"
-                  >
-                    Finalizar
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-secondary ml-3"
-                    data-dismiss="modal"
-                  >
-                    Cerrar
-                  </button>
-                </div>
-              </div>
+  </div>
+
+  <div id="modal-details" class="modal" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detalles de la cita</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-lg-12">
+              <label for="message-text" class="col-form-label">
+                Título:
+              </label>
+              <input type="text" class="form-control" id="title-details" placeholder="Título" disabled />
             </div>
+            <div class="form-group col-lg-6">
+              <label for="recipient-name" class="col-form-label">
+                Fecha inicio:
+              </label>
+              <input type="datetime-local" class="form-control" id="start-details" disabled />
+            </div>
+            <div class="form-group col-lg-6">
+              <label for="message-text" class="col-form-label">
+                Fecha fin:
+              </label>
+              <input type="datetime-local" class="form-control" id="end-details" disabled />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Servicio:</label>
+              <input type="text" class="form-control" id="servicio-details" placeholder="Servicio" disabled />
+            </div>
+            <div class="form-group col">
+              <label>Ventanilla:</label>
+              <input type="text" class="form-control" id="ventanilla-details" placeholder="Ventanilla" disabled />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Solicitante:</label>
+              <input type="text" class="form-control" id="solicitante-details" placeholder="Solicitante" disabled />
+            </div>
+            <div class="form-group col">
+              <label>Matrícula:</label>
+              <input type="text" class="form-control" id="matricula-details" placeholder="Matrícula" disabled />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Correo:</label>
+              <input type="text" class="form-control" id="correo-details" placeholder="Correo" disabled />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Carrera:</label>
+              <input type="text" class="form-control" id="carrera-details" placeholder="Carrera" disabled />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col">
+              <label>Archivo:</label>
+              <div id="documento-details"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="row">
+              <button type="button" class="btn btn-warning" data-dismiss="modal" id="btnFinalizar" onclick="changeStatus()">
+                Finalizar
+              </button>
+              <button type="button" class="btn btn-secondary ml-3" data-dismiss="modal">
+                Cerrar
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!--Full calendar-->
-    <script th:src="@{/js/main.js}"></script>
-    <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
-    <script th:src="@{/js/bootstrap/popper.js}"></script>
-    <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
-    <script th:src="@{/js/bootstrap/main.js}"></script>
-    <!--agenda-->
-    <script th:src="@{/js/agenda.js}"></script>
-    <!--Toast-->
-	  <script th:src="@{/js/toast.min.js}"></script>
-    <!--font-awesome-->
-    <script th:src="@{/js/all.min.js}"></script>
-    <!--sweetalert2-->
-    <script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
+  <!--Full calendar-->
+  <script th:src="@{/js/main.js}"></script>
+  <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
+  <script th:src="@{/js/bootstrap/popper.js}"></script>
+  <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+  <script th:src="@{/js/bootstrap/main.js}"></script>
+  <!--agenda-->
+  <script th:src="@{/js/agenda.js}"></script>
+  <!--Toast-->
+  <script th:src="@{/js/toast.min.js}"></script>
+  <!--font-awesome-->
+  <script th:src="@{/js/all.min.js}"></script>
+  <!--sweetalert2-->
+  <script th:src="@{/js/sweetalert/sweetalert2.all.min.js}"></script>
 
-    <script th:if="${msg_success != null}">
-      new Toast({
-        message: '[[${msg_success}]]',
-        type: 'success'
-      });
-    </script>
-    <script th:if="${msg_error != null}">
-      new Toast({
-        message: '[[${msg_error}]]',
-        type: 'danger'
-      });
-    </script>
-    <script>
-      let param = document.getElementById('ventanilla').value;
-      getVentanilla(param);
-    </script>
-  </body>
+  <script th:if="${msg_success != null}">
+    new Toast({
+      message: '[[${msg_success}]]',
+      type: 'success'
+    });
+  </script>
+  <script th:if="${msg_error != null}">
+    new Toast({
+      message: '[[${msg_error}]]',
+      type: 'danger'
+    });
+  </script>
+  <script>
+    let param = document.getElementById('ventanilla').value;
+    getVentanilla(param);
+  </script>
+</body>
+
 </html>

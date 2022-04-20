@@ -59,7 +59,7 @@ public class CitaController {
     @GetMapping(value = "agenda-solicitante")
     public String mostrarAgendaSolicitante(Cita cita, Model model) {
         try{
-            model.addAttribute("listaVentanillas", ventanillaServiceImpl.listarActivas());
+            model.addAttribute("listaVentanillas", ventanillaServiceImpl.listarPorVentanillaEmpleado());
             model.addAttribute("listaServicios", servicioServiceImpl.listar());
         }catch(Exception e){    
             logger.error(e.getMessage());
