@@ -31,6 +31,8 @@ const citas = [];
         
         if (dateif < new Date()) {
             color = "#FFA500";
+            const btnFinalizar = document.getElementById('btnFinalizar');
+            btnFinalizar.disabled = true;
         }
 
         if (cita.ventanilla.id != ventanilla) {

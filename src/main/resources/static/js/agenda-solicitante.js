@@ -13,7 +13,7 @@ const getServicio = async (idServicio) => {
     if (list.length > 0) {
         content += `
             <div class="alert alert-primary" role="alert">
-                Para anexar el archivo deberás contemplar los siguientes documentos:
+                Para hacer válido tu trámite, al anexar el archivo deberás contemplar los siguientes documentos:
             <br/>
             <ul>`
                 for (let index = 0; index < list.length; index++) {
@@ -22,7 +22,8 @@ const getServicio = async (idServicio) => {
                 }
             content += `
             </ul>
-            <span class="text-wrap"><b>Nota:</b> Es importante anexar todos los documentos requeridos en un solo archivo (PDF).</span>
+            <span class="text-wrap"><b>Nota:</b> Es importante anexar todos los documentos requeridos en un solo archivo (PDF), 
+            nombrarlo sin espacios y/o caracteres especiales a excepción del guión medio y bajo.</span>
             </div>
         `;
         $("#mostrarDocs").html(content);
