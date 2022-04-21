@@ -66,50 +66,50 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="nuevo-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){1,}"
+                                                <input id="nuevo-nombre" type="text" class="form-control" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){1,}" maxlength="30"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un nombre.
+                                                    Porfavor ingrese un nombre válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input id="nuevo-apellidos" type="text" class="form-control"
-                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}"
+                                                    aria-describedby="basic-addon2" th:field="*{apellidos}" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){2,}" maxlength="60"
                                                     required>
                                                 <span class="input-group-text" id="basic-addon2">Apellidos</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese sus apellidos.
+                                                    Porfavor ingrese apellidos válidos.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <span class="input-group-text" id="basic-addon3">Telefono</span>
+                                                <span class="input-group-text" id="basic-addon3">Teléfono</span>
                                                 <input id="nuevo-telefono" type="tel" class="form-control phone-mask"
                                                     placeholder="777-516-78-23" aria-label="777-516-78-23"
                                                     aria-describedby="basic-addon3" maxlength="10" minlength="14"
                                                     th:field="*{telefono}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un numero telefonico.
+                                                    Porfavor ingrese un numero telefónico válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input id="nuevo-correo" type="text" class="form-control"
-                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@utez.edu.mx" pattern=".+@utez.edu.mx"
+                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@utez.edu.mx" pattern=".+@utez.edu.mx" maxlength="45"
                                                     aria-describedby="basic-addon4" th:field="*{correo}" required>
                                                 <span class="input-group-text" id="basic-addon4">Correo</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un correo.
+                                                    Porfavor ingrese un correo válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
-                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}"
+                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}" maxlength="50"
                                                     aria-describedby="basic-addon5" th:field="*{password}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese una contraseña.
+                                                    Porfavor ingrese una contraseña válida.
                                                 </div>
                                             </div>
 
@@ -121,7 +121,7 @@
                                                         th:text="${lista.authority}"></option>
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Porfavor seleccione un rol.
+                                                    Porfavor seleccione mínimo un rol.
                                                 </div>
                                             </div>
 
@@ -150,7 +150,7 @@
                                     <th scope="col">Usuario</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Apellidos</th>
-                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Teléfono</th>
                                     <th scope="col">Correo</th>
                                     <th scope="col">Estatus</th>
                                     <th scope="col">Rol</th>
@@ -207,49 +207,49 @@
                                         <div class="input-group mb-3">
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){1,}"
+                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){1,}" maxlength="30"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un nombre.
+                                                    Porfavor ingrese un nombre válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="form-apellidos" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}"
+                                                <input id="form-apellidos" type="text" class="form-control" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){2,}" maxlength="60"
                                                     aria-describedby="basic-addon2" th:field="*{apellidos}" required>
                                                 <span class="input-group-text" id="basic-addon2">Apellidos</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese sus apellidos.
+                                                    Porfavor ingrese apellidos válidos.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <span class="input-group-text" id="basic-addon3">Telefono</span>
+                                                <span class="input-group-text" id="basic-addon3">Teléfono</span>
                                                 <input id="form-telefono" type="tel" class="form-control phone-mask"
                                                     placeholder="777-516-78-23" aria-label="777-516-78-23"
                                                     aria-describedby="basic-addon3" minlength="14"
                                                     th:field="*{telefono}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un numero telefonico.
+                                                    Porfavor ingrese un numero telefónico válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input id="form-correo" type="text" class="form-control"
-                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@utez.edu.mx" pattern=".+@utez.edu.mx"
+                                                    placeholder="Ejemplo@gmail.com" aria-label="Ejemplo@utez.edu.mx" pattern=".+@utez.edu.mx" maxlength="45"
                                                     aria-describedby="basic-addon4" th:field="*{correo}" required>
                                                 <span class="input-group-text" id="basic-addon4">Correo</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un correo.
+                                                    Porfavor ingrese un correo válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
-                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}"
+                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}" maxlength="50"
                                                     aria-describedby="basic-addon5" th:field="*{password}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese una contraseña.
+                                                    Porfavor ingrese una contraseña válida.
                                                 </div>
                                             </div>
 
@@ -261,7 +261,7 @@
                                                         th:text="${lista.authority}"></option>
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Porfavor seleccione un rol.
+                                                    Porfavor seleccione mínimo un rol.
                                                 </div>
                                             </div>
                                         </div>

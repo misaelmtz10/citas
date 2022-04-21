@@ -2,23 +2,23 @@
 <html>
 
 <head>
-	<link rel="icon" type="image/png" th:href="@{/images/ut.png}"/>
+	<link rel="icon" type="image/png" th:href="@{/images/ut.png}" />
 	<title>Crear cuenta</title>
 	<meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Bootstrap-->
-    <link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
-    <!--style plantilla-->
-    <link th:href='@{/css/style.css}' rel='stylesheet' />
-    <!--Toast-->
-    <link rel="stylesheet" th:href="@{/css/toast.min.css}" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--Bootstrap-->
+	<link th:href='@{/css/bootstrap/bootstrap.css}' rel='stylesheet' />
+	<!--style plantilla-->
+	<link th:href='@{/css/style.css}' rel='stylesheet' />
+	<!--Toast-->
+	<link rel="stylesheet" th:href="@{/css/toast.min.css}" />
 </head>
 
 <body style="background-color: #e9ecef;">
-    <div class="wrapper d-flex align-items-stretch">
-        <!-- Page Content  -->
-        <div id="content" class="p-1 p-md-2">
+	<div class="wrapper d-flex align-items-stretch">
+		<!-- Page Content  -->
+		<div id="content" class="p-1 p-md-2">
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
@@ -26,89 +26,98 @@
 							<div class="card-body">
 								<h2 class="my-auto text-center">Crear cuenta</h2>
 								<hr>
-								<form class="needs-validation" novalidate th:action="@{/crearNuevaCuenta}" method="POST" th:object="${usuario}">
+								<form class="needs-validation" novalidate th:action="@{/crearNuevaCuenta}" method="POST"
+									th:object="${usuario}">
 									<div class="form-row">
 										<div class="form-group col">
-											<label>Matricula<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg" name="matricula" pattern="([0-9].)([A-Za-z0-9]){5,}" type="text" max="45" required>
+											<label>Matrícula<span class="text-danger">*</span></label>
+											<input class="form-control form-control-lg" name="matricula"
+												pattern="([0-9].)([A-Za-z0-9]){5,}" type="text" maxlength="15" required>
 											<div class="invalid-feedback">
-												Porfavor ingrese una matricula.
+												Porfavor ingrese una matrícula válida.
 											</div>
 										</div>
 										<div class="form-group col">
 											<label>Carrera<span class="text-danger">*</span></label>
 											<div class="input-group mb-3">
-                                                <select class="form-select form-control form-control" id="carrera" name="carrera" required>
+												<select class="form-select form-control form-control" id="carrera"
+													name="carrera" required>
 													<option selected disabled value="">Choose...</option>
-                                                    <option th:each="lista : ${listaCarreras}" th:value="${lista.id}"
-                                                        th:text="${lista.nombre} +' ('+ ${lista.siglas}+')'"></option>
-                                                </select>
+													<option th:each="lista : ${listaCarreras}" th:value="${lista.id}"
+														th:text="${lista.nombre} +' ('+ ${lista.siglas}+')'"></option>
+												</select>
 												<div class="invalid-feedback">
 													Porfavor seleccione una carrera.
 												</div>
-                                            </div>
+											</div>
 										</div>
 									</div>
-		
+
 									<div class="form-row">
 										<div class="form-group col">
 											<label>Contraseña<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg has-validation" onchange="validarContrasena()"
-												type="password" max="22" id="password" name="password" th:field="*{password}" pattern="([A-Za-z0-9].)([^'\x22]){3,}"
-												required>
-												<div class="invalid-feedback">
-													Porfavor ingrese una contraseña.
-												</div>
+											<input class="form-control form-control-lg has-validation"
+												onchange="validarContrasena()" type="password" maxlength="50"
+												id="password" name="password" th:field="*{password}"
+												pattern="([A-Za-z0-9].)([^'\x22]){3,}" required>
+											<div class="invalid-feedback">
+												Porfavor ingrese una contraseña válida.
+											</div>
 										</div>
 										<div class="form-group col">
 											<label>Confirmar contraseña<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg has-validation" onchange="validarContrasena()"
-												type="password" max="22" id="confirmarContrasena" name="confirmarContrasena" pattern="([A-Za-z0-9].)([^'\x22]){3,}"
-
-												required>
-												<div class="invalid-feedback">
-													Porfavor confirme la contraseña.
-												</div>
+											<input class="form-control form-control-lg has-validation"
+												onchange="validarContrasena()" type="password" maxlength="50"
+												id="confirmarContrasena" name="confirmarContrasena"
+												pattern="([A-Za-z0-9].)([^'\x22]){3,}" required>
+											<div class="invalid-feedback">
+												Porfavor confirme la contraseña.
+											</div>
 										</div>
 									</div>
-		
+
 									<div class="form-row">
 										<div class="form-group col">
 											<label>Nombre<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg" type="text" max="45" th:field="*{nombre}" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){1,}" required>
+											<input class="form-control form-control-lg" type="text" th:field="*{nombre}"
+												pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){1,}" maxlength="30"
+												required>
 											<div class="invalid-feedback">
-												Porfavor ingrese un nombre.
+												Porfavor ingrese un nombre válido.
 											</div>
 										</div>
 										<div class="form-group col">
 											<label>Apellidos<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg" type="text" max="45" th:field="*{apellidos}" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}" required>
-											<div class="invalid-feedback">
-												Porfavor ingrese sus apellidos.
-											</div>
+											<input class="form-control form-control-lg" type="text" maxlength="60"
+												th:field="*{apellidos}" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){2,}"
+												required>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese apellidos válidos.
+                                                </div>
 										</div>
 									</div>
-		
+
 									<div class="form-row">
 										<div class="form-group col">
-											<label>Telefóno<span class="text-danger">*</span></label>
-											<input type="text" class="form-control form-control-lg phone-mask" maxlength="10"
-												minlength="14" placeholder="( ___ ) - ___ - __ - __" th:field="*{telefono}" required>
-												<div class="invalid-feedback">
-													Porfavor ingrese un numero telefonico.
-												</div>
+											<label>Teléfono<span class="text-danger">*</span></label>
+											<input type="text" class="form-control form-control-lg phone-mask"
+												maxlength="10" minlength="14" placeholder="( ___ ) - ___ - __ - __"
+												th:field="*{telefono}" required>
+											<div class="invalid-feedback">
+												Porfavor ingrese un numero telefónico válido.
+											</div>
 										</div>
 										<div class="form-group col">
 											<label>Correo electrónico<span class="text-danger">*</span></label>
-											<input class="form-control form-control-lg" type="email" max="100" th:field="*{correo}" pattern=".+@utez.edu.mx" title="Debe ser de la utez"
-											 required>
+											<input class="form-control form-control-lg" type="email" maxlength="45"
+												th:field="*{correo}" pattern=".+@utez.edu.mx" required>
 											<div class="invalid-feedback">
-												Porfavor ingrese un correo valido.
+												Porfavor ingrese un correo válida.
 											</div>
 										</div>
-		
+
 									</div>
-									
+
 									<p>Los campos marcados con <span class="text-danger">*</span> son obligatorios.</p>
 									<button id="registrar" type="submit" class="btn btn-primary btn-lg btn-block mt-3"
 										onclick="validarContrasena()">
@@ -120,23 +129,23 @@
 					</div>
 				</div>
 			</div>
-        </div>
-    </div>
+		</div>
+	</div>
 
 
-    <script th:src="@{/js/main.js}"></script>
-    <!--Bootstrap-->
-    <script th:src="@{/js/bootstrap/jquery.min.js}"></script>
-    <script th:src="@{/js/bootstrap/popper.js}"></script>
-    <script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
-    <script th:src="@{/js/bootstrap/main.js}"></script>
-    <script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
-    <!--Mask inputs-->
-    <script th:src="@{/js/jquery.mask.min.js}"></script>
-    <!--font-awesome-->
-    <script th:src="@{/js/all.min.js}"></script>
-    <!--Toast-->
-    <script th:src="@{/js/toast.min.js}"></script>
+	<script th:src="@{/js/main.js}"></script>
+	<!--Bootstrap-->
+	<script th:src="@{/js/bootstrap/jquery.min.js}"></script>
+	<script th:src="@{/js/bootstrap/popper.js}"></script>
+	<script th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+	<script th:src="@{/js/bootstrap/main.js}"></script>
+	<script th:src="@{/js/bootstrap/bootstrapValidate.js}"></script>
+	<!--Mask inputs-->
+	<script th:src="@{/js/jquery.mask.min.js}"></script>
+	<!--font-awesome-->
+	<script th:src="@{/js/all.min.js}"></script>
+	<!--Toast-->
+	<script th:src="@{/js/toast.min.js}"></script>
 
 	<script th:if="${msg_success != null}">
 		new Toast({
@@ -180,4 +189,4 @@
 
 </body>
 
-</html> 
+</html>

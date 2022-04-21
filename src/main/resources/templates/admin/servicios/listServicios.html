@@ -68,20 +68,20 @@
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
                                                 <input placeholder="Nombre documento" id="nombre_doc" type="text"
-                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){1,}"
+                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){1,}" maxlength="45"
                                                     th:field="*{nombre}" required>
-                                                <div class="invalid-feedback">
-                                                    Porfavor ingrese un nombre.
-                                                </div>
+                                                    <div class="invalid-feedback">
+                                                        Porfavor ingrese un nombre válido.
+                                                    </div>
                                             </div>
 
                                             <div class="input-group mb-3">
                                                 <input placeholder="Descripción documento" id="nombre_doc" type="text"
-                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}"
+                                                    class="form-control" aria-describedby="basic-addon1" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}" maxlength="100"
                                                     th:field="*{descripcion}" required>
-                                                <span class="input-group-text" id="basic-addon2">Descripcion</span>
+                                                <span class="input-group-text" id="basic-addon2">Descripción</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese una descripcion.
+                                                    Porfavor ingrese una descripción válida.
                                                 </div>
                                             </div>
 
@@ -135,7 +135,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
-                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Descripción</th>
                                     <th scope="col">Estatus</th>
                                     <th style="width: 15%;">Acciones</th>
                                 </tr>
@@ -197,26 +197,29 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="nuevo-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){1,}"
+                                                <input id="nuevo-nombre" type="text" class="form-control" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){1,}" maxlength="45"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un nombre.
+                                                    Porfavor ingrese un nombre válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="nuevo-apellidos" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}"
+                                                <input id="nuevo-apellidos" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}" maxlength="100"
                                                     aria-describedby="basic-addon2" th:field="*{descripcion}" required>
-                                                <span class="input-group-text" id="basic-addon2">Descripcion</span>
+                                                <span class="input-group-text" id="basic-addon2">Descripción</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese una descripcion.
+                                                    Porfavor ingrese una descripción válida.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="nuevo-apellidos" value="" type="number" step="any" class="form-control"
+                                                <input id="nuevo-apellidos" value="" type="number" step="any" class="form-control" min="0" max="5000" required
                                                     aria-describedby="basic-addon2" th:field="*{costo}">
                                                 <span class="input-group-text" id="basic-addon2">Costo</span>
+                                                <div class="invalid-feedback">
+                                                    Porfavor ingrese un costo válido.
+                                                </div>
                                             </div>
 
                                             <div class="input-group mb-3">
@@ -227,10 +230,7 @@
                                                         th:text="${lista.nombre}"></option>
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Porfavor seleccione un rol.
-                                                </div>
-                                                <div class="valid-feedback">
-                                                    Perfecto!
+                                                    Porfavor seleccione mínimo un documento.
                                                 </div>
                                             </div>
 
@@ -257,7 +257,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
-                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Descripción</th>
                                     <th scope="col">Costo</th>
                                     <th scope="col">Documentos</th>
                                     <th style="width: 15%;">Acciones</th>
@@ -309,25 +309,28 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="form-nombre-servicio" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){1,}"
+                                                <input id="form-nombre-servicio" type="text" class="form-control" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){1,}" maxlength="45"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese un nombre.
+                                                    Porfavor ingrese un nombre válido.
                                                 </div>
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="form-descripcion-servicio" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}"
-                                                    aria-describedby="basic-addon2" th:field="*{descripcion}" required>
-                                                <span class="input-group-text" id="basic-addon2">Descripcion</span>
+                                                <input id="form-descripcion-servicio" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}" maxlength="100"
+                                                    aria-describedby="basic-addon2" th:field="*{descripcion}" >
+                                                <span class="input-group-text" id="basic-addon2">Descripción</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese una descripcion.
+                                                    Porfavor ingrese una descripción válida.
                                                 </div>
                                             </div>
 
                                             <input id="form-costo-servicio" type="number" class="form-control"
-                                                aria-describedby="basic-addon2" th:field="*{costo}" value="" step="any" required>
+                                                aria-describedby="basic-addon2" th:field="*{costo}" value="" step="any" min="0" max="5000" required>
                                             <span class="input-group-text" id="basic-addon2">Costo</span>
+                                            <div class="invalid-feedback">
+                                                Porfavor ingrese un costo válido.
+                                            </div>
                                         </div>
 
                                         <div class="input-group mb-3">
@@ -337,6 +340,9 @@
                                                 <option th:each="lista : ${documentosActivos}" th:value="${lista.id}"
                                                     th:text="${lista.nombre}"></option>
                                             </select>
+                                            <div class="invalid-feedback">
+                                                Porfavor seleccione mínimo un documento.
+                                            </div>
                                         </div>
 
                                     </div>
@@ -368,19 +374,19 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon1">Nombre</span>
-                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){1,}"
+                                                <input id="form-nombre" type="text" class="form-control" pattern="([A-Za-z].)([A-Za-zñÑáéíóúÁÉÍÓÚ ]){1,}" maxlength="45"
                                                     aria-describedby="basic-addon1" th:field="*{nombre}" required>
-                                                <div class="invalid-feedback">
-                                                    Porfavor ingrese un nombre.
-                                                </div>
+                                                    <div class="invalid-feedback">
+                                                        Porfavor ingrese un nombre válido.
+                                                    </div>
                                             </div>
 
                                             <div class="input-group mb-3">
-                                                <input id="form-descripcion" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}"
+                                                <input id="form-descripcion" type="text" class="form-control" pattern="([A-Za-z0-9].)([A-Za-z0-9ñÑáéíóúÁÉÍÓÚ ]){2,}" maxlength="100"
                                                     aria-describedby="basic-addon2" th:field="*{descripcion}" required>
-                                                <span class="input-group-text" id="basic-addon2">Descripcion</span>
+                                                <span class="input-group-text" id="basic-addon2">Descripción</span>
                                                 <div class="invalid-feedback">
-                                                    Porfavor ingrese una descripcion.
+                                                    Porfavor ingrese una descripción válida.
                                                 </div>
                                             </div>
 
