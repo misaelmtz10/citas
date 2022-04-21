@@ -2,7 +2,6 @@ package utez.edu.mx.citas.model;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,14 +12,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.StoredProcedureParameter;
 
 @Entity
 @Table(name = "users")
+@NamedStoredProcedureQuery(name = "iniciarSesion",
+procedureName = "iniciarSesion", parameters = {
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "idUser", type = Long.class),
+        @StoredProcedureParameter(mode = ParameterMode.IN, name = "descr", type = String.class)
+})
 public class Usuario {
     
     

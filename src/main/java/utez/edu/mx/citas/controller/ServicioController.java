@@ -1,26 +1,28 @@
 package utez.edu.mx.citas.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import utez.edu.mx.citas.model.Servicio;
+import utez.edu.mx.citas.model.Usuario;
 import utez.edu.mx.citas.service.DocumentoServiceImpl;
 import utez.edu.mx.citas.service.ServicioServiceImpl;
-
+import utez.edu.mx.citas.service.BitacoraServiceImpl;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
+@SessionAttributes({"user"})
 @RequestMapping(value="/servicios")
 public class ServicioController {
     
@@ -30,6 +32,9 @@ public class ServicioController {
     private ServicioServiceImpl servicioServiceImpl;
     @Autowired
     private DocumentoServiceImpl documentoServiceImpl;
+
+    @Autowired
+    private BitacoraServiceImpl bitacoraService;
 
     @GetMapping(value="/lista")
     public String listaServicios(Model model, RedirectAttributes redirectAttributes) {
@@ -56,19 +61,20 @@ public class ServicioController {
     
     @PostMapping(value="/guardar")
     
-    public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
+    public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes,  @ModelAttribute("user") Usuario user) {
         try{
             boolean respuesta = servicioServiceImpl.guardar(servicio);
 
             if (respuesta) {
-                redirectAttributes.addFlashAttribute("msg_success","Registro exitoso");
+                bitacoraService.registro(user.getId(), servicio.getId(), user.getCorreo() + " registró servicio: " + servicio.getNombre());
+                redirectAttributes.addFlashAttribute("msg_success","Registro Exitoso");
             }else{
-                redirectAttributes.addFlashAttribute("msg_error","Registro fallido");
+                redirectAttributes.addFlashAttribute("msg_error","Registro Fallido");
                 return "redirect:/citas/formulario";
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            redirectAttributes.addFlashAttribute("msg_error", "Registro fallido");
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
         }
         return "citas/list";
     }

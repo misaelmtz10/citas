@@ -14,4 +14,5 @@ public interface UsuarioService {
     Usuario findLastId(String user_);
     List <Usuario> findByEnabledFalseAndRole(); 
     boolean cambiarContrasena(String password, String username);
+    void iniciarSesion(Long user, String descripcion);
 }

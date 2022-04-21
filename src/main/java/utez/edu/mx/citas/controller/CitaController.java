@@ -2,13 +2,13 @@ package utez.edu.mx.citas.controller;
 
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import utez.edu.mx.citas.model.Cita;
 import utez.edu.mx.citas.model.Solicitante;
 import utez.edu.mx.citas.model.Usuario;
@@ -25,12 +24,14 @@ import utez.edu.mx.citas.service.ServicioServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
 import utez.edu.mx.citas.service.VentanillaServiceImpl;
+import utez.edu.mx.citas.service.BitacoraServiceImpl;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import utez.edu.mx.citas.util.ArchivoUtileria;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
+@SessionAttributes({"user"})
 @RequestMapping(value = "/citas")
 public class CitaController {
 
@@ -50,6 +51,9 @@ public class CitaController {
 
     @Autowired
     private VentanillaServiceImpl ventanillaServiceImpl;
+
+    @Autowired
+    private BitacoraServiceImpl bitacoraService;
 
     @GetMapping(value = "ver-agenda")
     public String mostrarAgenda(Cita cita, Model model) {
@@ -101,9 +105,10 @@ public class CitaController {
             boolean respuesta = citaServiceImpl.guardar(cita);
 
             if (respuesta) {
-                redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso!");
+                bitacoraService.solicitarServicio(user.getId(), cita.getId(), user.getCorreo() + " solicitó: " + cita.getServicio().getNombre());
+                redirectAttributes.addFlashAttribute("msg_success", "¡Registro Exitoso!");
             } else {
-                redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido!");
+                redirectAttributes.addFlashAttribute("msg_error", "¡Registro Fallido!");
                 return "redirect:/citas/agenda-solicitante";
             }
         }catch(Exception e){
@@ -114,15 +119,16 @@ public class CitaController {
     }
 
     @GetMapping(value = "/cambiar-estatus/{id}")
-    public String cambiarEstatus(@PathVariable(value="id") long id, RedirectAttributes redirectAttributes) {
+    public String cambiarEstatus(@PathVariable(value="id") long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             Cita cita = citaServiceImpl.obtenerCita(id);
             cita.setEstatus(2);
             boolean respuesta = citaServiceImpl.guardar(cita);
             if (respuesta) {
-                redirectAttributes.addFlashAttribute("msg_success", "Eliminación exitosa");
+                bitacoraService.terminarCita(user.getId(), cita.getId(), user.getCorreo() + " finalizó cita de: " + cita.getSolicitante().getUsuario().getCorreo());
+                redirectAttributes.addFlashAttribute("msg_success", "Finalización Exitosa");
             } else {
-                redirectAttributes.addFlashAttribute("msg_success", "Eliminación fallida");
+                redirectAttributes.addFlashAttribute("msg_success", "Finalización Fallida");
             }
         }catch(Exception e){
             e.printStackTrace();

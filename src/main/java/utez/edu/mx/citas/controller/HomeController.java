@@ -23,9 +23,9 @@ import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.ServicioServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
+import utez.edu.mx.citas.service.BitacoraServiceImpl;
 import utez.edu.mx.citas.service.VentanillaEmpleadoServiceImpl;
 import utez.edu.mx.citas.service.VentanillaServiceImpl;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,6 +62,9 @@ public class HomeController {
 
     @Autowired
     private ServicioServiceImpl servicioServiceImpl;
+
+    @Autowired
+    private BitacoraServiceImpl bitacoraService;
 
     @GetMapping("/")
     public String index() {
@@ -110,6 +113,7 @@ public class HomeController {
           Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
           user.setPassword(null);
           session.setAttribute("user", user);
+          usuarioService.iniciarSesion(user.getId(), "Inició sesión: " + user.getCorreo() + ".");
         }
       } catch (Exception e) {
         logger.error(e.getMessage());
@@ -127,6 +131,7 @@ public class HomeController {
           user.setPassword(null);
           Solicitante solicitante = solicitanteServiceImpl.buscarPorIdUsuario(user.getId());
           session.setAttribute("user", solicitante);
+          usuarioService.iniciarSesion(user.getId(), "Inició sesión: " + user.getCorreo() + ".");
         }
       } catch (Exception e) {
         logger.error(e.getMessage());
@@ -142,6 +147,7 @@ public class HomeController {
           user.setPassword(null);
           session.setAttribute("ventanilla", ventanillaEmpleadoService.findVentanillaByEmpleado(user.getId()));
           session.setAttribute("user", user);
+          usuarioService.iniciarSesion(user.getId(), "Inició sesión: " + user.getCorreo() + ".");
         }
       } catch (Exception e) {
         logger.error(e.getMessage());
@@ -187,7 +193,7 @@ public class HomeController {
             redirectAttributes.addFlashAttribute("msg_error", "¡Registro fallido! Por favor intenta de nuevo.");
             return "redirect:/crearCuenta";  
           }
-          
+          bitacoraService.registro(usuario.getId(), usuario.getId(), "Se registró: " + usuario.getCorreo());
           redirectAttributes.addFlashAttribute("msg_success", "¡Registro exitoso! Por favor inicia sesión.");
           return "redirect:/login";
         } else {

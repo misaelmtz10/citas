@@ -4,32 +4,33 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.ui.Model;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import utez.edu.mx.citas.model.Empleado;
+import utez.edu.mx.citas.model.Usuario;
 import utez.edu.mx.citas.model.Ventanilla;
 import utez.edu.mx.citas.model.VentanillaEmpleado;
+import utez.edu.mx.citas.service.BitacoraServiceImpl;
 import utez.edu.mx.citas.service.EmpleadoServiceImpl;
 import utez.edu.mx.citas.service.VentanillaEmpleadoServiceImpl;
 import utez.edu.mx.citas.service.VentanillaServiceImpl;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
+@SessionAttributes({"user"})
 @RequestMapping(value = "/ventanillas")
 public class VentanillaControler {
     
@@ -43,6 +44,9 @@ public class VentanillaControler {
 
     @Autowired
     private VentanillaEmpleadoServiceImpl ventanillaEmpleadoService;
+
+    @Autowired
+    private BitacoraServiceImpl bitacoraService;
 
     @GetMapping(value="/asignar")
     
@@ -76,34 +80,36 @@ public class VentanillaControler {
 
     @PostMapping("/asiganarUsuario")
     
-    public String asiganarUsuario(VentanillaEmpleado ventanillaEmpleado, RedirectAttributes redirectAttributes) {
+    public String asiganarUsuario(VentanillaEmpleado ventanillaEmpleado, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             ventanillaEmpleado.setCreatedAt(new Date());
             ventanillaEmpleado.setEstatus(1);
             boolean guardado = ventanillaEmpleadoService.guardar(ventanillaEmpleado);
             
             if (guardado) {
-                redirectAttributes.addFlashAttribute("msg_success", "Guardado Exitosa");	
+                bitacoraService.actualizar(user.getId(), ventanillaEmpleado.getVentanilla().getId(), user.getCorreo() + " asignó ventanilla a: " + ventanillaEmpleado.getEmpleado().getUsuario().getCorreo());
+                redirectAttributes.addFlashAttribute("msg_success", "Asignación Exitosa");	
             }else {
-                redirectAttributes.addFlashAttribute("msg_error", "Guardado Fallido");
+                redirectAttributes.addFlashAttribute("msg_error", "Asignación Fallida");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            redirectAttributes.addFlashAttribute("msg_error", "Guardado Fallido");
+            redirectAttributes.addFlashAttribute("msg_error", "Asignación Fallida");
         }
         return "redirect:/ventanillas/asignar";
     }
 
     @PostMapping("/guardar")
     
-    public String guardarVentanilla(Ventanilla ventanilla, RedirectAttributes redirectAttributes) {
+    public String guardarVentanilla(Ventanilla ventanilla, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             boolean guardado = ventanillaServiceImpl.guardar(ventanilla);
             
             if (guardado) {
-                redirectAttributes.addFlashAttribute("msg_success", "Guardado Exitosa");	
+                bitacoraService.registro(user.getId(), ventanilla.getId(), user.getCorreo() + " registró ventanilla: " + ventanilla.getNombreVentanilla());
+                redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
             }else {
-                redirectAttributes.addFlashAttribute("msg_error", "Guardado Fallido");
+                redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -114,34 +120,36 @@ public class VentanillaControler {
 
     @PostMapping("/editar/{id}")
     
-    public String reasiganrUsuario(@PathVariable long id, Ventanilla ventanilla, RedirectAttributes redirectAttributes) {
+    public String reasiganrUsuario(@PathVariable long id, Ventanilla ventanilla, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             boolean guardado = ventanillaServiceImpl.guardar(ventanilla);
             
             if (guardado) {
-                redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+                bitacoraService.actualizar(user.getId(), ventanilla.getId(), user.getCorreo() + " modificó ventanilla: " + ventanilla.getNombreVentanilla());
+                redirectAttributes.addFlashAttribute("msg_success", "Modificación Exitosa");	
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            redirectAttributes.addFlashAttribute("msg_error", "Modificacion Fallido");
+            redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallido");
         }
     	return "redirect:/ventanillas/listar";
     }
     
     @GetMapping("/eliminar/{id}")
-    public String eliminarVentanilla(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String eliminarVentanilla(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
 
         Ventanilla ventanilla = ventanillaServiceImpl.mostrar(id);
     	ventanilla.setEstatus(0);
     	boolean eliminado = ventanillaServiceImpl.guardar(ventanilla);
     	
 		if (eliminado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Desactivado");
+            bitacoraService.eliminar(user.getId(), ventanilla.getId(), user.getCorreo() + " eliminó ventanilla: " + ventanilla.getNombreVentanilla());
+            redirectAttributes.addFlashAttribute("msg_success", "Ventanilla Deshabilitada");
 			
 		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Desactivación Fallida");
+			redirectAttributes.addFlashAttribute("msg_error", "Deshabilitación Fallida");
 			
 		}
 
@@ -150,20 +158,21 @@ public class VentanillaControler {
 
     @GetMapping("/liberar/{id}")
     
-    public String liberar(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String liberar(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             VentanillaEmpleado ventanilla = ventanillaEmpleadoService.obtenerRegistro(id);
             ventanilla.setEstatus(0);
             boolean guardado = ventanillaEmpleadoService.guardar(ventanilla);
 
             if (guardado) {
-                redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
+                bitacoraService.actualizar(user.getId(), ventanilla.getVentanilla().getId(), user.getCorreo() + " liberó ventanilla: " + ventanilla.getVentanilla().getNombreVentanilla());
+                redirectAttributes.addFlashAttribute("msg_success", "Modificación Exitosa");
             }else {
-                redirectAttributes.addFlashAttribute("msg_error", "Eliminación Fallida");
+                redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
             }
         } catch (Exception e) {
             logger.error(e.getMessage());
-            redirectAttributes.addFlashAttribute("msg_error", "Eliminación Fallida");
+            redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
         }
 
         return "redirect:/ventanillas/asignar";    

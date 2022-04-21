@@ -87,5 +87,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public Usuario findLastId(String user_) {
 		return usuarioRepository.findLastId(user_);
 	}
+
+    @Override
+	public void iniciarSesion(Long user, String descripcion) {
+		usuarioRepository.iniciarSesion(user, descripcion);
+	}
     
 }

@@ -7,12 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import utez.edu.mx.citas.model.Carrera;
 import utez.edu.mx.citas.model.Documento;
 import utez.edu.mx.citas.model.Empleado;
@@ -25,13 +26,14 @@ import utez.edu.mx.citas.service.RolServiceImpl;
 import utez.edu.mx.citas.service.ServicioServiceImpl;
 import utez.edu.mx.citas.service.SolicitanteServiceImpl;
 import utez.edu.mx.citas.service.UsuarioServiceImpl;
+import utez.edu.mx.citas.service.BitacoraServiceImpl;
 import utez.edu.mx.citas.service.CarreraServiceImpl;
 import utez.edu.mx.citas.service.DocumentoServiceImpl;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
+@SessionAttributes({"user"})
 @RequestMapping(value="/admin")
 public class AdminController {
 	
@@ -60,6 +62,9 @@ public class AdminController {
 
     @Autowired
     private CarreraServiceImpl carreraServiceImpl;
+
+    @Autowired
+    private BitacoraServiceImpl bitacoraService;
      
     @GetMapping("/")
     public String index(){
@@ -140,17 +145,18 @@ public class AdminController {
     
     @PostMapping("/servicios/guardar")
     
-    public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
+    public String guardarServicio(Servicio servicio, Model model, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
     	try{
             boolean guardado = servicioService.guardar(servicio);
 
             if (guardado) {
+                bitacoraService.registro(user.getId(), servicio.getId(), user.getCorreo() + " registró servicio: " + servicio.getNombre());
                 redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
             }
         }catch(Exception e){
-            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
             logger.error(e.getMessage());
         }
     	return "redirect:/admin/servicios/listar";
@@ -165,17 +171,18 @@ public class AdminController {
     
     @GetMapping("/servicios/eliminar/{id}")
     
-    public String eliminarServicio(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String eliminarServicio(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             boolean respuesta = servicioService.eliminar(id);
 
             if (respuesta) {
+                bitacoraService.eliminar(user.getId(), id, user.getCorreo() + " eliminó servicio " + id);
                 redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Eliminación Fallida");
             }
         }catch(Exception e){
-            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
             logger.error(e.getMessage());
         }
 		return "redirect:/admin/servicios/listar";
@@ -183,17 +190,18 @@ public class AdminController {
     
     @PostMapping("/servicios/editar/{id}")
     
-    public String editarServicio(@PathVariable Long id, Servicio servicio, Model model, RedirectAttributes redirectAttributes) {
+    public String editarServicio(@PathVariable Long id, Servicio servicio, Model model, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
     	try{
             boolean guardado = servicioService.guardar(servicio);
             
             if (guardado) {
-                redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+                bitacoraService.actualizar(user.getId(), servicio.getId(), user.getCorreo() + " actualizó servicio: " + servicio.getNombre());
+                redirectAttributes.addFlashAttribute("msg_success", "Modificación Exitosa");	
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
             }
         }catch(Exception e){
-            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
             logger.error(e.getMessage());
         }
         return "redirect:/admin/servicios/listar";
@@ -201,7 +209,7 @@ public class AdminController {
     
 
     @PostMapping("/usuarios/guardar")
-    public String guardarUsuario(Usuario usuario, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String guardarUsuario(Usuario usuario, Model model, BindingResult bindingResult, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             usuario.setIntentos(3);
             usuario.setEnabled(true); 
@@ -223,13 +231,13 @@ public class AdminController {
             			empleadoService.guardar(empleado);
             		} 
             	}
-            	
-                redirectAttributes.addFlashAttribute("msg_success", "Creacion Exitosa");	
+            	bitacoraService.registro(user.getId(), usuario.getId(), user.getCorreo() + " registró a: " + usuario.getCorreo());
+                redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
             }else {
-                redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+                redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
             }
         }catch(Exception e){
-            redirectAttributes.addFlashAttribute("msg_error", "Creacion Fallida");
+            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
             logger.error(e.getMessage());
         }
     	return "redirect:/admin/usuarios/listar";
@@ -244,7 +252,7 @@ public class AdminController {
 
     @PostMapping("/usuarios/editar/{id}")
     
-    public String editarUsuario(@PathVariable long id, Usuario usuario, Model model, RedirectAttributes redirectAttributes) {
+    public String editarUsuario(@PathVariable long id, Usuario usuario, Model model, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             Usuario new_usuario = usuarioService.mostrar(id);
             new_usuario.setRoles(usuario.getRoles());
@@ -282,7 +290,7 @@ public class AdminController {
             boolean guardado = usuarioService.guardar(new_usuario);
             
             if (guardado) {
-                redirectAttributes.addFlashAttribute("msg_success", "Modificacion Exitosa");	
+                redirectAttributes.addFlashAttribute("msg_success", "Modificación Exitosa");	
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
             }
@@ -295,11 +303,12 @@ public class AdminController {
 
     @GetMapping("/usuarios/eliminar/{id}")
     
-    public String borrarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String borrarUsuario(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             boolean respuesta = usuarioService.eliminar(id);
 
             if (respuesta) {
+                bitacoraService.eliminar(user.getId(), id, user.getCorreo() + " eliminó a: " + id);
                 redirectAttributes.addFlashAttribute("msg_success", "Registro Eliminado");
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Eliminación Fallida");
@@ -313,7 +322,7 @@ public class AdminController {
 
     @GetMapping("/empleados/deshabilitar/{id}")
     
-    public String deshabilitarEmpleado(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String deshabilitarEmpleado(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         Empleado empleado = empleadoService.mostrarEmpleado(id);
 
         Usuario usuarioN = usuarioService.mostrar(empleado.getUsuario().getId());
@@ -325,13 +334,14 @@ public class AdminController {
             boolean respuesta = usuarioService.guardar(usuarioN);
 
             if (respuesta) {
+                bitacoraService.actualizar(user.getId(), id, user.getCorreo() + " deshabilitó a: " + empleado.getUsuario().getCorreo());
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario Deshabilitado");
                 
             }
 
         }catch(Exception e){
             logger.error(e.getMessage());
-            redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
+            redirectAttributes.addFlashAttribute("msg_error", "Deshabilitación Fallida");
         }			
 
     	return "redirect:/admin/empleados/listar";
@@ -339,7 +349,7 @@ public class AdminController {
 
     @GetMapping("/solicitantes/deshabilitar/{id}")
     
-    public String deshabilitarSolicitante(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String deshabilitarSolicitante(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         Solicitante solicitante = solicitanteService.mostrarSolicitante(id);
 
         Usuario usuarioN = usuarioService.mostrar(solicitante.getUsuario().getId());
@@ -351,13 +361,14 @@ public class AdminController {
             boolean respuesta = usuarioService.guardar(usuarioN);
     
             if (respuesta) {
+                bitacoraService.actualizar(user.getId(), id, user.getCorreo() + " deshabilitó a: " + solicitante.getUsuario().getCorreo());
                 redirectAttributes.addFlashAttribute("msg_success", "Usuario Deshabilitado");
                 
             }
 
         }catch(Exception e){
             logger.error(e.getMessage());
-            redirectAttributes.addFlashAttribute("msg_error", "Deshabilitacion Fallida");
+            redirectAttributes.addFlashAttribute("msg_error", "Deshabilitación Fallida");
         }
 
     	return "redirect:/admin/solicitantes/listar";
@@ -365,7 +376,7 @@ public class AdminController {
 
     @PostMapping("/empleados/guardar")
     
-    public String guardarEmpleado(Empleado empleado, Model model, RedirectAttributes redirectAttributes) {
+    public String guardarEmpleado(Empleado empleado, Model model, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             empleado.setEstatus(1);
             
@@ -375,12 +386,13 @@ public class AdminController {
             boolean guardado = empleadoService.guardar(empleado);
 
             if (guardado) {
-                redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
+                bitacoraService.actualizar(user.getId(), empleado.getId(), user.getCorreo() + " habilitó a: " + empleado.getUsuario().getCorreo());
+                redirectAttributes.addFlashAttribute("msg_success", "Habilitación Exitosa");	
             }else {
-                redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+                redirectAttributes.addFlashAttribute("msg_error", "Habilitación Fallida");
             }
         }catch(Exception e){    
-            redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
+            redirectAttributes.addFlashAttribute("msg_error", "Habilitación Fallida");
             logger.error(e.getMessage());
         }
     	
@@ -389,11 +401,12 @@ public class AdminController {
     
     @PostMapping("/documentos/guardar")
     
-    public String guardarDocumento(Documento documento, Model model, RedirectAttributes redirectAttributes) {
+    public String guardarDocumento(Documento documento, Model model, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
         try{
             boolean guardado = documentoService.guardar(documento);
 
             if (guardado) {
+                bitacoraService.registro(user.getId(), documento.getId(), user.getCorreo() + " registró doc: " + documento.getNombre());
                 redirectAttributes.addFlashAttribute("msg_success", "Registro Exitoso");	
             }else {
                 redirectAttributes.addFlashAttribute("msg_error", "Registro Fallido");
@@ -407,28 +420,30 @@ public class AdminController {
     }
     
     @GetMapping("/documentos/deshabilitar/{id}")
-    public String deshabilitarDocumento(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String deshabilitarDocumento(@PathVariable Long id, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
     	Documento documento = documentoService.mostrarDocumento(id);
     	documento.setEstatus(0);
     	boolean guardado = documentoService.guardar(documento);
 
         if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Registro Desactivado");	
+            bitacoraService.actualizar(user.getId(), id, user.getCorreo() + " deshabilitó: " + documento.getNombre());
+            redirectAttributes.addFlashAttribute("msg_success", "Documento Deshabilitado");	
 		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Desactivación Fallida");
+			redirectAttributes.addFlashAttribute("msg_error", "Deshabilitación Fallida");
 		}
     	
     	return "redirect:/admin/servicios/listar";
     }
     
     @PostMapping("/documentos/editar/{id}")
-    public String actualizarDocumento(@PathVariable Long id, Documento documento, Model model, RedirectAttributes redirectAttributes) {
+    public String actualizarDocumento(@PathVariable Long id, Documento documento, Model model, RedirectAttributes redirectAttributes, @ModelAttribute("user") Usuario user) {
     	boolean guardado = documentoService.guardar(documento);
 
         if (guardado) {
-			redirectAttributes.addFlashAttribute("msg_success", "Actualización Exitosa");	
+            bitacoraService.actualizar(user.getId(), id, user.getCorreo() + " editó: " + documento.getNombre());
+            redirectAttributes.addFlashAttribute("msg_success", "Modificación Exitosa");	
 		}else {
-			redirectAttributes.addFlashAttribute("msg_error", "Actualización Fallida");
+			redirectAttributes.addFlashAttribute("msg_error", "Modificación Fallida");
 		}
     	
     	return "redirect:/admin/servicios/listar";
