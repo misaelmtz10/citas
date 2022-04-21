@@ -104,15 +104,16 @@ public class HomeController {
     public String dashboardAdminstrador(Usuario obj,Model model, Authentication authentication, HttpSession session) {
       try{
         if (session.getAttribute("user") == null) {
-          List<Usuario> usuarios = usuarioService.listar();
+          Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
+          user.setPassword(null);
+          session.setAttribute("user", user);
+          List<Usuario> usuarios = usuarioService.findUsers(user.getId());
 
           List<Role> roles = rolService.listar();
           model.addAttribute("lista", usuarios);
           model.addAttribute("listaRoles", roles);
           model.addAttribute("titulo", "Usuarios");
-          Usuario user = usuarioServiceImpl.buscarPorUsername(authentication.getName());
-          user.setPassword(null);
-          session.setAttribute("user", user);
+          
           usuarioService.iniciarSesion(user.getId(), "Inició sesión: " + user.getCorreo() + ".");
         }
       } catch (Exception e) {

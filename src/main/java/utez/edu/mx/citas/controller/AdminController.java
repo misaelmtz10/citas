@@ -79,9 +79,9 @@ public class AdminController {
     
     @GetMapping("/usuarios/listar")
     
-    public String listarUsuarios(Usuario user,Model model) {
+    public String listarUsuarios(Usuario user,Model model, @ModelAttribute("user") Usuario admin) {
         try{
-            List<Usuario> usuarios = usuarioService.listar();
+            List<Usuario> usuarios = usuarioService.findUsers(admin.getId());
 
             List<Role> roles = rolService.listar();
             model.addAttribute("lista", usuarios);

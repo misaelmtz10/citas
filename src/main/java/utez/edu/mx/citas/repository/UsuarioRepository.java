@@ -26,4 +26,7 @@ public interface UsuarioRepository extends JpaRepository <Usuario, Long> {
 
     @Procedure(procedureName = "iniciarSesion")
     void iniciarSesion(@Param("idUser")Long idUser, @Param("descr")String descr);
+
+    @Query(value="SELECT * FROM users WHERE id != :idUser", nativeQuery = true)
+    List <Usuario> findUsers(long idUser);
 }

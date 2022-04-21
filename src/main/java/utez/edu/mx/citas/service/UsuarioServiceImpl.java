@@ -92,5 +92,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 	public void iniciarSesion(Long user, String descripcion) {
 		usuarioRepository.iniciarSesion(user, descripcion);
 	}
+
+    @Override
+    public List <Usuario> findUsers(long idUser) {
+        return usuarioRepository.findUsers(idUser);
+    }
     
 }
