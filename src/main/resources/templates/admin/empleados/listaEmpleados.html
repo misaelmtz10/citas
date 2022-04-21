@@ -46,7 +46,7 @@
                 <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5">
                     <!-- Button para abrir modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
-                        <i class="fas fa-user-plus"></i>&nbsp; Crear Empleado
+                        <i class="fas fa-user-plus"></i>&nbsp; Habilitar Empleado
                     </button>
 
                     <!-- Modal creacion de Empleados nuevo-->
@@ -55,7 +55,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="createModalLabel">Crear Empleados</h5>
+                                    <h5 class="modal-title" id="createModalLabel">Habilitar Empleados</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -76,7 +76,7 @@
                                 </div>
                                 <div th:unless="${listaUsuarios.size == 0 }">
                                     <form id="crear" th:action="@{/admin/empleados/guardar}" method="POST"
-                                        th:object="${empleado}">
+                                        th:object="${usuario}">
                                         <div class="modal-body">
                                             <div class="input-group mb-3">
                                                 <div class="input-group mb-3">
@@ -94,7 +94,7 @@
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" class="btn btn-primary">Crear</button>
+                                                <button type="submit" class="btn btn-primary">Habilitar</button>
                                             </div>
 
                                     </form>

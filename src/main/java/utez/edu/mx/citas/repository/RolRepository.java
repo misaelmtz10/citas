@@ -10,4 +10,7 @@ public interface RolRepository extends JpaRepository <Role, Long> {
     
     @Query(value = "SELECT role_id FROM user_role WHERE user_id = :idUser", nativeQuery = true)
     List <Integer> findRolesByUser(long idUser);
+
+    @Query(value = "SELECT * FROM roles WHERE id != 3", nativeQuery = true)
+    List <Role> listar();
 }

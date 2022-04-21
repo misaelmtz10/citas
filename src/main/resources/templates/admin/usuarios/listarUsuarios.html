@@ -121,7 +121,7 @@
                                                         th:text="${lista.authority}"></option>
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Porfavor seleccione mínimo un rol.
+                                                    Porfavor seleccione un rol.
                                                 </div>
                                             </div>
 
@@ -246,8 +246,8 @@
 
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
-                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}" maxlength="50"
-                                                    aria-describedby="basic-addon5" th:field="*{password}" required>
+                                                <input type="hidden" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}" maxlength="50"
+                                                    aria-describedby="basic-addon5" th:field="*{password}" >
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese una contraseña válida.
                                                 </div>
