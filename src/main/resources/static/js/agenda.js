@@ -1,6 +1,7 @@
 let idEvent;
 let ventanilla;
 
+
 const getVentanilla = (param) => {
     ventanilla = param;
 }
@@ -14,7 +15,6 @@ const citas = [];
         //validar status
         let color;
         let dateif = new Date(cita.end);
-
         switch (cita.estatus) {
             case 1:
                 color =  "#00a65a";
@@ -30,9 +30,9 @@ const citas = [];
         }
         
         if (dateif < new Date()) {
-            color = "#FFA500";
-            const btnFinalizar = document.getElementById('btnFinalizar');
-            btnFinalizar.disabled = true;
+            let idCita = parseInt(cita.id);
+            color = "#FFA500";  
+            fetch(`/citas/cambiar-estatus/${idCita}`); 
         }
 
         if (cita.ventanilla.id != ventanilla) {
@@ -98,7 +98,10 @@ const citas = [];
             let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
             let solicitante = args.event._def.extendedProps.item.solicitante;
             let data = args.event._def.extendedProps.item.archivo;
-            $("#modal-details").modal("show");
+            let endif = new Date(end);
+            let estatus = args.event._def.extendedProps.item.estatus;
+            const btnFinalizar = document.getElementById('btnFinalizar');
+            
             $("#title-details").val(title);
             $("#start-details").val(start.replace(' ' ,'T'));
             $("#end-details").val(end.replace(' ' ,'T'));
@@ -109,6 +112,16 @@ const citas = [];
             $("#carrera-details").val(solicitante.carrera.nombre);
             $("#correo-details").val(solicitante.usuario.correo);
             $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/file-citas/${data}" target="_blank">Ver</a>`);
+
+            if (endif < new Date() || estatus === 2) {
+                btnFinalizar.disabled = true; 
+                $("#estatus-details").html('<h5 class="text-muted"><span class="badge badge-pill badge-warning">Finalizada</span></h5>'); 
+            }else{
+                btnFinalizar.disabled = false;
+                $("#estatus-details").html('<h5 class="text-muted"><span class="badge badge-pill badge-success">Activa</span></h5>');
+            }
+
+            $("#modal-details").modal("show");
         },
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events

@@ -143,14 +143,22 @@ const citas = [];
                 let title = args.event._def.extendedProps.item.title;
                 let servicio = args.event._def.extendedProps.item.servicio.nombre;
                 let ventanilla = args.event._def.extendedProps.item.ventanilla.nombreVentanilla;
+                let estatus = args.event._def.extendedProps.item.estatus;
                 let data = args.event._def.extendedProps.item.archivo;
-                $("#modal-details").modal("show");
+                
+                if (estatus === 1) {
+                    $("#estatus-details").html('<h5 class="text-muted"><span class="badge badge-pill badge-success">Activa</span></h5>')
+                } else {
+                    $("#estatus-details").html('<h5 class="text-muted"><span class="badge badge-pill badge-warning">Finalizada</span></h5>')
+                }
+                
                 $("#title-details").val(title);
                 $("#start-details").val(start.replace(' ' ,'T'));
                 $("#end-details").val(end.replace(' ' ,'T'));
                 $("#servicio-details").val(servicio);
                 $("#ventanilla-details").val(ventanilla);
                 $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/file-citas/${data}" target="_blank">Ver</a>`);
+                $("#modal-details").modal("show");
                 
             }else{
               Swal.fire({
