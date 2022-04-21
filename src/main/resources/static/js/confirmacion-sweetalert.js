@@ -6,8 +6,8 @@ if (formEdit != null) {
     const alertEdit = (event) => {
         event.preventDefault();
         Swal.fire({
-            title: "¿Esta seguro?",
-            text: "Los datos seran reescritos y almacenados",
+            title: "¿Está seguro?",
+            text: "Los datos serán reescritos y almacenados",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
@@ -58,8 +58,8 @@ if (formEdit2 != null) {
     const alertEdit2 = (event) => {
         event.preventDefault();
         Swal.fire({
-            title: "¿Esta seguro?",
-            text: "Los datos seran reescritos y almacenados",
+            title: "¿Está seguro?",
+            text: "Los datos serán reescritos y almacenados",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
@@ -112,7 +112,7 @@ if (formNew != null) {
     const alertNew = (event) => {
         event.preventDefault();
         Swal.fire({
-            title: "¿Esta seguro?",
+            title: "¿Está seguro?",
             text: "Verifique que los datos ingresados son correctos",
             icon: "warning",
             showCancelButton: true,
@@ -165,7 +165,7 @@ if (formNew2 != null) {
     const alertNew = (event) => {
         event.preventDefault();
         Swal.fire({
-            title: "¿Esta seguro?",
+            title: "¿Está seguro?",
             text: "Verifique que los datos ingresados son correctos",
             icon: "warning",
             showCancelButton: true,
