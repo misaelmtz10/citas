@@ -186,6 +186,31 @@ const alert = (event) =>{
         showCancelButton: true,
         confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
         cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",     
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let timerInterval
+            Swal.fire({
+                title: 'Guardando datos...',
+                html: 'Enviando <b></b> archivos a la ventanilla para revisión....',
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    document.getElementById('formRegister').submit();
+                }
+            })
+        }
     })
 }
 
@@ -207,7 +232,7 @@ function validate(){
     setTimeout(function(){ }, 500);
     $(function(){
         $('.swal2-confirm').on("click",function(){
-            document.getElementById('formRegister').submit();
+
         });
     });
 }

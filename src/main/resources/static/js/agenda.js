@@ -7,63 +7,63 @@ const getVentanilla = (param) => {
 }
 
 const citas = [];
-    document.body.onload = async () => {
+document.body.onload = async () => {
     try {
         const response = await fetch("/citas/");
         const data = await response.json();
         data.map((cita) => {
-        //validar status
-        let color;
-        let dateif = new Date(cita.end);
-        switch (cita.estatus) {
-            case 1:
-                color =  "#00a65a";
-                break;
-            case 2:
-                color =  "#FFA500";
-                break;
-            case 3:
-                color =  "#FF0000";
-                break;
-            default:
-                break;
-        }
-        
-        if (dateif < new Date()) {
-            let idCita = parseInt(cita.id);
-            color = "#FFA500";  
-            fetch(`/citas/cambiar-estatus/${idCita}`); 
-        }
+            //validar status
+            let color;
+            let dateif = new Date(cita.end);
+            switch (cita.estatus) {
+                case 1:
+                    color = "#00a65a";
+                    break;
+                case 2:
+                    color = "#FFA500";
+                    break;
+                case 3:
+                    color = "#FF0000";
+                    break;
+                default:
+                    break;
+            }
 
-        if (cita.ventanilla.id != ventanilla) {
-            cita.title = "";
-            cita.start = "";
-            cita.end = "";
-            color = "";
+            if (dateif < new Date()) {
+                let idCita = parseInt(cita.id);
+                color = "#FFA500";
+                fetch(`/citas/cambiar-estatus/${idCita}`);
+            }
 
-        }
-        citas.push({
-            id: cita.id,
-            title: cita.title,
-            start: cita.start,
-            end: cita.end,
-            color: color,
-            item: cita,
-        });
+            if (cita.ventanilla.id != ventanilla) {
+                cita.title = "";
+                cita.start = "";
+                cita.end = "";
+                color = "";
+
+            }
+            citas.push({
+                id: cita.id,
+                title: cita.title,
+                start: cita.start,
+                end: cita.end,
+                color: color,
+                item: cita,
+            });
         });
         calendarRender(citas);
     } catch (error) {
         console.log(error);
     }
-    };
+};
 
-    const calendarRender = (citas) => {
+const calendarRender = (citas) => {
     var calendarEl = document.getElementById("calendar");
     var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
-        left: "prev,next today",
-        center: "title",
-        right: "timeGridWeek,timeGridDay,listWeek",
+            left: "prev,next today",
+            center: "title",
+            right: "timeGridWeek,timeGridDay,listWeek",
         },
         initialView: "timeGridWeek",
         initialDate: new Date(),
@@ -78,9 +78,9 @@ const citas = [];
         slotMaxTime: "18:00",
         slotMinTime: "08:00",
         validRange: {
-        start: new Date()
+            start: new Date()
         },
-        height:"80%",
+        height: "80%",
         select: function () {
             Swal.fire({
                 title: 'Cita',
@@ -101,10 +101,10 @@ const citas = [];
             let endif = new Date(end);
             let estatus = args.event._def.extendedProps.item.estatus;
             const btnFinalizar = document.getElementById('btnFinalizar');
-            
+
             $("#title-details").val(title);
-            $("#start-details").val(start.replace(' ' ,'T'));
-            $("#end-details").val(end.replace(' ' ,'T'));
+            $("#start-details").val(start.replace(' ', 'T'));
+            $("#end-details").val(end.replace(' ', 'T'));
             $("#servicio-details").val(servicio);
             $("#ventanilla-details").val(ventanilla);
             $("#solicitante-details").val(solicitante.usuario.nombre + ' ' + solicitante.usuario.apellidos);
@@ -114,9 +114,9 @@ const citas = [];
             $("#documento-details").html(`<a type="*/*" href="http://localhost:8080/file-citas/${data}" target="_blank">Ver</a>`);
 
             if (endif < new Date() || estatus === 2) {
-                btnFinalizar.disabled = true; 
-                $("#estatus-details").html('<h5 class="text-muted"><span class="badge badge-pill badge-warning">Finalizada</span></h5>'); 
-            }else{
+                btnFinalizar.disabled = true;
+                $("#estatus-details").html('<h5 class="text-muted"><span class="badge badge-pill badge-warning">Finalizada</span></h5>');
+            } else {
                 btnFinalizar.disabled = false;
                 $("#estatus-details").html('<h5 class="text-muted"><span class="badge badge-pill badge-success">Activa</span></h5>');
             }
@@ -133,13 +133,12 @@ const citas = [];
 
 const changeStatus = () => {
     Swal.fire({
-        title: 'Finalizar Cita',
-        text: '¿Estás seguro de finalizar la cita?',
-        icon: 'warning',
+        title: "¿Está seguro?",
+        text: "Se finalizará la cita en cuestión",
+        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#009574", confirmButtonText: 'Aceptar',
         cancelButtonColor: "#6c757d", cancelButtonText: "Cancelar",
-        showLoaderOnConfirm: true,
         preConfirm: async () => {
             let id = parseInt(idEvent);
             try {
@@ -149,24 +148,36 @@ const changeStatus = () => {
                         message: 'No se ha podido finalizar la cita',
                         type: 'error'
                     });
-                      
-                }else{
-                    new Toast({
-                        message: 'Cita finalizada correctamente',
-                        type: 'success'
-                        
-                    });
+
+                } else {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Terminando cita...',
+                        html: 'Moviendo <b></b> archivos del escritorio....',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        /* Read more about handling dismissals below */
+                        if (result.dismiss === Swal.DismissReason.timer) {
+                            window.location.reload(); 
+                        }
+                    })
                 }
-                setTimeout(function(){
-                    window.location.reload(); 
-                },2000)
             } catch (error) {
                 Swal.showValidationMessage(
                     `Request failed: ${error}`
                 );
             }
-        },
+        }
     });
-
-    
 }
