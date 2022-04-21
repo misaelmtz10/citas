@@ -162,7 +162,7 @@
                                 <input id="form-hora-inicio" class="form-control timepicker" placeholder="08:00"
                                     aria-describedby="basic-addon2" required autocomplete="off"
                                     th:field="*{horaInicio}">
-                                <span class="input-group-text" id="form-hora-inicio" placeholder="08:00">Hora
+                                <span class="input-group-text" id="span-form-hora-inicio" placeholder="08:00">Hora
                                     inicio</span>
                                 <div class="invalid-feedback">
                                     Porfavor ingrese una hora de entrada.
@@ -232,8 +232,32 @@
 
 
         $(document).ready(function () {
+            
+            $('#form-hora-inicio').prop('readonly', true);
+            $('#form-hora-inicio').val('08:00');
+            $('#form-hora-fin').prop('readonly', true);
+            $('#form-hora-fin').val('17:00');
 
-            $('.timepicker').timepicker({
+            $('#form-hora-inicio').timepicker({
+                use24hours: true,
+                pickTime: true,
+                timeFormat: 'HH:mm',
+                interval: 30,
+                minTime: '08',
+                maxTime: '17:00',
+                startTime: '08:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                change: function(time) {
+                    var element = $(this), text;
+                    var timepicker = element.timepicker();
+                    udateTimePicker(timepicker.format(time), '17:00');
+                    return;
+                }
+            });
+
+            $('#form-hora-fin').timepicker({
                 use24hours: true,
                 pickTime: true,
                 timeFormat: 'HH:mm',
@@ -363,9 +387,11 @@
         }); 
 
         function udateTimePicker(i,j) {
-            $('.timepicker').timepicker('option', 'minTime', i);
-            $('.timepicker').timepicker('option', 'maxTime', j);
-            $('.timepicker').timepicker('option', 'scrollbar', true);
+            $('#form-hora-fin').timepicker('option', 'minTime', i);
+            $('#form-hora-fin').timepicker('option', 'maxTime', j);
+            $('#form-hora-fin').timepicker('option', 'scrollbar', true);
+            $('#form-hora-fin').attr("placeholder", i);
+            $('#form-hora-fin').val(i);
         }
     </script>
 </body>
