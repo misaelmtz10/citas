@@ -284,9 +284,6 @@ public class AdminController {
                 }
             }
 
-            if(!usuario.getPassword().isEmpty()){
-                new_usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-            }
             boolean guardado = usuarioService.guardar(new_usuario);
             
             if (guardado) {

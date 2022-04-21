@@ -244,9 +244,9 @@
                                                 </div>
                                             </div>
 
-                                            <div class="input-group mb-3">
+                                            <div class="input-group mb-3 password-div">
                                                 <span class="input-group-text" id="basic-addon5">Contraseña</span>
-                                                <input type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}" maxlength="50"
+                                                <input id="password-input" type="password" class="form-control" pattern="([A-Za-z0-9].)([^'\x22]){3,}" maxlength="50"
                                                     aria-describedby="basic-addon5" th:field="*{password}" required>
                                                 <div class="invalid-feedback">
                                                     Porfavor ingrese una contraseña válida.
@@ -255,13 +255,13 @@
 
                                             <div class="input-group mb-3">
                                                 <label class="input-group-text" for="Roles">Rol</label>
-                                                <select class="form-select form-contro select-rol" multiple
+                                                <select class="form-select form-contro select-rol"
                                                     th:field="*{roles}" required>
                                                     <option th:each="lista : ${listaRoles}" th:value="${lista.id}"
                                                         th:text="${lista.authority}"></option>
                                                 </select>
                                                 <div class="invalid-feedback">
-                                                    Porfavor seleccione mínimo un rol.
+                                                    Porfavor seleccione un rol.
                                                 </div>
                                             </div>
                                         </div>
@@ -357,6 +357,7 @@
 
         function nuevo() {
             $('.select-rol option').prop("selected", false)
+            $('.password-div').show();
         }
 
         function upload(id) {
@@ -372,6 +373,8 @@
                 $('option[value="' + $(this).data('val') + '"]', $('.select-rol')).prop('selected', true);
             });
             $('.select-rol').multiselect('refresh');
+            $('.password-div').hide();
+            $('#password-input').prop('disabled', true);
 
             $("#editar").attr("action", "/admin/usuarios/editar/" + id);
         }

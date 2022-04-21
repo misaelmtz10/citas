@@ -1,5 +1,7 @@
 package utez.edu.mx.citas.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,10 @@ public class RolServiceImpl implements RolService {
 
 	@Override
 	public List<Role> listar() {
-		return rolRepository.findAll();
+		List <Long> list1= new ArrayList();  
+		list1.add(1L);
+		list1.add(2L);
+		return rolRepository.findByIdIn(list1);
 	}
 
 	@Override

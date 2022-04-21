@@ -1,5 +1,6 @@
 package utez.edu.mx.citas.repository;
 
+import java.util.Collection;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,4 +11,6 @@ public interface RolRepository extends JpaRepository <Role, Long> {
     
     @Query(value = "SELECT role_id FROM user_role WHERE user_id = :idUser", nativeQuery = true)
     List <Integer> findRolesByUser(long idUser);
+
+    List<Role> findByIdIn(Collection<Long> ids);
 }
